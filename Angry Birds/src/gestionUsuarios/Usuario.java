@@ -5,6 +5,8 @@ import java.util.Objects;
 import java.util.TreeSet;
 
 public class Usuario implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	
 	private String nombre;						//nombre del usuario
 	private String email;						//email del usuario
