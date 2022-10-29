@@ -11,8 +11,8 @@ public class VentanaInicioSesion extends VentanaSesion{
 	
 	
 	@Override
-	public void siguienteVentana() {
-//		new Mensaje("Iniciando Sesión", botonAceptar).run();
+	protected void siguienteVentana() {
+		new MensajeCarga("Iniciando Sesión", botonAceptar).start();
 	}	
 	
 	public static void main(String[] args) {

@@ -98,7 +98,7 @@ public abstract class VentanaSesion extends JFrame{
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/imgs/Icono.png"));
 
 		gestionUsuarios = new GestionUsuarios();
-		//		gestionUsuarios.cargarDatos();
+		//gestionUsuarios.cargarDatos();
 
 		panelAceptar = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
 		panelSuperior = new JPanel(new GridLayout(1, 2));
@@ -139,7 +139,7 @@ public abstract class VentanaSesion extends JFrame{
 
 
 		// Configurar componentes
-		botonAceptar.setEnabled( false );
+		botonAceptar.setEnabled(false);
 		botonAceptar.setToolTipText("Pulsa aquí para confirmar tus datos");
 		botonAceptar.setBackground(Color.WHITE);
 		botonAceptar.setPreferredSize(new Dimension(anchuraVentana - 40, 40));
@@ -181,7 +181,7 @@ public abstract class VentanaSesion extends JFrame{
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-					VentanaSesion.this.cerrar();
+					cerrar();
 				}
 			}
 		};
@@ -215,7 +215,7 @@ public abstract class VentanaSesion extends JFrame{
 		botonAceptar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VentanaSesion.this.siguienteVentana();
+				siguienteVentana();
 			}
 		});
 
@@ -224,7 +224,7 @@ public abstract class VentanaSesion extends JFrame{
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					VentanaSesion.this.siguienteVentana();
+					siguienteVentana();
 				}
 			}
 
@@ -253,7 +253,7 @@ public abstract class VentanaSesion extends JFrame{
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
-				VentanaSesion.this.cerrar();
+				cerrar();
 			}
 		});
 	}
@@ -296,7 +296,7 @@ public abstract class VentanaSesion extends JFrame{
 	/**Vuelve a la ventana anterior
 	 * 
 	 */
-	private void anteriorVentana(){
+	protected void anteriorVentana(){
 		this.setVisible(false);
 	}
 
@@ -365,13 +365,5 @@ public abstract class VentanaSesion extends JFrame{
 		panelInputContraseña.setBackground(color);
 		panelAceptar.setBackground(color);
 		panelMensaje.setBackground(color);
-	}
-	
-	protected void pausa(long milis) {
-		try {
-			Thread.sleep(milis);
-		}catch(InterruptedException e) {
-			Thread.currentThread().interrupt();
-		}
 	}
 }

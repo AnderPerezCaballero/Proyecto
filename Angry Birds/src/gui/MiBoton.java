@@ -62,9 +62,9 @@ public class MiBoton extends JButton{
 			g.setColor(colorFondo);
 		}
 		
-		//Dependiendo de si se quiere hacer un círculo o un rectángulo con bordes refondeados
+		//Dependiendo de si se quiere hacer un círculo o un rectángulo con bordes redondeados
 		if(redondo) {
-			g.fillOval(0, 0, getSize().width- 1, getSize().height - 1);
+			g.fillOval(0, 0, getSize().width - 1, getSize().height - 1);
 		} else{
 			g.fillRoundRect(0, 0, getSize().width- 1, getSize().height - 1, diamHorizontal, diamVertical);
 		}
