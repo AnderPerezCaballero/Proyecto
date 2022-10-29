@@ -6,7 +6,13 @@ public class VentanaInicioSesion extends VentanaSesion{
 
 	public VentanaInicioSesion() {
 		super(5);
+		
+		//Cambiar el color de los paneles
+		colorPaneles(FONDO);
+		
+		panelMensaje.add(labelMensaje);
 		botonAceptar.setText("Iniciar Sesión");
+		
 	}
 	
 	

@@ -42,8 +42,11 @@ public abstract class VentanaSesion extends JFrame{
 	//Atributos estáticos de la ventana
 	private static final long serialVersionUID = 1L;
 	private static final int anchuraVentana = 350;
-	private static final int alturaVentana = 550;
-	private static Color FONDO = new Color(35, 39, 42);
+	private static final int alturaVentana = 575;
+	
+	//Atributos no estáticos inmutables
+	protected final Color FONDO = new Color(35, 39, 42);
+	protected final int COLUMNAS = 30;
 
 	//Atributos respecto al inicio de sesion
 	private static GestionUsuarios usuarios;
@@ -58,7 +61,7 @@ public abstract class VentanaSesion extends JFrame{
 	private JPanel panelInputUsuario;
 	private JPanel panelContraseña;
 	private JPanel panelInputContraseña;
-	private JPanel panelMensaje;
+	protected JPanel panelMensaje;
 	private JPanel panelSuperiorIzquierdo;
 	private JPanel panelSuperiorDerecho;
 	private JPanel panelAceptar;
@@ -66,7 +69,7 @@ public abstract class VentanaSesion extends JFrame{
 	//JLabels
 	private JLabel labelUsuario;
 	private JLabel labelContraseña;
-	private JLabel labelMensaje;	
+	protected JLabel labelMensaje;	
 	private JLabel volver;
 	private JLabel imagenPrincipal;
 	private JLabel imagenModoOscuro;
@@ -100,10 +103,10 @@ public abstract class VentanaSesion extends JFrame{
 		gestionUsuarios = new GestionUsuarios();
 		//gestionUsuarios.cargarDatos();
 
-		panelAceptar = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+		panelAceptar = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		panelSuperior = new JPanel(new GridLayout(1, 2));
-		panelSuperiorIzquierdo = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
-		panelSuperiorDerecho = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+		panelSuperiorIzquierdo = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 5));
+		panelSuperiorDerecho = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 5));
 		panelCentral = new JPanel(new GridLayout(2, 1));
 		panelInferior = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));
 
@@ -113,20 +116,17 @@ public abstract class VentanaSesion extends JFrame{
 		volver = new JLabel(ImagenReescalada("src/imgs/FlechaBlanca.png", 40, 40));
 		imagenModoOscuro = new JLabel(ImagenReescalada("src/imgs/ModoClaro.png", 40, 40));
 
-		panelUsuario = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		panelInputUsuario = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		panelContraseña = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		panelInputContraseña = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		panelMensaje = new JPanel(new FlowLayout(FlowLayout.CENTER));
-
-		//Cambiar el color de los paneles
-		colorPaneles(FONDO);
+		panelUsuario = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+		panelInputUsuario = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+		panelContraseña = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+		panelInputContraseña = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+		panelMensaje = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
 		labelUsuario = new JLabel("Usuario:");
 		labelContraseña = new JLabel("Contraseña:");
-		inputUsuario = new JTextField(30);
-		inputContraseña = new JPasswordField(30);
-		labelMensaje = new JLabel();
+		inputUsuario = new JTextField(COLUMNAS);
+		inputContraseña = new JPasswordField(COLUMNAS);
+		labelMensaje = new JLabel("Mensaje");
 
 		botonAceptar = new MiBoton(Color.WHITE, FONDO.brighter(), 35, 35);
 
@@ -153,7 +153,7 @@ public abstract class VentanaSesion extends JFrame{
 		panelInputUsuario.add(inputUsuario);
 		panelInputContraseña.add(inputContraseña);
 		panelAceptar.add(botonAceptar);
-		panelMensaje.add(labelMensaje);
+		
 
 		getContentPane().add(panelSuperior, "North");
 		getContentPane().add(panelCentral, "Center");
@@ -239,7 +239,7 @@ public abstract class VentanaSesion extends JFrame{
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				volver.setIcon(ImagenReescalada("src/imgs/FlechaNegra.png", volver.getIcon().getIconWidth(), volver.getIcon().getIconHeight()));
+				volver.setIcon(ImagenReescalada("src/imgs/FlechaRoja.png", volver.getIcon().getIconWidth(), volver.getIcon().getIconHeight()));
 			}
 
 			@Override
@@ -352,7 +352,7 @@ public abstract class VentanaSesion extends JFrame{
 		return new ImageIcon(newimg);
 	}
 	
-	private void colorPaneles(Color color) {
+	protected void colorPaneles(Color color) {
 		panelSuperiorIzquierdo.setBackground(color);
 		panelSuperiorDerecho.setBackground(color);
 		panelCentral.setBackground(color);
