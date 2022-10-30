@@ -1,98 +1,133 @@
 package gestionUsuarios;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.HashMap;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class GestionUsuarios {
 
-	private HashMap<String, Usuario> mapaUsuarios;	//Mapa de usuarios, cuya clave es el nombre del usuario
-
-	/** Crea un nuevo objeto de gestion de usuarios con un mapa de usuarios vacio
-	 * 
-	 */
-	public GestionUsuarios() {
-		this.mapaUsuarios =  new HashMap<>();
-	}
-
-	/** Añade un nuevo usuario al mapa
+	/** Añade un nuevo usuario a la base de datos
 	 * @param usuario	objeto de tipo usuario a añadir
 	 */
-	public void add(Usuario usuario) {
-		mapaUsuarios.put(usuario.getNombre(), usuario);
+	public static void add(Usuario usuario) {
+		cargarLibreria();
+
+		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
+		try(Connection conn = DriverManager.getConnection("jdbc:sqlite:lib/users.db")) {
+
+			//Para Utilizar la conexión, se construye la plantilla de la SQL
+			try(PreparedStatement insertSQL = conn.prepareStatement(String.format("INSERT INTO usuarios (ID, nombre, contraseña, tiempoJugado) VALUES (?, ?, ?, ?)"))){
+				
+				//Rellenar la plantilla
+				insertSQL.setInt(1, usuario.getNombre().hashCode());
+				insertSQL.setString(2, usuario.getNombre());
+				insertSQL.setString(3, usuario.getContraseña());
+				insertSQL.setInt(4, usuario.getTiempoJugado());
+
+				//Ejecutar sentencia
+				insertSQL.executeUpdate();
+			}	
+
+			try {
+				for(Puntuacion puntuacion : usuario.getPuntuaciones()) {
+					try(PreparedStatement insertSQL = conn.prepareStatement(String.format("INSERT INTO puntuaciones (ID, IDusuario, estrellas, nivel, fecha) VALUES (?, ?, ?, ?, ?)"))){
+						
+						//Rellenar la plantilla
+						insertSQL.setInt(1, puntuacion.getFecha().hashCode());
+						insertSQL.setInt(2, usuario.getNombre().hashCode());
+						insertSQL.setInt(3, puntuacion.getEstrellas());
+						insertSQL.setInt(4, puntuacion.getNivel());
+						insertSQL.setString(5, puntuacion.getFecha());
+						
+						//Ejecutar sentencia
+						insertSQL.executeUpdate();
+					}
+				}
+			}catch(NullPointerException e) {}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
-	/**
-	 *  Método que comprueba si un usuario es correcto o no
-	 * @param usuario usuario a comprobar
+	/** Actualiza los datos de un usuario en la base de datos
+	 * @param usuario Objeto usuario YA ACTUALIZADO
+	 */
+	public static void actualizarUsuario(Usuario usuario) {
+		cargarLibreria();
+
+		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
+		try(Connection conn = DriverManager.getConnection("jdbc:sqlite:lib/users.db")) {
+
+			//Para Utilizar la conexión
+			//Se construye la plantilla de la SQL. Atencion a los huecos para los valores marcados con "?"
+			try(PreparedStatement insertSQL = conn.prepareStatement(String.format("UPDATE usuarios SET ID = ?, nombre = ?, contraseña = ?, tiempoJugado = ? WHERE ID = %d", usuario.hashCode()))){
+
+				//Insertamos una nueva fila en la base de datos
+				insertSQL.setInt(1, usuario.getNombre().hashCode());
+				insertSQL.setString(2, usuario.getNombre());
+				insertSQL.setString(3, usuario.getContraseña());
+				insertSQL.setInt(4, usuario.getTiempoJugado());
+
+				//Ejecutar sentencia
+				insertSQL.executeUpdate();
+			}	
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/** Método que comprueba si la contraseña introducida para un usuario es correcta
+	 * @param nombre nombre del usuario
+	 * @param contraseña contraseña del usuario
 	 * @return	true si es correcto, false si no lo es
-	 * @throws NullPointerException excepcion lanzada en caso de que el usuario no esté en el mapa
+	 * @throws SQLException En caso de que ocurra algún tipo de error relacionado con la gestión de la base de datos
 	 */
-	public boolean comprobarUsuario(Usuario usuario) throws NullPointerException{
-		return mapaUsuarios.get(usuario.getNombre()).getContraseña().equals(usuario.getContraseña());
+	public static boolean comprobarContraseña(String nombre, String contraseña) throws SQLException{
+		cargarLibreria();
+
+		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
+		try(Connection conn = DriverManager.getConnection("jdbc:sqlite:lib/users.db")) {
+
+			//Utilizar la conexión
+			try(PreparedStatement stmt = conn.prepareStatement(String.format("SELECT contraseña FROM usuarios WHERE ID = %s;", nombre.hashCode()))){
+				return stmt.executeQuery().getString("contraseña").equals(contraseña);
+			}
+		}
 	}
 
-	/** Método que devuelve un usuario del mapa
-	 * @param nombre	Nombre del usuario
-	 * @return	Usuario con el nombre asociado
+	/** Comprueba si un usuario existe en la base de datos
+	 * @param nombre nombre del usuario a comprobar
+	 * @return true si el usuario existe, false si no
+	 * @throws SQLException En caso de que ocurra algún tipo de error relacionado con la gestión de la base de datos
 	 */
-	public Usuario getUsuario(String nombre) {
-		return mapaUsuarios.get(nombre);
-	}
+	public static boolean comprobarUsuario(String nombre) throws SQLException{
+		cargarLibreria();
 
-	/**Elimina un usuario del mapa
-	 * @param usuario	Usuario a eliminar
-	 * @return	true si se ha eliminado, false si no
-	 */
-	public boolean remove(Usuario usuario) {
-		return mapaUsuarios.remove(usuario.getNombre(), usuario);
-	}
+		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
+		try(Connection conn = DriverManager.getConnection("jdbc:sqlite:lib/users.db")) {
 
-	/**Actualiza los datos de un usuario del mapa
-	 * @param usuario	Usuario al que actualizarle los datos
-	 * @param tiempoJugado	Tiempo jugado a incrementar respecto al total
-	 * @param estrellas	estrellas conseguidos en el nivel
-	 * @throws EstrellasIncorrectasException esta excepcion se lanza en el caso que el número de estrellas introducidas sea incorrecto
-	 */
-	public void actualizarUsuario(Usuario usuario, double tiempoJugado, int estrellas) throws EstrellasIncorrectasException{
-		Usuario user = mapaUsuarios.get(usuario.getNombre());
-		user.addTiempo(tiempoJugado);
-		user.addPuntos(estrellas);
+			//Utilizar la conexión
+			try(PreparedStatement stmt = conn.prepareStatement(String.format("SELECT nombre FROM usuarios WHERE ID = %s;", nombre.hashCode()))){
+				 try {
+					 return stmt.executeQuery().getString("nombre").equals(nombre);
+				 }catch(NullPointerException e) {
+					 return false;
+				 }
+			}
+		}
 	}
-
-	/**	Comprueba si un usuario está almacenado en el mapa
-	 * @param usuario	nombre del usuario a comprobar	
-	 * @return	true si está, false si no
-	 */
-	public boolean contains(String nombreUsuario) {
-		return mapaUsuarios.containsKey(nombreUsuario);	
-	}
-
-	/**Guarda la información recogida en el mapa en la base de datos
+	
+	/**Método que carga la libreria de la base de datos
 	 * 
 	 */
-	public void guardarDatos() {
-		//TODO Programar método que guarde los datos de los usuarios en la base de datos
+	private static void cargarLibreria() {
+		try {
+			Class.forName("org.sqlite.JDBC");
+		}catch(ClassNotFoundException e) {
+			System.err.println("No se ha podido cargar el driver de la base de datos");
+		}
 	}
-
-	/**Carga los datos del mapa de la base de datos
-	 * 
-	 */
-	public void cargarDatos(String nomFichero) {
-		//TODO Programar método que carge los datos de los usuarios de la base de datos
-	}
-
-	@Override
-	public String toString() {
-		return String.format("Mapa de usuarios: %s", mapaUsuarios.toString());
-	}
-
-
 }
-
-

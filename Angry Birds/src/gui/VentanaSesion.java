@@ -1,15 +1,9 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,12 +12,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -32,10 +23,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
-
-import gestionUsuarios.GestionUsuarios;
-import gestionUsuarios.Usuario;
 
 public abstract class VentanaSesion extends JFrame{
 
@@ -43,55 +30,51 @@ public abstract class VentanaSesion extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private static final int anchuraVentana = 350;
 	private static final int alturaVentana = 575;
-	protected static final Color FONDOOSCURO = new Color(35, 39, 42);
+	static final Color FONDOOSCURO = new Color(35, 39, 42);
 
 	//Atributos no estáticos inmutables
 	protected final int COLUMNAS = 30;
 
-	//Atributos respecto al inicio de sesion
-	private static GestionUsuarios usuarios;
-
 	//Contenedores
 	private JPanel panelSuperior;
 	private JPanel panelCentral;
-	protected JPanel panelDatos;
+	JPanel panelDatos;
 	private JPanel panelInferior;
 
 	private JPanel panelUsuario;
 	private JPanel panelInputUsuario;
 	private JPanel panelContraseña;
 	private JPanel panelInputContraseña;
-	protected JPanel panelMensaje;
+	JPanel panelMensaje;
 	private JPanel panelAceptar;
 
 	//JLabels
 	private JLabel labelUsuario;
 	private JLabel labelContraseña;
-	private JLabel labelMensaje;	
+	JLabel labelMensaje;	
 	private JLabel volver;
 	private JLabel imagenPrincipal;
 
 	//Botones
-	protected JButton botonAceptar;
+	JButton botonAceptar;
 
 	//Campos de texto
-	protected JTextField inputUsuario;
-	protected JPasswordField inputContraseña;
+	JTextField inputUsuario;
+	JPasswordField inputContraseña;
 
 	//Eventos que se usarán en herencia
-	protected KeyListener cierraConEsc;
-
-	//Variables del usuario
-	private static GestionUsuarios gestionUsuarios;
-	private static Usuario usuario;
+	KeyListener cierraConEsc;
 
 	//Variable que indica el estado de la ventana
 	private boolean estaCerrada;
+	
+	//Hilo ejecutado al cargar los datos del usuario
+	MensajeCarga mensajeDeCarga;
 
 
-	/**Constructor de la ventana de menú
-	 * @param tituloVentana Título de la ventana
-	 * @param incioSesion true si es inicio de sesion, false si es registro
+	
+	/** Constructor de la ventana 
+	 * @param numeroDeDatos Variable que indica el número de datos que va a contener el gridLayout
 	 */
 	public VentanaSesion(int numeroDeDatos) {
 
@@ -100,9 +83,6 @@ public abstract class VentanaSesion extends JFrame{
 		this.setSize(anchuraVentana, alturaVentana);
 		this.estaCerrada = false;
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/imgs/Icono.png"));
-
-		gestionUsuarios = new GestionUsuarios();
-		//gestionUsuarios.cargarDatos();
 
 		panelAceptar = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		panelSuperior = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
@@ -125,7 +105,7 @@ public abstract class VentanaSesion extends JFrame{
 		labelContraseña = new JLabel("Contraseña:");
 		inputUsuario = new JTextField(COLUMNAS);
 		inputContraseña = new JPasswordField(COLUMNAS);
-		labelMensaje = new JLabel("Mensaje");
+		labelMensaje = new JLabel();
 
 		botonAceptar = new MiBoton(Color.WHITE, FONDOOSCURO.brighter(), 35, 35);
 
@@ -249,7 +229,6 @@ public abstract class VentanaSesion extends JFrame{
 			}catch(NullPointerException e) {
 				//Por si hay algo escrito y luego se borra en algún campo
 				botonAceptar.setEnabled(false);
-				labelMensaje.setText(null);
 			}
 		}
 	}
@@ -286,21 +265,6 @@ public abstract class VentanaSesion extends JFrame{
 		this.centrar();
 		this.setVisible(true);
 		this.iniciarAnimaciones();
-	}
-
-	/**Devuelve el usuario correspondiente al inicio de sesión/registro
-	 * @return objeto de tipo usuario
-	 */
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public static GestionUsuarios getGestionUsuarios() {
-		return gestionUsuarios;
-	}
-
-	public static void setGestionUsuarios(GestionUsuarios gestionUsuarios) {
-		VentanaSesion.gestionUsuarios = gestionUsuarios;
 	}
 
 	/** Método que centra la ventana en pantalla
@@ -370,5 +334,13 @@ public abstract class VentanaSesion extends JFrame{
 		inputContraseña.setBackground(Color.BLACK);
 		inputContraseña.setForeground(Color.WHITE);
 		botonAceptar.setBackground(Color.WHITE);
+	}
+	
+	/**Resetea los textos de todos los JTextFields de la ventana
+	 * 
+	 */
+	protected void resetTextos() {
+		inputUsuario.setText(null);
+		inputContraseña.setText(null);
 	}
 }

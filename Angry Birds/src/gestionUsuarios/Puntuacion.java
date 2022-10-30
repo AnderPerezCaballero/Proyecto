@@ -1,10 +1,9 @@
 package gestionUsuarios;
 
-import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Puntuacion implements Serializable, Comparable{
+public class Puntuacion implements Comparable<Puntuacion>{
 	
 	private ZonedDateTime fecha;	//fecha en la que se hizo la puntuacion
 	private int estrellas;			//número de estrellas conseguidas
@@ -14,16 +13,18 @@ public class Puntuacion implements Serializable, Comparable{
 	/**Crea una nueva puntuacion de un usuario a la que le corresponde la fecha de hoy
 	 * @param estrellas	Estrellas conseguidas, cuyo valor no puede ser mayor de 3 ni negativo
 	 * @param usuario	Usuario al que le corresponde la puntuación
+	 * @param nivel Nivel en el que se consiguen las estrellas
 	 * @throws EstrellasIncorrectasException Lanza esta excepción en el caso que el número de estrellas introducido sea incorrecto
 	 */
-	public Puntuacion(int estrellas, Usuario usuario) throws EstrellasIncorrectasException{
+	public Puntuacion(int estrellas, Usuario usuario, int nivel) throws EstrellasIncorrectasException{
 		this.fecha = ZonedDateTime.now();
 		if(estrellas <= 3 && estrellas >= 0) {
 			this.estrellas = estrellas;
-		}else {
+		}else {	
 			throw new EstrellasIncorrectasException(estrellas);
 		}
 		this.usuario = usuario;
+		this.nivel = nivel;
 	}
 	
 	/**Devuelve la fecha en formato string
@@ -35,25 +36,25 @@ public class Puntuacion implements Serializable, Comparable{
 	}
 	
 	/**Devuelve las estrellas conseguidas por el usuario
-	 * @return	int puntos
+	 * @return	numero de estrellas conseguidas
 	 */
-	public double getEstrellas() {
+	public int getEstrellas() {
 		return estrellas;
 	}
 	
-	/**	Modifica las estrellas conseguidas
-	 * @param estrellas nuevo número de estrellas a asignar
+	/**Devuelve el nivel asociado a la puntuacion
+	 * @return	número del nivel
 	 */
-	public void setEstrellas(int estrellas) {
-		this.estrellas = estrellas;
+	public int getNivel() {
+		return nivel;
 	}
+	
 
 	/** Ordena por fecha, de más antiguo a más reciente
 	 *
 	 */
 	@Override
-	public int compareTo(Object o) {
-		Puntuacion puntuacion = (Puntuacion) o;
+	public int compareTo(Puntuacion puntuacion) {
 		return fecha.compareTo(puntuacion.fecha);
 	}
 	

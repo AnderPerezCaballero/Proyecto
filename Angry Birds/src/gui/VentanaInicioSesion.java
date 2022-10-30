@@ -1,8 +1,10 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
+import gestionUsuarios.GestionUsuarios;
 
 public class VentanaInicioSesion extends VentanaSesion{
 
@@ -31,11 +33,23 @@ public class VentanaInicioSesion extends VentanaSesion{
 			}
 		});	
 	}
-	
-	
+		
 	@Override
 	protected void siguienteVentana() {
-		new MensajeCarga("Iniciando Sesión", botonAceptar).start();
+		try {
+			if(!GestionUsuarios.comprobarUsuario(inputUsuario.getText())) {
+				resetTextos();
+				labelMensaje.setText("El usuario introducido no existe");
+			}else if(!GestionUsuarios.comprobarContraseña(inputUsuario.getText(), String.valueOf(inputContraseña.getPassword()))) {
+				resetTextos();
+				labelMensaje.setText("La contraseña introducida es incorrecta");
+			}else {
+				mensajeDeCarga = new MensajeCarga("Iniciando Sesión", botonAceptar);
+				mensajeDeCarga.start();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}	
 	
 	public static void main(String[] args) {

@@ -2,16 +2,21 @@ package gui;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
+import gestionUsuarios.GestionUsuarios;
+import gestionUsuarios.Usuario;
+
 public class VentanaRegistroSesion extends VentanaSesion{
 
+	private static final long serialVersionUID = 1L;
+	
 	private JPanel panelConfirmarContraseña;
 	private JPanel panelConfirmarContraseña2;
 
@@ -73,7 +78,23 @@ public class VentanaRegistroSesion extends VentanaSesion{
 
 	@Override
 	protected void siguienteVentana() {
-		new MensajeCarga("Creando Nuevo Usuario", botonAceptar).start();
+		try {
+			if(GestionUsuarios.comprobarUsuario(inputUsuario.getText())) {
+				resetTextos();
+				labelMensaje.setText("El usuario que has introducido ya está registrado");
+			}else if(!String.valueOf(inputContraseña.getPassword()).equals(String.valueOf(inputConfirmarContraseña.getPassword()))) {
+				inputContraseña.setText(null);
+				inputConfirmarContraseña.setText(null);
+				labelMensaje.setText("Las contraseñas introducidas deben coincidir");
+				inputContraseña.requestFocus();
+			}else {
+				mensajeDeCarga = new MensajeCarga("Registrando nuevo usuario", botonAceptar);
+				GestionUsuarios.add(new Usuario(inputUsuario.getText(), String.valueOf(inputContraseña.getPassword())));
+				mensajeDeCarga.start();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}	
 
 	public static void main(String[] args) {
@@ -101,8 +122,15 @@ public class VentanaRegistroSesion extends VentanaSesion{
 	}
 
 	@Override
-	protected boolean condicionesBorrarMensaje() {
-		return super.condicionesBorrarMensaje() || inputConfirmarContraseña.getPassword().length > 0;
+	protected boolean condicionesBorrarMensaje() throws NullPointerException {
+		return inputUsuario.getText().length() > 0 && (inputContraseña.getPassword().length > 0 || inputConfirmarContraseña.getPassword().length > 0);
+	}
 
+	@Override
+	protected void resetTextos() {
+		super.resetTextos();
+		inputConfirmarContraseña.setText(null);
 	}	
+	
+	
 }
