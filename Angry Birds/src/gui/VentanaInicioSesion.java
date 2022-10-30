@@ -29,8 +29,7 @@ public class VentanaInicioSesion extends VentanaSesion{
 					botonAceptar.requestFocus();
 				}
 			}
-		});
-		
+		});	
 	}
 	
 	

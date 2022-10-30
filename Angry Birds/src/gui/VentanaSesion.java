@@ -248,18 +248,19 @@ public abstract class VentanaSesion extends JFrame{
 		while (!estaCerrada) {
 			try {
 				//Si hay algo escrito en los dos campos, se puede aceptar, sino no
-				if (inputUsuario.getText().length() > 0 && inputContraseña.getPassword().length > 0) {
+				if (condicionesAceptar()) {
 					botonAceptar.setEnabled(true);
 				}else {
 					//Por si hay algo escrito y luego se borra en algún campo
 					botonAceptar.setEnabled(false);
 				}
-				if (inputUsuario.getText().length() > 0 || inputContraseña.getPassword().length > 0) {
+				if (condicionesBorrarMensaje()) {
 					labelMensaje.setText(null);
 				}
 			}catch(NullPointerException e) {
 				//Por si hay algo escrito y luego se borra en algún campo
 				botonAceptar.setEnabled(false);
+				labelMensaje.setText(null);
 			}
 		}
 	}
@@ -335,7 +336,27 @@ public abstract class VentanaSesion extends JFrame{
 		Image newimg = image.getScaledInstance(ancho, alto,  java.awt.Image.SCALE_SMOOTH);  
 		return new ImageIcon(newimg);
 	}
+	
 
+	/** Método que especifíca las condiciones que deben cumplirse para que se habilite el botón de aceptar
+	 * @return true si las condiciones se cumplen, false si no
+	 * @throws NullPointerException En caso que en algún campo no se haya escrito nada
+	 */
+	protected boolean condicionesAceptar() throws NullPointerException{
+		return inputUsuario.getText().length() > 0 && inputContraseña.getPassword().length > 0;
+	}
+	
+	/** Método que especifíca las condiciones que deben cumplirse para borrar el mensaje de información de la pantalla
+	 * @return true si las condiciones se cumplen, false si no
+	 * @throws NullPointerException En caso que en algún campo no se haya escrito nada
+	 */
+	protected boolean condicionesBorrarMensaje() throws NullPointerException {
+		return inputUsuario.getText().length() > 0 || inputContraseña.getPassword().length > 0;
+	}
+
+	/** Pinta todos los paneles de la ventana de cierto color
+	 * @param color	Color del que se pintan los paneles
+	 */
 	protected void colorPaneles(Color color) {
 		panelSuperiorIzquierdo.setBackground(color);
 		panelSuperiorDerecho.setBackground(color);
@@ -351,6 +372,9 @@ public abstract class VentanaSesion extends JFrame{
 		panelMensaje.setBackground(color);
 	}
 
+	/** Establece un color a los componentes de la ventana
+	 * @param color	Color a establecer
+	 */
 	protected void colorComponentes(Color color) {
 		labelMensaje.setForeground(Color.RED);
 		if(color.equals(FONDOOSCURO)) {

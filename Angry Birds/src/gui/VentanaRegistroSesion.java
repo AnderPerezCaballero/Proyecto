@@ -100,8 +100,15 @@ public class VentanaRegistroSesion extends VentanaSesion{
 			inputConfirmarContraseña.setBackground(Color.WHITE);
 		}
 	}
-	
-	
-	
-	
+
+	@Override
+	protected boolean condicionesAceptar() throws NullPointerException {
+		return super.condicionesAceptar() && inputConfirmarContraseña.getPassword().length > 0;
+	}
+
+	@Override
+	protected boolean condicionesBorrarMensaje() {
+		return super.condicionesBorrarMensaje() || inputConfirmarContraseña.getPassword().length > 0;
+		
+	}	
 }
