@@ -36,7 +36,7 @@ public class MiBoton extends JButton{
 		setContentAreaFilled(false);
 	} 
 
-	/** Rectángulo de bordes curvos
+	/** Crea un botón ractangular con bordes curvos
 	 * @param colorFondo
 	 * @param colorPresionado
 	 * @param diamHorizontal el ancho del arco que se utilizará para redondear las esquinas del rectángulo

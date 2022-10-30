@@ -62,8 +62,6 @@ public abstract class VentanaSesion extends JFrame{
 	private JPanel panelContraseña;
 	private JPanel panelInputContraseña;
 	protected JPanel panelMensaje;
-	private JPanel panelSuperiorIzquierdo;
-	private JPanel panelSuperiorDerecho;
 	private JPanel panelAceptar;
 
 	//JLabels
@@ -72,7 +70,6 @@ public abstract class VentanaSesion extends JFrame{
 	private JLabel labelMensaje;	
 	private JLabel volver;
 	private JLabel imagenPrincipal;
-	private JLabel imagenModoOscuro;
 
 	//Botones
 	protected JButton botonAceptar;
@@ -83,14 +80,14 @@ public abstract class VentanaSesion extends JFrame{
 
 	//Eventos que se usarán en herencia
 	protected KeyListener cierraConEsc;
-	
+
 	//Variables del usuario
 	private static GestionUsuarios gestionUsuarios;
 	private static Usuario usuario;
 
 	//Variable que indica el estado de la ventana
 	private boolean estaCerrada;
-	
+
 
 	/**Constructor de la ventana de menú
 	 * @param tituloVentana Título de la ventana
@@ -108,9 +105,7 @@ public abstract class VentanaSesion extends JFrame{
 		//gestionUsuarios.cargarDatos();
 
 		panelAceptar = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		panelSuperior = new JPanel(new GridLayout(1, 2));
-		panelSuperiorIzquierdo = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
-		panelSuperiorDerecho = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+		panelSuperior = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		panelCentral = new JPanel(new GridLayout(2, 1));
 		panelInferior = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));
 
@@ -118,7 +113,6 @@ public abstract class VentanaSesion extends JFrame{
 		imagenPrincipal = new JLabel(ImagenReescalada("src/imgs/Fondo.png", 220, 220));
 
 		volver = new JLabel(ImagenReescalada("src/imgs/FlechaBlanca.png", 40, 40));
-		imagenModoOscuro = new JLabel(ImagenReescalada("src/imgs/ModoClaro.png", 40, 40));
 
 		panelUsuario = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		panelInputUsuario = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -141,7 +135,6 @@ public abstract class VentanaSesion extends JFrame{
 		botonAceptar.setPreferredSize(new Dimension(anchuraVentana - 40, 40));
 
 		//Añadir componentes a contenedores				
-
 		panelUsuario.add(labelUsuario);
 		panelContraseña.add(labelContraseña);
 		panelInputUsuario.add(inputUsuario);
@@ -159,14 +152,10 @@ public abstract class VentanaSesion extends JFrame{
 		panelDatos.add(panelContraseña);
 		panelDatos.add(panelInputContraseña);
 
-		panelSuperiorIzquierdo.add(volver);
-		panelSuperiorDerecho.add(imagenModoOscuro);
-
 		panelCentral.add(imagenPrincipal);
 		panelCentral.add(panelDatos);
 
-		panelSuperior.add(panelSuperiorIzquierdo);
-		panelSuperior.add(panelSuperiorDerecho);
+		panelSuperior.add(volver);
 
 		panelInferior.add(panelAceptar);
 
@@ -330,13 +319,10 @@ public abstract class VentanaSesion extends JFrame{
 	 * @param alto Altura que se le quiere dar a la imagen
 	 * @return Objeto ImageIcon reescalado de una manera "smooth"
 	 */
-	private ImageIcon ImagenReescalada(String ruta, int ancho, int alto) {
-		ImageIcon imageIcon = new ImageIcon(ruta);
-		Image image = imageIcon.getImage(); 
-		Image newimg = image.getScaledInstance(ancho, alto,  java.awt.Image.SCALE_SMOOTH);  
-		return new ImageIcon(newimg);
+	private ImageIcon ImagenReescalada(String ruta, int ancho, int alto) {   
+		return new ImageIcon(new ImageIcon(ruta).getImage().getScaledInstance(ancho, alto,  java.awt.Image.SCALE_SMOOTH));
 	}
-	
+
 
 	/** Método que especifíca las condiciones que deben cumplirse para que se habilite el botón de aceptar
 	 * @return true si las condiciones se cumplen, false si no
@@ -345,7 +331,7 @@ public abstract class VentanaSesion extends JFrame{
 	protected boolean condicionesAceptar() throws NullPointerException{
 		return inputUsuario.getText().length() > 0 && inputContraseña.getPassword().length > 0;
 	}
-	
+
 	/** Método que especifíca las condiciones que deben cumplirse para borrar el mensaje de información de la pantalla
 	 * @return true si las condiciones se cumplen, false si no
 	 * @throws NullPointerException En caso que en algún campo no se haya escrito nada
@@ -358,8 +344,7 @@ public abstract class VentanaSesion extends JFrame{
 	 * @param color	Color del que se pintan los paneles
 	 */
 	protected void colorPaneles(Color color) {
-		panelSuperiorIzquierdo.setBackground(color);
-		panelSuperiorDerecho.setBackground(color);
+		panelSuperior.setBackground(color);
 		panelCentral.setBackground(color);
 		panelInferior.setBackground(color);
 		panelDatos.setBackground(color);
@@ -377,23 +362,13 @@ public abstract class VentanaSesion extends JFrame{
 	 */
 	protected void colorComponentes(Color color) {
 		labelMensaje.setForeground(Color.RED);
-		if(color.equals(FONDOOSCURO)) {
-			labelUsuario.setForeground(Color.WHITE);
-			labelContraseña.setForeground(Color.WHITE);
-			inputUsuario.setForeground(Color.WHITE);
-			inputUsuario.setBackground(Color.BLACK);
-			inputContraseña.setForeground(Color.WHITE);
-			inputContraseña.setBackground(Color.BLACK);
-			inputContraseña.setForeground(Color.WHITE);
-			botonAceptar.setBackground(Color.WHITE);
-		}else {
-			labelUsuario.setForeground(Color.BLACK);
-			labelContraseña.setForeground(Color.BLACK);
-			inputUsuario.setForeground(Color.BLACK);
-			inputUsuario.setBackground(Color.WHITE);
-			inputContraseña.setForeground(Color.BLACK);
-			inputContraseña.setBackground(Color.WHITE);
-			botonAceptar.setBackground(Color.BLACK);
-		}
+		labelUsuario.setForeground(Color.WHITE);
+		labelContraseña.setForeground(Color.WHITE);
+		inputUsuario.setForeground(Color.WHITE);
+		inputUsuario.setBackground(Color.BLACK);
+		inputContraseña.setForeground(Color.WHITE);
+		inputContraseña.setBackground(Color.BLACK);
+		inputContraseña.setForeground(Color.WHITE);
+		botonAceptar.setBackground(Color.WHITE);
 	}
 }

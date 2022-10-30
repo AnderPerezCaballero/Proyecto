@@ -14,42 +14,42 @@ public class VentanaRegistroSesion extends VentanaSesion{
 
 	private JPanel panelConfirmarContraseña;
 	private JPanel panelConfirmarContraseña2;
-	
+
 	private JLabel labelConfirmarContraseña;
-	
-	
+
+
 	private JPasswordField inputConfirmarContraseña;
-	
-	
+
+
 	public VentanaRegistroSesion() {
 		super(7);
-		
-		
+
+
 		panelConfirmarContraseña = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		panelConfirmarContraseña2 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		
+
 		labelConfirmarContraseña = new JLabel("Confirmar Contraseña:");
 		inputConfirmarContraseña = new JPasswordField(COLUMNAS);
-		
+
 		panelConfirmarContraseña.add(labelConfirmarContraseña);
 		panelConfirmarContraseña2.add(inputConfirmarContraseña);
-		
+
 		inputConfirmarContraseña.addKeyListener(cierraConEsc);
-		
+
 		panelDatos.add(panelConfirmarContraseña);
 		panelDatos.add(panelConfirmarContraseña2);
 		panelDatos.add(panelMensaje);
-		
+
 		botonAceptar.setText("Registrarme");
-		
+
 		// Color de los paneles
 		colorPaneles(FONDOOSCURO);
-		
+
 		// Color de los componentes
 		colorComponentes(FONDOOSCURO);
-		
-		
-		
+
+
+
 		inputContraseña.addActionListener(new ActionListener() {
 
 			@Override
@@ -59,7 +59,7 @@ public class VentanaRegistroSesion extends VentanaSesion{
 				}
 			}
 		});
-		
+
 		inputConfirmarContraseña.addActionListener(new ActionListener() {
 
 			@Override
@@ -70,7 +70,7 @@ public class VentanaRegistroSesion extends VentanaSesion{
 			}
 		});
 	}
-	
+
 	@Override
 	protected void siguienteVentana() {
 		new MensajeCarga("Creando Nuevo Usuario", botonAceptar).start();
@@ -90,15 +90,9 @@ public class VentanaRegistroSesion extends VentanaSesion{
 	@Override
 	protected void colorComponentes(Color color) {
 		super.colorComponentes(color);
-		if(color.equals(FONDOOSCURO)) {			
-			labelConfirmarContraseña.setForeground(Color.WHITE);
-			inputConfirmarContraseña.setForeground(Color.WHITE);
-			inputConfirmarContraseña.setBackground(Color.BLACK);
-		}else {
-			labelConfirmarContraseña.setForeground(Color.BLACK);
-			inputConfirmarContraseña.setForeground(Color.BLACK);
-			inputConfirmarContraseña.setBackground(Color.WHITE);
-		}
+		labelConfirmarContraseña.setForeground(Color.WHITE);
+		inputConfirmarContraseña.setForeground(Color.WHITE);
+		inputConfirmarContraseña.setBackground(Color.BLACK);
 	}
 
 	@Override
@@ -109,6 +103,6 @@ public class VentanaRegistroSesion extends VentanaSesion{
 	@Override
 	protected boolean condicionesBorrarMensaje() {
 		return super.condicionesBorrarMensaje() || inputConfirmarContraseña.getPassword().length > 0;
-		
+
 	}	
 }
