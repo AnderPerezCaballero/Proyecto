@@ -22,36 +22,51 @@ public class VentanaRegistroSesion extends VentanaSesion{
 	
 	
 	public VentanaRegistroSesion() {
-		super(8);
+		super(7);
 		
 		
 		panelConfirmarContraseña = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		panelConfirmarContraseña2 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		
-		//Cambiar el color de los paneles
-		colorPaneles(FONDO);
 		
 		labelConfirmarContraseña = new JLabel("Confirmar Contraseña:");
 		inputConfirmarContraseña = new JPasswordField(COLUMNAS);
 		
 		panelConfirmarContraseña.add(labelConfirmarContraseña);
 		panelConfirmarContraseña2.add(inputConfirmarContraseña);
-		panelMensaje.add(labelMensaje);
+		
+		inputConfirmarContraseña.addKeyListener(cierraConEsc);
 		
 		panelDatos.add(panelConfirmarContraseña);
 		panelDatos.add(panelConfirmarContraseña2);
-		
+		panelDatos.add(panelMensaje);
 		
 		botonAceptar.setText("Registrarme");
 		
+		// Color de los paneles
+		colorPaneles(FONDOOSCURO);
+		
+		// Color de los componentes
+		colorComponentes(FONDOOSCURO);
 		
 		
-		botonAceptar.addActionListener(new ActionListener() {
-			
+		
+		inputContraseña.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				botonAceptar.getAction();
-				botonAceptar.setText("Registrando nuevo Usuario...");
+				if (inputContraseña.getPassword() != null) {
+					inputConfirmarContraseña.requestFocus();
+				}
+			}
+		});
+		
+		inputConfirmarContraseña.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (inputContraseña.getPassword() != null) {
+					botonAceptar.requestFocus();
+				}
 			}
 		});
 	}
@@ -70,8 +85,23 @@ public class VentanaRegistroSesion extends VentanaSesion{
 		super.colorPaneles(color);
 		panelConfirmarContraseña.setBackground(color);
 		panelConfirmarContraseña2.setBackground(color);
-		
 	}
+
+	@Override
+	protected void colorComponentes(Color color) {
+		super.colorComponentes(color);
+		if(color.equals(FONDOOSCURO)) {			
+			labelConfirmarContraseña.setForeground(Color.WHITE);
+			inputConfirmarContraseña.setForeground(Color.WHITE);
+			inputConfirmarContraseña.setBackground(Color.BLACK);
+		}else {
+			labelConfirmarContraseña.setForeground(Color.BLACK);
+			inputConfirmarContraseña.setForeground(Color.BLACK);
+			inputConfirmarContraseña.setBackground(Color.WHITE);
+		}
+	}
+	
+	
 	
 	
 }

@@ -1,5 +1,9 @@
 package gui;
 
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class VentanaInicioSesion extends VentanaSesion{
 
 	private static final long serialVersionUID = 1L;
@@ -7,11 +11,25 @@ public class VentanaInicioSesion extends VentanaSesion{
 	public VentanaInicioSesion() {
 		super(5);
 		
-		//Cambiar el color de los paneles
-		colorPaneles(FONDO);
+		// Color de los paneles
+		colorPaneles(FONDOOSCURO);
 		
-		panelMensaje.add(labelMensaje);
+		// Color de los componentes
+		colorComponentes(FONDOOSCURO);
+		
+		panelDatos.add(panelMensaje);
 		botonAceptar.setText("Iniciar Sesión");
+		
+		
+		inputContraseña.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (inputContraseña.getPassword() != null) {
+					botonAceptar.requestFocus();
+				}
+			}
+		});
 		
 	}
 	

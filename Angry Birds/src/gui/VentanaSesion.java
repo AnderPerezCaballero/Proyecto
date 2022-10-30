@@ -43,9 +43,9 @@ public abstract class VentanaSesion extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private static final int anchuraVentana = 350;
 	private static final int alturaVentana = 575;
-	
+	protected static final Color FONDOOSCURO = new Color(35, 39, 42);
+
 	//Atributos no estáticos inmutables
-	protected final Color FONDO = new Color(35, 39, 42);
 	protected final int COLUMNAS = 30;
 
 	//Atributos respecto al inicio de sesion
@@ -69,7 +69,7 @@ public abstract class VentanaSesion extends JFrame{
 	//JLabels
 	private JLabel labelUsuario;
 	private JLabel labelContraseña;
-	protected JLabel labelMensaje;	
+	private JLabel labelMensaje;	
 	private JLabel volver;
 	private JLabel imagenPrincipal;
 	private JLabel imagenModoOscuro;
@@ -78,15 +78,19 @@ public abstract class VentanaSesion extends JFrame{
 	protected JButton botonAceptar;
 
 	//Campos de texto
-	private JTextField inputUsuario;
-	private JPasswordField inputContraseña;
+	protected JTextField inputUsuario;
+	protected JPasswordField inputContraseña;
 
+	//Eventos que se usarán en herencia
+	protected KeyListener cierraConEsc;
+	
 	//Variables del usuario
 	private static GestionUsuarios gestionUsuarios;
 	private static Usuario usuario;
 
 	//Variable que indica el estado de la ventana
 	private boolean estaCerrada;
+	
 
 	/**Constructor de la ventana de menú
 	 * @param tituloVentana Título de la ventana
@@ -105,8 +109,8 @@ public abstract class VentanaSesion extends JFrame{
 
 		panelAceptar = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		panelSuperior = new JPanel(new GridLayout(1, 2));
-		panelSuperiorIzquierdo = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 5));
-		panelSuperiorDerecho = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 5));
+		panelSuperiorIzquierdo = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		panelSuperiorDerecho = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 		panelCentral = new JPanel(new GridLayout(2, 1));
 		panelInferior = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));
 
@@ -120,7 +124,8 @@ public abstract class VentanaSesion extends JFrame{
 		panelInputUsuario = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		panelContraseña = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		panelInputContraseña = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		panelMensaje = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+		panelMensaje = new JPanel();
+		panelMensaje.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
 		labelUsuario = new JLabel("Usuario:");
 		labelContraseña = new JLabel("Contraseña:");
@@ -128,23 +133,12 @@ public abstract class VentanaSesion extends JFrame{
 		inputContraseña = new JPasswordField(COLUMNAS);
 		labelMensaje = new JLabel("Mensaje");
 
-		botonAceptar = new MiBoton(Color.WHITE, FONDO.brighter(), 35, 35);
-
-		labelUsuario.setForeground(Color.WHITE);
-		labelContraseña.setForeground(Color.WHITE);
-		inputUsuario.setBackground(Color.BLACK);
-		inputContraseña.setBackground(Color.BLACK);
-		inputUsuario.setForeground(Color.WHITE);
-		inputContraseña.setForeground(Color.WHITE);
-
+		botonAceptar = new MiBoton(Color.WHITE, FONDOOSCURO.brighter(), 35, 35);
 
 		// Configurar componentes
 		botonAceptar.setEnabled(false);
 		botonAceptar.setToolTipText("Pulsa aquí para confirmar tus datos");
-		botonAceptar.setBackground(Color.WHITE);
 		botonAceptar.setPreferredSize(new Dimension(anchuraVentana - 40, 40));
-		labelMensaje.setForeground(Color.WHITE);
-
 
 		//Añadir componentes a contenedores				
 
@@ -153,7 +147,8 @@ public abstract class VentanaSesion extends JFrame{
 		panelInputUsuario.add(inputUsuario);
 		panelInputContraseña.add(inputContraseña);
 		panelAceptar.add(botonAceptar);
-		
+		panelMensaje.add(labelMensaje);
+
 
 		getContentPane().add(panelSuperior, "North");
 		getContentPane().add(panelCentral, "Center");
@@ -163,7 +158,6 @@ public abstract class VentanaSesion extends JFrame{
 		panelDatos.add(panelInputUsuario);
 		panelDatos.add(panelContraseña);
 		panelDatos.add(panelInputContraseña);
-		panelDatos.add(panelMensaje);
 
 		panelSuperiorIzquierdo.add(volver);
 		panelSuperiorDerecho.add(imagenModoOscuro);
@@ -177,7 +171,7 @@ public abstract class VentanaSesion extends JFrame{
 		panelInferior.add(panelAceptar);
 
 		//EVENTOS
-		KeyListener cierraConEsc = new KeyAdapter() {
+		cierraConEsc = new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -200,17 +194,6 @@ public abstract class VentanaSesion extends JFrame{
 				}
 			}
 		});
-
-		inputContraseña.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (inputContraseña.getPassword() != null) {
-					botonAceptar.requestFocus();
-				}
-			}
-		});
-
 
 		botonAceptar.addActionListener(new ActionListener() {
 			@Override
@@ -261,7 +244,7 @@ public abstract class VentanaSesion extends JFrame{
 	/**Recoge el nombre de usuario y la contraseña del usuario
 	 * 
 	 */
-	public void iniciarAnimaciones() {
+	protected void iniciarAnimaciones() {
 		while (!estaCerrada) {
 			try {
 				//Si hay algo escrito en los dos campos, se puede aceptar, sino no
@@ -283,9 +266,10 @@ public abstract class VentanaSesion extends JFrame{
 
 	/**Cierra la aplicación definitivamente
 	 */
-	public void cerrar() {
+	private void cerrar() {
 		this.setVisible(false);
-		if (JOptionPane.showConfirmDialog(null, "¿Realmente desea salir de la aplicación?", "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
+		String[] s = {"Si", "No"}; //Opciones del JOptionPane
+		if (JOptionPane.showOptionDialog(this, "¿Realmente desea salir de la aplicación?", "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, ImagenReescalada("src/imgs/Icono.png", 30, 30), s, 0) == 0) {
 			//Quiero cerrar el programa entero, no cerrar solo la ventana -> dispose() no me sirve
 			System.exit(0);
 		}else {
@@ -351,7 +335,7 @@ public abstract class VentanaSesion extends JFrame{
 		Image newimg = image.getScaledInstance(ancho, alto,  java.awt.Image.SCALE_SMOOTH);  
 		return new ImageIcon(newimg);
 	}
-	
+
 	protected void colorPaneles(Color color) {
 		panelSuperiorIzquierdo.setBackground(color);
 		panelSuperiorDerecho.setBackground(color);
@@ -365,5 +349,27 @@ public abstract class VentanaSesion extends JFrame{
 		panelInputContraseña.setBackground(color);
 		panelAceptar.setBackground(color);
 		panelMensaje.setBackground(color);
+	}
+
+	protected void colorComponentes(Color color) {
+		labelMensaje.setForeground(Color.RED);
+		if(color.equals(FONDOOSCURO)) {
+			labelUsuario.setForeground(Color.WHITE);
+			labelContraseña.setForeground(Color.WHITE);
+			inputUsuario.setForeground(Color.WHITE);
+			inputUsuario.setBackground(Color.BLACK);
+			inputContraseña.setForeground(Color.WHITE);
+			inputContraseña.setBackground(Color.BLACK);
+			inputContraseña.setForeground(Color.WHITE);
+			botonAceptar.setBackground(Color.WHITE);
+		}else {
+			labelUsuario.setForeground(Color.BLACK);
+			labelContraseña.setForeground(Color.BLACK);
+			inputUsuario.setForeground(Color.BLACK);
+			inputUsuario.setBackground(Color.WHITE);
+			inputContraseña.setForeground(Color.BLACK);
+			inputContraseña.setBackground(Color.WHITE);
+			botonAceptar.setBackground(Color.BLACK);
+		}
 	}
 }
