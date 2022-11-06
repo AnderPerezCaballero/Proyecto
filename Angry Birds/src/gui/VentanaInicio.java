@@ -4,8 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
@@ -61,6 +64,22 @@ public abstract class VentanaInicio extends JFrame {
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/imgs/Icono.png"));
 		this.setTitle(nombreVentana);
 		
+		actionVentana = new WindowAdapter() {
+
+			@Override
+			public void windowOpened(WindowEvent e) {
+				ReproducirMusica("audio/Song.wav");
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+				clip.close();
+
+			}
+
+		};
+		
+		this.addWindowListener(actionVentana);
 		
 		barraMenu = new JMenuBar();
 		setJMenuBar(barraMenu);
@@ -75,7 +94,6 @@ public abstract class VentanaInicio extends JFrame {
 		itemMenu1.setBackground(Color.WHITE);
 		sonido.add(itemMenu1);
 		
-		
 		panelCentral = new JPanel();
 		panelCentral.setLayout(new BorderLayout());
 		imagen = new JLabel(new ImageIcon("src/imgs/Angry-juego.jpg"));
@@ -85,6 +103,18 @@ public abstract class VentanaInicio extends JFrame {
 		panelAbajo = new JPanel();
 		panelAbajo.setBackground(FONDOOSCURO);
 		this.add(panelAbajo, BorderLayout.SOUTH);
+		
+		escCerrar = new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) { // Hacemos que al soltar el escape la ventana se cierre
+					clip.close();
+					dispose();
+				}
+			}
+		};
+
+		itemMenu1.addKeyListener(escCerrar);
 		
 	}
 	
