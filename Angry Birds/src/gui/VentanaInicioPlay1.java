@@ -3,12 +3,13 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import Ventanas.VentanaInicioPruebas;
 
 public class VentanaInicioPlay1 extends VentanaInicio {
 	
@@ -27,6 +28,24 @@ public class VentanaInicioPlay1 extends VentanaInicio {
 		JButton registro = new MiBoton(Color.WHITE, Color.gray.brighter(), 60, 60);
 		registro.setText("Registrarse");
 		panelAbajo.add(registro, BorderLayout.EAST);
+		
+		inicioS.addActionListener(new ActionListener() {
+			  
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VentanaInicioSesion vsi = new VentanaInicioSesion();
+				dispose();
+			}
+		});
+
+		registro.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VentanaRegistroSesion vss = new VentanaRegistroSesion();
+				dispose();
+			}
+		});
 		
 		inicioS.addKeyListener(escCerrar);
 		registro.addKeyListener(escCerrar);
