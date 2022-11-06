@@ -51,7 +51,7 @@ public abstract class VentanaInicio extends JFrame {
 	// Siempre igual
 
 	private static final long serialVersionUID = 1L;
-	private static final int alturaVentana = 670;
+	private static final int alturaVentana = 685;
 	private static final int anchuraVentana = 700;
 	static final Color FONDOOSCURO = new Color(35, 39, 42);
 	private static final String nombreVentana = "Angry Birds";
