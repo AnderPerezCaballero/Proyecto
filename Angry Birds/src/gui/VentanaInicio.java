@@ -7,8 +7,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.IOException;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
@@ -81,6 +87,24 @@ public abstract class VentanaInicio extends JFrame {
 		this.add(panelAbajo, BorderLayout.SOUTH);
 		
 	}
+	
+	// Para reproducir sonido
+
+		public void ReproducirMusica(String ruta) {
+			try {
+				AudioInputStream is = AudioSystem.getAudioInputStream(new File(ruta));
+				clip = AudioSystem.getClip();
+				clip.open(is);
+				clip.loop(0);
+
+			} catch (UnsupportedAudioFileException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (LineUnavailableException e) {
+				e.printStackTrace();
+			}
+		}
 	
 	// Para poner una imagen con otro tamanyo
 
