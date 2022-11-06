@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -94,6 +95,24 @@ public abstract class VentanaInicio extends JFrame {
 		itemMenu1.setBackground(Color.WHITE);
 		sonido.add(itemMenu1);
 		
+		// Para que cuando el checkBox de mute este pulsado la cancion pare
+		// y si se vuelve a pulsar para desmutear, vuelva a ponerse la cancion desde el
+		// principio
+
+		actionMute = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				clip.close();
+
+				if (itemMenu1.getState() == false) {
+					ReproducirMusica("audio/Song.wav");
+				}
+			}
+		};
+
+		itemMenu1.addActionListener(actionMute);
+				
 		panelCentral = new JPanel();
 		panelCentral.setLayout(new BorderLayout());
 		imagen = new JLabel(new ImageIcon("src/imgs/Angry-juego.jpg"));
