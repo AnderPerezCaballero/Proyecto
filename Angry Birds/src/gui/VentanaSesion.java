@@ -17,6 +17,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -24,13 +25,15 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import gestionUsuarios.Usuario;
+
 public abstract class VentanaSesion extends JFrame{
 
 	//Atributos estáticos de la ventana
 	private static final long serialVersionUID = 1L;
 	private static final int anchuraVentana = 350;
 	private static final int alturaVentana = 575;
-	static final Color FONDOOSCURO = new Color(35, 39, 42);
+	private static final Color FONDOOSCURO = new Color(35, 39, 42);
 
 	//Atributos no estáticos inmutables
 	protected final int COLUMNAS = 30;
@@ -38,39 +41,43 @@ public abstract class VentanaSesion extends JFrame{
 	//Contenedores
 	private JPanel panelSuperior;
 	private JPanel panelCentral;
-	JPanel panelDatos;
+	private JPanel panelDatos;
 	private JPanel panelInferior;
 
 	private JPanel panelUsuario;
 	private JPanel panelInputUsuario;
 	private JPanel panelContraseña;
 	private JPanel panelInputContraseña;
-	JPanel panelMensaje;
+	private JPanel panelMensaje;
 	private JPanel panelAceptar;
+	private JPanel panelGuardarDispositivo;
 
 	//JLabels
 	private JLabel labelUsuario;
 	private JLabel labelContraseña;
-	JLabel labelMensaje;	
+	private JLabel labelMensaje;	
 	private JLabel volver;
 	private JLabel imagenPrincipal;
+	private JCheckBox guardarDispositivo;
 
 	//Botones
-	JButton botonAceptar;
+	private JButton botonAceptar;
 
 	//Campos de texto
-	JTextField inputUsuario;
-	JPasswordField inputContraseña;
+	private JTextField inputUsuario;
+	private JPasswordField inputContraseña;
 
 	//Eventos que se usarán en herencia
-	KeyListener cierraConEsc;
+	private KeyListener cierraConEsc;
 
 	//Variable que indica el estado de la ventana
 	private boolean estaCerrada;
 	
 	//Hilo ejecutado al cargar los datos del usuario
-	MensajeCarga mensajeDeCarga;
-
+	private MensajeCarga mensajeDeCarga;
+	
+	//Usuario que va a hacer uso de la aplicación
+	static Usuario usuario;
 
 	
 	/** Constructor de la ventana 
@@ -92,14 +99,12 @@ public abstract class VentanaSesion extends JFrame{
 		panelDatos = new JPanel(new GridLayout(numeroDeDatos, 1));
 		imagenPrincipal = new JLabel(ImagenReescalada("src/imgs/Fondo.png", 220, 220));
 
-		volver = new JLabel(ImagenReescalada("src/imgs/FlechaBlanca.png", 40, 40));
-
 		panelUsuario = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		panelInputUsuario = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		panelContraseña = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		panelInputContraseña = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-		panelMensaje = new JPanel();
-		panelMensaje.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+		panelMensaje = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+		panelGuardarDispositivo = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
 		labelUsuario = new JLabel("Usuario:");
 		labelContraseña = new JLabel("Contraseña:");
@@ -108,6 +113,10 @@ public abstract class VentanaSesion extends JFrame{
 		labelMensaje = new JLabel();
 
 		botonAceptar = new MiBoton(Color.WHITE, FONDOOSCURO.brighter(), 35, 35);
+		
+		volver = new JLabel(ImagenReescalada("src/imgs/FlechaBlanca.png", 40, 40));
+		
+		guardarDispositivo = new JCheckBox("Guardar Dispositivo");
 
 		// Configurar componentes
 		botonAceptar.setEnabled(false);
@@ -121,6 +130,7 @@ public abstract class VentanaSesion extends JFrame{
 		panelInputContraseña.add(inputContraseña);
 		panelAceptar.add(botonAceptar);
 		panelMensaje.add(labelMensaje);
+		panelGuardarDispositivo.add(guardarDispositivo);
 
 
 		getContentPane().add(panelSuperior, "North");
@@ -153,6 +163,7 @@ public abstract class VentanaSesion extends JFrame{
 		inputUsuario.addKeyListener(cierraConEsc);
 		inputContraseña.addKeyListener(cierraConEsc);
 		botonAceptar.addKeyListener(cierraConEsc);
+		guardarDispositivo.addKeyListener(cierraConEsc);
 
 		inputUsuario.addActionListener(new ActionListener() {
 
@@ -319,6 +330,8 @@ public abstract class VentanaSesion extends JFrame{
 		panelInputContraseña.setBackground(color);
 		panelAceptar.setBackground(color);
 		panelMensaje.setBackground(color);
+		panelGuardarDispositivo.setBackground(color);
+		guardarDispositivo.setBackground(color);
 	}
 
 	/** Establece un color a los componentes de la ventana
@@ -334,6 +347,7 @@ public abstract class VentanaSesion extends JFrame{
 		inputContraseña.setBackground(Color.BLACK);
 		inputContraseña.setForeground(Color.WHITE);
 		botonAceptar.setBackground(Color.WHITE);
+		guardarDispositivo.setForeground(Color.WHITE);
 	}
 	
 	/**Resetea los textos de todos los JTextFields de la ventana
@@ -342,5 +356,97 @@ public abstract class VentanaSesion extends JFrame{
 	protected void resetTextos() {
 		inputUsuario.setText(null);
 		inputContraseña.setText(null);
+	}
+
+	
+	/** Devuelve el color del fondo de la ventana
+	 * @return el color a devolver
+	 */
+	public static Color getFondooscuro() {
+		return FONDOOSCURO;
+	}
+
+	/** Devuelve el panelDatos
+	 * @return el panelDatos a devolver
+	 */
+	public JPanel getPanelDatos() {
+		return panelDatos;
+	}
+
+	/** Devuelve el panelMensaje
+	 * @return el panelMensaje a devolver
+	 */
+	public JPanel getPanelMensaje() {
+		return panelMensaje;
+	}
+
+	/** Devuelve el panelGuardarDispositivo
+	 * @return el panelGuardarDispositivo a devolver
+	 */
+	public JPanel getPanelGuardarDispositivo() {
+		return panelGuardarDispositivo;
+	}
+
+	/** Devuelve el labelMensaje
+	 * @return el labelMensaje a devolver
+	 */
+	public JLabel getLabelMensaje() {
+		return labelMensaje;
+	}
+
+	/** Devuelve el guardarDispositivo
+	 * @return el guardarDispositivo a devolver
+	 */
+	public JCheckBox getGuardarDispositivo() {
+		return guardarDispositivo;
+	}
+
+	/** Devuelve el botonAceptar
+	 * @return el botonAceptar a devolver
+	 */
+	public JButton getBotonAceptar() {
+		return botonAceptar;
+	}
+
+	/** Devuelve el inputUsuario
+	 * @return el inputUsuario a devolver
+	 */
+	public JTextField getInputUsuario() {
+		return inputUsuario;
+	}
+
+	/** Devuelve el inputContraseña
+	 * @return el inputContraseña a devolver
+	 */
+	public JPasswordField getInputContraseña() {
+		return inputContraseña;
+	}
+
+	/** Devuelve el cierraConEsc
+	 * @return el cierraConEsc a devolver
+	 */
+	public KeyListener getCierraConEsc() {
+		return cierraConEsc;
+	}
+
+	/** Devuelve el hilo que se encarga de establecer el mensaje de carga en los botones
+	 * @return el mensajeDeCarga a devolver
+	 */
+	public MensajeCarga getMensajeDeCarga() {
+		return mensajeDeCarga;
+	}
+
+	/** Devuelve el usuario con el que se inicia el juego
+	 * @return el usuario a devolver
+	 */
+	public static Usuario getUsuario() {
+		return usuario;
+	}	
+	
+	/** Modifica el hilo mensajeDeCarga
+	 * @param mensajeDeCarga nuevo valor para el hilo
+	 */
+	public void setMensajeDeCarga(MensajeCarga mensajeDeCarga) {
+		this.mensajeDeCarga = mensajeDeCarga;
 	}
 }
