@@ -6,6 +6,9 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+import Ventanas.VentanaInicioPruebas;
 
 public class VentanaInicioPlay1 extends VentanaInicio {
 	
@@ -25,8 +28,17 @@ public class VentanaInicioPlay1 extends VentanaInicio {
 		registro.setText("Registrarse");
 		panelAbajo.add(registro, BorderLayout.EAST);
 		
-	}
-	
-	
+		inicioS.addKeyListener(escCerrar);
+		registro.addKeyListener(escCerrar);
 
+		this.setVisible(true);
+	}
+
+	public static void main(String args[]) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				new VentanaInicioPlay1();
+			}
+		});
+	}
 }
