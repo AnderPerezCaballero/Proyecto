@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowListener;
 
@@ -54,6 +55,21 @@ public abstract class VentanaInicio extends JFrame {
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/imgs/Icono.png"));
 		this.setTitle(nombreVentana);
 		
+		
+		barraMenu = new JMenuBar();
+		setJMenuBar(barraMenu);
+		barraMenu.setBackground(FONDOOSCURO);
+
+		sonido = new JMenu("SONIDO");
+		sonido.setForeground(Color.white);
+		sonido.setMnemonic(KeyEvent.VK_S);
+		barraMenu.add(sonido);
+
+		itemMenu1 = new JCheckBoxMenuItem(ImagenReescalada("src/imgs/mute.png", 10, 10));
+		itemMenu1.setBackground(Color.WHITE);
+		sonido.add(itemMenu1);
+		
+		
 		panelCentral = new JPanel();
 		panelCentral.setLayout(new BorderLayout());
 		imagen = new JLabel(new ImageIcon("src/imgs/Angry-juego.jpg"));
@@ -65,6 +81,13 @@ public abstract class VentanaInicio extends JFrame {
 		this.add(panelAbajo, BorderLayout.SOUTH);
 		
 	}
+	
+	// Para poner una imagen con otro tamanyo
+
+		private ImageIcon ImagenReescalada(String ruta, int ancho, int alto) {
+			return new ImageIcon(
+					new ImageIcon(ruta).getImage().getScaledInstance(ancho, alto, java.awt.Image.SCALE_SMOOTH));
+		}
 	
 
 }
