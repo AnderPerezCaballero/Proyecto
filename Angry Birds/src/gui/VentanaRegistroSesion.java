@@ -16,7 +16,7 @@ import gestionUsuarios.Usuario;
 public class VentanaRegistroSesion extends VentanaSesion{
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private JPanel panelConfirmarContraseña;
 	private JPanel panelConfirmarContraseña2;
 
@@ -27,8 +27,7 @@ public class VentanaRegistroSesion extends VentanaSesion{
 
 
 	public VentanaRegistroSesion() {
-		super(7);
-
+		super(8);
 
 		panelConfirmarContraseña = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		panelConfirmarContraseña2 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -39,27 +38,29 @@ public class VentanaRegistroSesion extends VentanaSesion{
 		panelConfirmarContraseña.add(labelConfirmarContraseña);
 		panelConfirmarContraseña2.add(inputConfirmarContraseña);
 
-		inputConfirmarContraseña.addKeyListener(cierraConEsc);
+		inputConfirmarContraseña.addKeyListener(getCierraConEsc());
 
-		panelDatos.add(panelConfirmarContraseña);
-		panelDatos.add(panelConfirmarContraseña2);
-		panelDatos.add(panelMensaje);
+		getPanelDatos().add(panelConfirmarContraseña);
+		getPanelDatos().add(panelConfirmarContraseña2);
+		getPanelDatos().add(getPanelMensaje());
+		getPanelDatos().add(getPanelGuardarDispositivo());
 
-		botonAceptar.setText("Registrarme");
+
+		getBotonAceptar().setText("Registrarme");
 
 		// Color de los paneles
-		colorPaneles(FONDOOSCURO);
+		colorPaneles(getFondooscuro());
 
 		// Color de los componentes
-		colorComponentes(FONDOOSCURO);
+		colorComponentes(getFondooscuro());
 
 
 
-		inputContraseña.addActionListener(new ActionListener() {
+		getInputContraseña().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (inputContraseña.getPassword() != null) {
+				if (getInputContraseña().getPassword() != null) {
 					inputConfirmarContraseña.requestFocus();
 				}
 			}
@@ -69,8 +70,8 @@ public class VentanaRegistroSesion extends VentanaSesion{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (inputContraseña.getPassword() != null) {
-					botonAceptar.requestFocus();
+				if (getInputContraseña().getPassword() != null) {
+					getBotonAceptar().requestFocus();
 				}
 			}
 		});
@@ -79,27 +80,30 @@ public class VentanaRegistroSesion extends VentanaSesion{
 	@Override
 	protected void siguienteVentana() {
 		try {
-			if(GestionUsuarios.comprobarUsuario(inputUsuario.getText())) {
+			if(GestionUsuarios.comprobarUsuario(getInputUsuario().getText())) {
 				resetTextos();
-				labelMensaje.setText("El usuario que has introducido ya está registrado");
-			}else if(!String.valueOf(inputContraseña.getPassword()).equals(String.valueOf(inputConfirmarContraseña.getPassword()))) {
-				inputContraseña.setText(null);
+				getLabelMensaje().setText("El usuario que has introducido ya está registrado");
+			}else if(!String.valueOf(getInputContraseña().getPassword()).equals(String.valueOf(inputConfirmarContraseña.getPassword()))) {
+				getInputContraseña().setText(null);
 				inputConfirmarContraseña.setText(null);
-				labelMensaje.setText("Las contraseñas introducidas deben coincidir");
-				inputContraseña.requestFocus();
+				getLabelMensaje().setText("Las contraseñas introducidas deben coincidir");
+				getInputContraseña().requestFocus();
 			}else {
-				mensajeDeCarga = new MensajeCarga("Registrando nuevo usuario", botonAceptar);
-				GestionUsuarios.add(new Usuario(inputUsuario.getText(), String.valueOf(inputContraseña.getPassword())));
-				mensajeDeCarga.start();
+				setMensajeDeCarga(new MensajeCarga("Registrando nuevo usuario", "Usuario creado", getBotonAceptar()));
+				getMensajeDeCarga().start();
+				usuario = new Usuario(getInputUsuario().getText(), String.valueOf(getInputContraseña().getPassword()));
+				GestionUsuarios.add(usuario);
+				if(getGuardarDispositivo().isSelected()) {
+					if(!GestionUsuarios.recordarUsuario(usuario)) {
+						getLabelMensaje().setText("No ha sido posible recordar el usuario en este dispositivo");
+					}
+				}
+				getMensajeDeCarga().interrupt();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			getLabelMensaje().setText("No ha sido posible registrar el usuario");
 		}
 	}	
-
-	public static void main(String[] args) {
-		new VentanaRegistroSesion().iniciar();
-	}
 
 	@Override
 	protected void colorPaneles(Color color) {
@@ -123,7 +127,7 @@ public class VentanaRegistroSesion extends VentanaSesion{
 
 	@Override
 	protected boolean condicionesBorrarMensaje() throws NullPointerException {
-		return inputUsuario.getText().length() > 0 && (inputContraseña.getPassword().length > 0 || inputConfirmarContraseña.getPassword().length > 0);
+		return getInputUsuario().getText().length() > 0 && (getInputContraseña().getPassword().length > 0 || inputConfirmarContraseña.getPassword().length > 0);
 	}
 
 	@Override
@@ -131,6 +135,14 @@ public class VentanaRegistroSesion extends VentanaSesion{
 		super.resetTextos();
 		inputConfirmarContraseña.setText(null);
 	}	
-	
-	
+
+	public static void main(String[] args) {
+		usuario = GestionUsuarios.usuarioAsociado();
+		if(usuario == null) {
+			new VentanaRegistroSesion().iniciar();	
+		}else {
+			System.out.format("Se ha iniciado sesion con el siguiente usuario: %s", usuario);
+		}
+
+	}
 }

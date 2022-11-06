@@ -5,30 +5,33 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 import gestionUsuarios.GestionUsuarios;
+import gestionUsuarios.Usuario;
 
 public class VentanaInicioSesion extends VentanaSesion{
 
 	private static final long serialVersionUID = 1L;
 
 	public VentanaInicioSesion() {
-		super(5);
+		super(6);
 		
 		// Color de los paneles
-		colorPaneles(FONDOOSCURO);
+		colorPaneles(getFondooscuro());
 		
 		// Color de los componentes
-		colorComponentes(FONDOOSCURO);
+		colorComponentes(getFondooscuro());
 		
-		panelDatos.add(panelMensaje);
-		botonAceptar.setText("Iniciar Sesión");
+		getPanelDatos().add(getPanelMensaje());
+		getPanelDatos().add(getPanelGuardarDispositivo());
+		
+		getBotonAceptar().setText("Iniciar Sesión");
 		
 		
-		inputContraseña.addActionListener(new ActionListener() {
+		getInputContraseña().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (inputContraseña.getPassword() != null) {
-					botonAceptar.requestFocus();
+				if (getInputContraseña().getPassword() != null) {
+					getBotonAceptar().requestFocus();
 				}
 			}
 		});	
@@ -37,22 +40,34 @@ public class VentanaInicioSesion extends VentanaSesion{
 	@Override
 	protected void siguienteVentana() {
 		try {
-			if(!GestionUsuarios.comprobarUsuario(inputUsuario.getText())) {
+			if(!GestionUsuarios.comprobarUsuario(getInputUsuario().getText())) {
 				resetTextos();
-				labelMensaje.setText("El usuario introducido no existe");
-			}else if(!GestionUsuarios.comprobarContraseña(inputUsuario.getText(), String.valueOf(inputContraseña.getPassword()))) {
+				getLabelMensaje().setText("El usuario introducido no existe");
+			}else if(!GestionUsuarios.comprobarContraseña(getInputUsuario().getText(), String.valueOf(getInputContraseña().getPassword()))) {
 				resetTextos();
-				labelMensaje.setText("La contraseña introducida es incorrecta");
+				getLabelMensaje().setText("La contraseña introducida es incorrecta");
 			}else {
-				mensajeDeCarga = new MensajeCarga("Iniciando Sesión", botonAceptar);
-				mensajeDeCarga.start();
+				setMensajeDeCarga(new MensajeCarga("Iniciando Sesión", "Sesión iniciada", getBotonAceptar()));
+				getMensajeDeCarga().start();
+				usuario = new Usuario(getInputUsuario().getText(), String.valueOf(getInputContraseña().getPassword()));
+				if(getGuardarDispositivo().isSelected()) {
+					if(!GestionUsuarios.recordarUsuario(usuario)) {
+						getLabelMensaje().setText("No ha sido posible recordar el usuario en este dispositivo");
+					}
+				}
+				getMensajeDeCarga().interrupt();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			getLabelMensaje().setText("No ha sido posible iniciar sesión");
 		}
 	}	
 	
 	public static void main(String[] args) {
-		new VentanaInicioSesion().iniciar();
+		usuario = GestionUsuarios.usuarioAsociado();
+		if(usuario == null) {
+			new VentanaInicioSesion().iniciar();	
+		}else {
+			System.out.format("Se ha iniciado sesion con el siguiente usuario: %s", usuario);
+		}
 	}
 }

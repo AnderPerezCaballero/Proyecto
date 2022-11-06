@@ -1,14 +1,8 @@
 package gui;
 
-import
-java.awt.Color;
-
-import
-javax.swing.JButton;
-import javax.swing.JFrame;
-
-import
-java.awt.Graphics;
+import java.awt.Color;
+import javax.swing.JButton;
+import java.awt.Graphics;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
@@ -21,8 +15,10 @@ public class MiBoton extends JButton{
 
 	private static final long serialVersionUID = 1L;
 	private	boolean redondo;
-	private Color colorFondo, colorPresionado;
-	private int diamHorizontal, diamVertical;
+	private Color colorFondo;
+	private Color colorPresionado;
+	private int diamHorizontal;
+	private int diamVertical;
 
 	/** Crea un nuevo botón circular
 	 * @param colorFondo Color de fondo del boton
@@ -73,8 +69,7 @@ public class MiBoton extends JButton{
 
 	//Sobreescritura del borde
 	@ Override
-	protected void
-	paintBorder(Graphics g) {
+	protected void paintBorder(Graphics g) {
 		g.setColor(Color.BLACK);
 		if(redondo) {
 			g.drawOval(0, 0, getSize().width - 1, getSize().height - 1);
@@ -83,6 +78,7 @@ public class MiBoton extends JButton{
 		}
 	}
 	
+	//Al haber cambiado la figura y tener esta una forma diferente a la original, también hay que cambiar el método contains
 	@Override
 	public boolean contains(int x, int y) {
 		Shape figura;
