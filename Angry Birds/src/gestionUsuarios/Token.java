@@ -6,8 +6,8 @@ import java.time.format.DateTimeParseException;
 import java.util.UUID;
 
 public class Token implements Serializable{
-	
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 5159873539793904019L;
 	
 	private String token;
 	private ZonedDateTime caducidad;
