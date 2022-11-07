@@ -115,7 +115,7 @@ public abstract class VentanaInicio extends JFrame {
 				
 		panelCentral = new JPanel();
 		panelCentral.setLayout(new BorderLayout());
-		imagen = new JLabel(new ImageIcon("src/imgs/Angry-juego.jpg"));
+		imagen = new JLabel(new ImageIcon("src/imgs/AngryBirdsInicio.jpg"));
 		this.getContentPane().add(panelCentral, BorderLayout.CENTER);
 		panelCentral.add(imagen, BorderLayout.CENTER);
 
