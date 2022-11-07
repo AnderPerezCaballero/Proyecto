@@ -38,7 +38,7 @@ public abstract class VentanaSesion extends JFrame{
 	private static final Color FONDOOSCURO = new Color(35, 39, 42);
 
 	//Atributos no estáticos inmutables
-	protected final int COLUMNAS = 30;
+	private final int COLUMNAS = 30;
 
 	//Contenedores
 	private JPanel panelSuperior;
@@ -79,7 +79,7 @@ public abstract class VentanaSesion extends JFrame{
 	private MensajeCarga mensajeDeCarga;
 	
 	//Usuario que va a hacer uso de la aplicación
-	public static Usuario usuario;
+	private static Usuario usuario;
 
 	
 	/** Constructor de la ventana 
@@ -403,6 +403,13 @@ public abstract class VentanaSesion extends JFrame{
 	public JCheckBox getGuardarDispositivo() {
 		return guardarDispositivo;
 	}
+	
+	/** Devuelve el número de columnas de los JTextfield
+	 * @return el número de columnas a devolver
+	 */
+	public int getColumnas() {
+		return COLUMNAS;
+	}
 
 	/** Devuelve el botonAceptar
 	 * @return el botonAceptar a devolver
@@ -449,7 +456,19 @@ public abstract class VentanaSesion extends JFrame{
 	/** Modifica el hilo mensajeDeCarga
 	 * @param mensajeDeCarga nuevo valor para el hilo
 	 */
-	public void setMensajeDeCarga(MensajeCarga mensajeDeCarga) {
+	protected void setMensajeDeCarga(MensajeCarga mensajeDeCarga) {
 		this.mensajeDeCarga = mensajeDeCarga;
 	}
+
+	/** Modifica el usuario con el que se inicia sesion
+	 * @param usuario nuevo valor del usuario
+	 */
+	protected static void setUsuario(Usuario usuario) {
+		//No se le puede asignar un valor nulo
+		if(usuario != null) {
+			VentanaSesion.usuario = usuario;
+		}
+	}
+	
+	
 }

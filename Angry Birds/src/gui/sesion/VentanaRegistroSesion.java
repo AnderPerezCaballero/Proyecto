@@ -35,7 +35,7 @@ public class VentanaRegistroSesion extends VentanaSesion{
 		panelConfirmarContraseña2 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
 		labelConfirmarContraseña = new JLabel("Confirmar Contraseña:");
-		inputConfirmarContraseña = new JPasswordField(COLUMNAS);
+		inputConfirmarContraseña = new JPasswordField(getColumnas());
 
 		panelConfirmarContraseña.add(labelConfirmarContraseña);
 		panelConfirmarContraseña2.add(inputConfirmarContraseña);
@@ -83,10 +83,10 @@ public class VentanaRegistroSesion extends VentanaSesion{
 			}else {
 				setMensajeDeCarga(new MensajeCarga("Registrando nuevo usuario", "Usuario creado", getBotonAceptar()));
 				getMensajeDeCarga().start();
-				usuario = new Usuario(getInputUsuario().getText(), String.valueOf(getInputContraseña().getPassword()));
-				GestionUsuarios.add(usuario);
+				setUsuario(new Usuario(getInputUsuario().getText(), String.valueOf(getInputContraseña().getPassword())));
+				GestionUsuarios.add(getUsuario());
 				if(getGuardarDispositivo().isSelected()) {
-					if(!GestionUsuarios.recordarUsuario(usuario)) {
+					if(!GestionUsuarios.recordarUsuario(getUsuario())) {
 						getLabelMensaje().setText("No ha sido posible recordar el usuario en este dispositivo");
 					}
 				}
@@ -129,11 +129,11 @@ public class VentanaRegistroSesion extends VentanaSesion{
 	}	
 
 	public static void main(String[] args) {
-		usuario = GestionUsuarios.usuarioAsociado();
-		if(usuario == null) {
+		setUsuario(GestionUsuarios.usuarioAsociado());
+		if(getUsuario() == null) {
 			new VentanaRegistroSesion().iniciar();	
 		}else {
-			System.out.format("Se ha iniciado sesion con el siguiente usuario: %s", usuario);
+			System.out.format("Se ha iniciado sesion con el siguiente usuario: %s", getUsuario());
 		}
 		new VentanaRegistroSesion().iniciar();	
 

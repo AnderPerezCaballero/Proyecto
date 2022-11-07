@@ -46,9 +46,9 @@ public class VentanaInicioSesion extends VentanaSesion{
 			}else {
 				setMensajeDeCarga(new MensajeCarga("Iniciando Sesión", "Sesión iniciada", getBotonAceptar()));
 				getMensajeDeCarga().start();
-				usuario = new Usuario(getInputUsuario().getText(), String.valueOf(getInputContraseña().getPassword()));
+				setUsuario(new Usuario(getInputUsuario().getText(), String.valueOf(getInputContraseña().getPassword())));
 				if(getGuardarDispositivo().isSelected()) {
-					if(!GestionUsuarios.recordarUsuario(usuario)) {
+					if(!GestionUsuarios.recordarUsuario(getUsuario())) {
 						getLabelMensaje().setText("No ha sido posible recordar el usuario en este dispositivo");
 					}
 				}
@@ -60,11 +60,11 @@ public class VentanaInicioSesion extends VentanaSesion{
 	}	
 
 	public static void main(String[] args) {
-		usuario = GestionUsuarios.usuarioAsociado();
-		if(usuario == null) {
+		setUsuario(GestionUsuarios.usuarioAsociado());
+		if(getUsuario() == null) {
 			new VentanaInicioSesion().iniciar();	
 		}else {
-			System.out.format("Se ha iniciado sesion con el siguiente usuario: %s", usuario);
+			System.out.format("Se ha iniciado sesion con el siguiente usuario: %s", getUsuario());
 		}
 		new VentanaInicioSesion().iniciar();	
 	}
