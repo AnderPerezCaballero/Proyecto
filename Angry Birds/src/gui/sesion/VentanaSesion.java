@@ -3,7 +3,6 @@ package gui.sesion;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -64,7 +63,7 @@ public abstract class VentanaSesion extends JFrame{
 	private JCheckBox guardarDispositivo;
 
 	//Botones
-	private JButton botonAceptar;
+	private MiBoton botonAceptar;
 
 	//Campos de texto
 	private JTextField inputUsuario;
@@ -80,7 +79,7 @@ public abstract class VentanaSesion extends JFrame{
 	private MensajeCarga mensajeDeCarga;
 	
 	//Usuario que va a hacer uso de la aplicación
-	static Usuario usuario;
+	public static Usuario usuario;
 
 	
 	/** Constructor de la ventana 

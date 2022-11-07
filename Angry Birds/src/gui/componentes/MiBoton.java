@@ -33,8 +33,8 @@ public class MiBoton extends JButton{
 	} 
 
 	/** Crea un botón ractangular con bordes curvos
-	 * @param colorFondo
-	 * @param colorPresionado
+	 * @param colorFondo Color del fondo del botón
+	 * @param colorPresionado Color que muestra el botón al ser presionado
 	 * @param diamHorizontal el ancho del arco que se utilizará para redondear las esquinas del rectángulo
 	 * @param diamVertical el alto del arco que se utilizará para redondear las esquinas del rectángulo
 	 */

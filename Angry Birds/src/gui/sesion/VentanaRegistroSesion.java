@@ -2,8 +2,6 @@ package gui.sesion;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 import javax.swing.JLabel;
@@ -27,6 +25,9 @@ public class VentanaRegistroSesion extends VentanaSesion{
 	private JPasswordField inputConfirmarContraseña;
 
 
+	/**Crea una nueva ventana para registrar un usuario
+	 * 
+	 */
 	public VentanaRegistroSesion() {
 		super(8);
 
@@ -46,7 +47,6 @@ public class VentanaRegistroSesion extends VentanaSesion{
 		getPanelDatos().add(getPanelMensaje());
 		getPanelDatos().add(getPanelGuardarDispositivo());
 
-
 		getBotonAceptar().setText("Registrarme");
 
 		// Color de los paneles
@@ -55,25 +55,16 @@ public class VentanaRegistroSesion extends VentanaSesion{
 		// Color de los componentes
 		colorComponentes(getFondooscuro());
 
-
-
-		getInputContraseña().addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (getInputContraseña().getPassword() != null) {
-					inputConfirmarContraseña.requestFocus();
-				}
+		getInputContraseña().addActionListener(e -> {
+			if (getInputContraseña().getPassword() != null) {
+				inputConfirmarContraseña.requestFocus();
 			}
+		
 		});
 
-		inputConfirmarContraseña.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (getInputContraseña().getPassword() != null) {
-					getBotonAceptar().requestFocus();
-				}
+		inputConfirmarContraseña.addActionListener(e -> {
+			if (getInputContraseña().getPassword() != null) {
+				getBotonAceptar().requestFocus();
 			}
 		});
 	}

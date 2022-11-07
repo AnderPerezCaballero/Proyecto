@@ -39,11 +39,11 @@ public class Pajaro extends ObjetoPrimitivo {
 //		Creo esste metodo para simplificar el metoddo choqueCon
 		if (x+radio== e.getX()+e.getAnchura()/2||x+radio== e.getX()-e.getAnchura()/2) {
 			return true;
-		}if (x-radio== e.getX()+e.getAnchura()/2||x-radio== e.getX()-e.getAnchura()/2) {
+		}else if (x-radio== e.getX()+e.getAnchura()/2||x-radio== e.getX()-e.getAnchura()/2) {
 			return true;
-		}if (y+radio== e.getY()+e.getAltura()/2||y+radio== e.getY()-e.getAltura()/2) {
+		}else if (y+radio== e.getY()+e.getAltura()/2||y+radio== e.getY()-e.getAltura()/2) {
 			return true;
-		}if (y-radio== e.getY()+e.getAltura()/2||y-radio== e.getY()-e.getAltura()/2) {
+		}else if (y-radio== e.getY()+e.getAltura()/2||y-radio== e.getY()-e.getAltura()/2) {
 			return true;
 		}else {
 			return false;

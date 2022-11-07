@@ -1,9 +1,6 @@
 package gui.sesion;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
-
 import gestionUsuarios.GestionUsuarios;
 import gestionUsuarios.Usuario;
 import gui.componentes.MensajeCarga;
@@ -12,32 +9,31 @@ public class VentanaInicioSesion extends VentanaSesion{
 
 	private static final long serialVersionUID = 1L;
 
+	/** Crea una nueva ventana para iniciar sesion con un usuario
+	 * 
+	 */
 	public VentanaInicioSesion() {
 		super(6);
-		
+
 		// Color de los paneles
 		colorPaneles(getFondooscuro());
-		
+
 		// Color de los componentes
 		colorComponentes(getFondooscuro());
-		
+
 		getPanelDatos().add(getPanelMensaje());
 		getPanelDatos().add(getPanelGuardarDispositivo());
-		
-		getBotonAceptar().setText("Iniciar Sesión");
-		
-		
-		getInputContraseña().addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (getInputContraseña().getPassword() != null) {
-					getBotonAceptar().requestFocus();
-				}
+		getBotonAceptar().setText("Iniciar Sesión");
+
+
+		getInputContraseña().addActionListener(e -> {
+			if (getInputContraseña().getPassword() != null) {
+				getBotonAceptar().requestFocus();
 			}
-		});	
+		});
 	}
-		
+
 	@Override
 	protected void siguienteVentana() {
 		try {
@@ -62,7 +58,7 @@ public class VentanaInicioSesion extends VentanaSesion{
 			getLabelMensaje().setText("No ha sido posible iniciar sesión");
 		}
 	}	
-	
+
 	public static void main(String[] args) {
 		usuario = GestionUsuarios.usuarioAsociado();
 		if(usuario == null) {
