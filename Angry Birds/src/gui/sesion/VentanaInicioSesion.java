@@ -1,14 +1,13 @@
 package gui.sesion;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.SQLException;
 import gestionUsuarios.GestionUsuarios;
 import gestionUsuarios.Usuario;
 import gui.componentes.MensajeCarga;
 
-@SuppressWarnings("serial")
 public class VentanaInicioSesion extends VentanaSesion{
+
+	private static final long serialVersionUID = 1L;
 
 	/** Crea una nueva ventana para iniciar sesion con un usuario
 	 * 
@@ -47,9 +46,9 @@ public class VentanaInicioSesion extends VentanaSesion{
 			}else {
 				setMensajeDeCarga(new MensajeCarga("Iniciando Sesión", "Sesión iniciada", getBotonAceptar()));
 				getMensajeDeCarga().start();
-				setUsuario(new Usuario(getInputUsuario().getText(), String.valueOf(getInputContraseña().getPassword())));
+				usuario = new Usuario(getInputUsuario().getText(), String.valueOf(getInputContraseña().getPassword()));
 				if(getGuardarDispositivo().isSelected()) {
-					if(!GestionUsuarios.recordarUsuario(getUsuario())) {
+					if(!GestionUsuarios.recordarUsuario(usuario)) {
 						getLabelMensaje().setText("No ha sido posible recordar el usuario en este dispositivo");
 					}
 				}
@@ -61,11 +60,11 @@ public class VentanaInicioSesion extends VentanaSesion{
 	}	
 
 	public static void main(String[] args) {
-		setUsuario(GestionUsuarios.usuarioAsociado());
-		if(getUsuario() == null) {
+		usuario = GestionUsuarios.usuarioAsociado();
+		if(usuario == null) {
 			new VentanaInicioSesion().iniciar();	
 		}else {
-			System.out.format("Se ha iniciado sesion con el siguiente usuario: %s", getUsuario());
+			System.out.format("Se ha iniciado sesion con el siguiente usuario: %s", usuario);
 		}
 		new VentanaInicioSesion().iniciar();	
 	}

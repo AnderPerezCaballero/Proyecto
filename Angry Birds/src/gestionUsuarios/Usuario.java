@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.TreeSet;
 
 public class Usuario implements Serializable{
-
-	private static final long serialVersionUID = -1888981546445053100L;
+	
+	private static final long serialVersionUID = 1L;
 	
 	private String nombre;						//nombre del usuario
 	private String contraseña;					//contraseña del usuario

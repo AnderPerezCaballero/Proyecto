@@ -14,8 +14,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -31,10 +29,10 @@ import gestionUsuarios.Usuario;
 import gui.componentes.MensajeCarga;
 import gui.componentes.MiBoton;
 
-@SuppressWarnings("serial")
 public abstract class VentanaSesion extends JFrame{
 
 	//Atributos estáticos de la ventana
+	private static final long serialVersionUID = 1L;
 	private static final int anchuraVentana = 350;
 	private static final int alturaVentana = 575;
 	private static final Color FONDOOSCURO = new Color(35, 39, 42);
@@ -81,7 +79,7 @@ public abstract class VentanaSesion extends JFrame{
 	private MensajeCarga mensajeDeCarga;
 	
 	//Usuario que va a hacer uso de la aplicación
-	private static Usuario usuario;
+	public static Usuario usuario;
 
 	
 	/** Constructor de la ventana 
@@ -93,17 +91,15 @@ public abstract class VentanaSesion extends JFrame{
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(anchuraVentana, alturaVentana);
 		this.estaCerrada = false;
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaSesion.class.getResource("res/imgs/Icono.png")));
-		
-		System.out.println(Files.exists(Paths.get("res/imgs/Icono.png")));
-		
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/imgs/Icono.png"));
+
 		panelAceptar = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		panelSuperior = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		panelCentral = new JPanel(new GridLayout(2, 1));
 		panelInferior = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));
 
 		panelDatos = new JPanel(new GridLayout(numeroDeDatos, 1));
-		imagenPrincipal = new JLabel(ImagenReescalada("res/imgs/Fondo.png", 220, 220));
+		imagenPrincipal = new JLabel(ImagenReescalada("src/imgs/Fondo.png", 220, 220));
 
 		panelUsuario = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		panelInputUsuario = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -120,7 +116,7 @@ public abstract class VentanaSesion extends JFrame{
 
 		botonAceptar = new MiBoton(Color.WHITE, FONDOOSCURO.brighter(), 35, 35);
 		
-		volver = new JLabel(ImagenReescalada("res/imgs/FlechaBlanca.png", 40, 40));
+		volver = new JLabel(ImagenReescalada("src/imgs/FlechaBlanca.png", 40, 40));
 		
 		guardarDispositivo = new JCheckBox("Guardar Dispositivo");
 
@@ -302,7 +298,7 @@ public abstract class VentanaSesion extends JFrame{
 	 * @return Objeto ImageIcon reescalado de una manera "smooth"
 	 */
 	private ImageIcon ImagenReescalada(String ruta, int ancho, int alto) {   
-		return new ImageIcon(new ImageIcon(getClass().getResource(ruta)).getImage().getScaledInstance(ancho, alto,  java.awt.Image.SCALE_SMOOTH));
+		return new ImageIcon(new ImageIcon(ruta).getImage().getScaledInstance(ancho, alto,  java.awt.Image.SCALE_SMOOTH));
 	}
 
 
@@ -453,16 +449,7 @@ public abstract class VentanaSesion extends JFrame{
 	/** Modifica el hilo mensajeDeCarga
 	 * @param mensajeDeCarga nuevo valor para el hilo
 	 */
-	protected void setMensajeDeCarga(MensajeCarga mensajeDeCarga) {
+	public void setMensajeDeCarga(MensajeCarga mensajeDeCarga) {
 		this.mensajeDeCarga = mensajeDeCarga;
 	}
-
-	/**Modifica el valor del usuario con el que se inicia sesion
-	 * @param usuario nuevo valor del usuario
-	 */
-	protected static void setUsuario(Usuario usuario) {
-		VentanaSesion.usuario = usuario;
-	}
-	
-	
 }
