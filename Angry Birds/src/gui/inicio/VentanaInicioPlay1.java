@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+
 import gui.componentes.MiBoton;
 import gui.sesion.VentanaInicioSesion;
 import gui.sesion.VentanaRegistroSesion;
@@ -40,23 +41,27 @@ public class VentanaInicioPlay1 extends VentanaInicio {
 			  
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VentanaInicioSesion vsi = new VentanaInicioSesion();
+				VentanaInicioSesion vis = new VentanaInicioSesion();
 				dispose();
+				vis.setVisible(true);
 			}
 		});
 
-		registro.addActionListener(new ActionListener() {
+		ActionListener ac = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VentanaRegistroSesion vss = new VentanaRegistroSesion();
+				VentanaRegistroSesion vrs = new VentanaRegistroSesion();
 				dispose();
+				vrs.setVisible(true);
 			}
-		});
+		};
+		
 		
 		inicioS.addKeyListener(escCerrar);
 		registro.addKeyListener(escCerrar);
-
+		registro.addActionListener(ac);
+		
 		this.setVisible(true);
 	}
 
