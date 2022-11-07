@@ -2,6 +2,7 @@ package gui.inicio;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -62,14 +63,14 @@ public abstract class VentanaInicio extends JFrame {
 		this.setSize(anchuraVentana, alturaVentana);
 		this.setLayout(new BorderLayout());
 		this.setLocationRelativeTo(null); // deja la ventana en el centro
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/imgs/Icono.png"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("res/imgs/Icono.png"));
 		this.setTitle(nombreVentana);
 		
 		actionVentana = new WindowAdapter() {
 
 			@Override
 			public void windowOpened(WindowEvent e) {
-				ReproducirMusica("audio/Song.wav");
+				ReproducirMusica("res/audio/Cancion.wav");
 			}
 
 			@Override
@@ -91,7 +92,7 @@ public abstract class VentanaInicio extends JFrame {
 		sonido.setMnemonic(KeyEvent.VK_S);
 		barraMenu.add(sonido);
 		
-		itemMenu1 = new JCheckBoxMenuItem(ImagenReescalada("src/imgs/mute.png", 10, 10));
+		itemMenu1 = new JCheckBoxMenuItem(ImagenReescalada("res/imgs/mute.png", 10, 10));
 		itemMenu1.setBackground(Color.WHITE);
 		sonido.add(itemMenu1);
 		
@@ -106,7 +107,7 @@ public abstract class VentanaInicio extends JFrame {
 				clip.close();
 
 				if (itemMenu1.getState() == false) {
-					ReproducirMusica("audio/Song.wav");
+					ReproducirMusica("res/audio/Cancion.wav");
 				}
 			}
 		};
@@ -115,7 +116,7 @@ public abstract class VentanaInicio extends JFrame {
 				
 		panelCentral = new JPanel();
 		panelCentral.setLayout(new BorderLayout());
-		imagen = new JLabel(new ImageIcon("src/imgs/AngryBirdsInicio.jpg"));
+		imagen = new JLabel(ImagenReescalada("res/imgs/AngryBirdsInicio.jpg", 700, 600));
 		this.getContentPane().add(panelCentral, BorderLayout.CENTER);
 		panelCentral.add(imagen, BorderLayout.CENTER);
 
