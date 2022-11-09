@@ -12,9 +12,8 @@ import gestionUsuarios.GestionUsuarios;
 import gestionUsuarios.Usuario;
 import gui.componentes.MensajeCarga;
 
+@SuppressWarnings("serial")
 public class VentanaRegistroSesion extends VentanaSesion{
-
-	private static final long serialVersionUID = 1L;
 
 	private JPanel panelConfirmarContraseña;
 	private JPanel panelConfirmarContraseña2;
@@ -93,6 +92,7 @@ public class VentanaRegistroSesion extends VentanaSesion{
 				getMensajeDeCarga().interrupt();
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 			getLabelMensaje().setText("No ha sido posible registrar el usuario");
 		}
 	}	

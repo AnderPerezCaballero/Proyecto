@@ -16,7 +16,7 @@ import java.util.TreeSet;
 public class GestionUsuarios {
 
 	private static final String LIBRERIA = "jdbc:sqlite:lib/users.db";
-	private static final String FICHEROTOKEN = "src/archivos/token.dat";
+	private static final String FICHEROTOKEN = "archivos/token.dat";
 
 	/** Añade un nuevo usuario a la base de datos
 	 * @param usuario objeto de tipo usuario a añadir
@@ -36,6 +36,7 @@ public class GestionUsuarios {
 				insertSQL.setString(2, usuario.getNombre());
 				insertSQL.setString(3, usuario.getContraseña());
 				insertSQL.setInt(4, usuario.getTiempoJugado());
+
 				try {
 					insertSQL.setString(5, usuario.getToken().getToken());
 				}catch(NullPointerException e) {
@@ -92,7 +93,6 @@ public class GestionUsuarios {
 			
 			for(Puntuacion puntuacion : usuario.getPuntuaciones()) {
 				try(PreparedStatement insertSQL = conn.prepareStatement(String.format("UPDATE puntuaciones SET IDusuario = ?, estrellas = ?, nivel = ?, fecha = ?, token = ?, caducidadToken = ? WHERE IDusuario = %d", usuario.hashCode()))){
-
 					//Rellenar la plantilla
 					insertSQL.setInt(1, usuario.getNombre().hashCode());
 					insertSQL.setInt(2, puntuacion.getEstrellas());

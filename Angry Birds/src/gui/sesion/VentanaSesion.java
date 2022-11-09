@@ -29,10 +29,10 @@ import gestionUsuarios.Usuario;
 import gui.componentes.MensajeCarga;
 import gui.componentes.MiBoton;
 
+@SuppressWarnings("serial")
 public abstract class VentanaSesion extends JFrame{
 
 	//Atributos estáticos de la ventana
-	private static final long serialVersionUID = 1L;
 	private static final int anchuraVentana = 350;
 	private static final int alturaVentana = 575;
 	private static final Color FONDOOSCURO = new Color(35, 39, 42);
@@ -91,7 +91,7 @@ public abstract class VentanaSesion extends JFrame{
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(anchuraVentana, alturaVentana);
 		this.estaCerrada = false;
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/imgs/Icono.png"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaSesion.class.getResource("/imgs/Icono.png")));
 
 		panelAceptar = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		panelSuperior = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
@@ -99,7 +99,7 @@ public abstract class VentanaSesion extends JFrame{
 		panelInferior = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));
 
 		panelDatos = new JPanel(new GridLayout(numeroDeDatos, 1));
-		imagenPrincipal = new JLabel(ImagenReescalada("src/imgs/Fondo.png", 220, 220));
+		imagenPrincipal = new JLabel(imagenReescalada("/imgs/Fondo.png", 220, 220));
 
 		panelUsuario = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		panelInputUsuario = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -116,7 +116,7 @@ public abstract class VentanaSesion extends JFrame{
 
 		botonAceptar = new MiBoton(Color.WHITE, FONDOOSCURO.brighter(), 35, 35);
 		
-		volver = new JLabel(ImagenReescalada("src/imgs/FlechaBlanca.png", 40, 40));
+		volver = new JLabel(imagenReescalada("/imgs/FlechaBlanca.png", 40, 40));
 		
 		guardarDispositivo = new JCheckBox("Guardar Dispositivo");
 
@@ -200,12 +200,12 @@ public abstract class VentanaSesion extends JFrame{
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				volver.setIcon(ImagenReescalada("src/imgs/FlechaBlanca.png", volver.getIcon().getIconWidth(), volver.getIcon().getIconHeight()));
+				volver.setIcon(imagenReescalada("/imgs/FlechaBlanca.png", volver.getIcon().getIconWidth(), volver.getIcon().getIconHeight()));
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				volver.setIcon(ImagenReescalada("src/imgs/FlechaRoja.png", volver.getIcon().getIconWidth(), volver.getIcon().getIconHeight()));
+				volver.setIcon(imagenReescalada("/imgs/FlechaRoja.png", volver.getIcon().getIconWidth(), volver.getIcon().getIconHeight()));
 			}
 
 			@Override
@@ -252,7 +252,7 @@ public abstract class VentanaSesion extends JFrame{
 	private void cerrar() {
 		this.setVisible(false);
 		String[] s = {"Si", "No"}; //Opciones del JOptionPane
-		if (JOptionPane.showOptionDialog(this, "¿Realmente desea salir de la aplicación?", "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, ImagenReescalada("src/imgs/Icono.png", 30, 30), s, 0) == 0) {
+		if (JOptionPane.showOptionDialog(this, "¿Realmente desea salir de la aplicación?", "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, imagenReescalada("/imgs/Icono.png", 30, 30), s, 0) == 0) {
 			//Quiero cerrar el programa entero, no cerrar solo la ventana -> dispose() no me sirve
 			System.exit(0);
 		}else {
@@ -297,8 +297,8 @@ public abstract class VentanaSesion extends JFrame{
 	 * @param alto Altura que se le quiere dar a la imagen
 	 * @return Objeto ImageIcon reescalado de una manera "smooth"
 	 */
-	private ImageIcon ImagenReescalada(String ruta, int ancho, int alto) {   
-		return new ImageIcon(new ImageIcon(ruta).getImage().getScaledInstance(ancho, alto,  java.awt.Image.SCALE_SMOOTH));
+	private ImageIcon imagenReescalada(String ruta, int ancho, int alto) {   
+		return new ImageIcon(new ImageIcon(VentanaSesion.class.getResource(ruta)).getImage().getScaledInstance(ancho, alto,  java.awt.Image.SCALE_SMOOTH));
 	}
 
 

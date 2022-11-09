@@ -5,9 +5,8 @@ import gestionUsuarios.GestionUsuarios;
 import gestionUsuarios.Usuario;
 import gui.componentes.MensajeCarga;
 
+@SuppressWarnings("serial")
 public class VentanaInicioSesion extends VentanaSesion{
-
-	private static final long serialVersionUID = 1L;
 
 	/** Crea una nueva ventana para iniciar sesion con un usuario
 	 * 
@@ -55,6 +54,7 @@ public class VentanaInicioSesion extends VentanaSesion{
 				getMensajeDeCarga().interrupt();
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
 			getLabelMensaje().setText("No ha sido posible iniciar sesión");
 		}
 	}	
