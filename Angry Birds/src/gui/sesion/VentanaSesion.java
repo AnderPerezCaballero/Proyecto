@@ -224,27 +224,34 @@ public abstract class VentanaSesion extends JFrame{
 		});
 	}
 
-	/**Recoge el nombre de usuario y la contraseña del usuario
+	/**Inicia las animaciones de la ventana
 	 * 
 	 */
 	protected void iniciarAnimaciones() {
-		while (!estaCerrada) {
-			try {
-				//Si hay algo escrito en los dos campos, se puede aceptar, sino no
-				if (condicionesAceptar()) {
-					botonAceptar.setEnabled(true);
-				}else {
-					//Por si hay algo escrito y luego se borra en algún campo
-					botonAceptar.setEnabled(false);
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				while (!estaCerrada) {
+					try {
+						//Si hay algo escrito en los dos campos, se puede aceptar, sino no
+						if (condicionesAceptar()) {
+							botonAceptar.setEnabled(true);
+						}else {
+							//Por si hay algo escrito y luego se borra en algún campo
+							botonAceptar.setEnabled(false);
+						}
+						if (condicionesBorrarMensaje()) {
+							labelMensaje.setText(null);
+						}
+					}catch(NullPointerException e) {
+						//Por si hay algo escrito y luego se borra en algún campo
+						botonAceptar.setEnabled(false);
+					}
 				}
-				if (condicionesBorrarMensaje()) {
-					labelMensaje.setText(null);
-				}
-			}catch(NullPointerException e) {
-				//Por si hay algo escrito y luego se borra en algún campo
-				botonAceptar.setEnabled(false);
+				
 			}
-		}
+		}).start();
 	}
 
 	/**Cierra la aplicación definitivamente
@@ -265,6 +272,7 @@ public abstract class VentanaSesion extends JFrame{
 	 */
 	protected void anteriorVentana(){
 		this.setVisible(false);
+		estaCerrada = true;
 	}
 
 	/**Pasa a la siguiente ventana, recogiendo los datos introducidos
@@ -275,20 +283,21 @@ public abstract class VentanaSesion extends JFrame{
 	/**Incia el menu de inicio de sesion
 	 * 
 	 */
-	protected void iniciar() {
-		this.centrar();
+	public void iniciar() {
+		VentanaSesion.centrar(this);
 		this.setVisible(true);
 		this.iniciarAnimaciones();
 	}
 
+	
 	/** Método que centra la ventana en pantalla
-	 * 
+	 * @param ventana ventana a centrar en la pantalla
 	 */
-	private void centrar() {
+	public static void centrar(JFrame ventana) {
 		Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
 		int x = pantalla.width / 2;
 		int y = pantalla.height / 2;		
-		this.setLocation(x - getWidth() / 2, y - getHeight() / 2);
+		ventana.setLocation(x - ventana.getWidth() / 2, y - ventana.getHeight() / 2);
 	}
 
 	/** Devuelve una imagen reescalada a unas dimensiones especificas
@@ -463,7 +472,7 @@ public abstract class VentanaSesion extends JFrame{
 	/** Modifica el usuario con el que se inicia sesion
 	 * @param usuario nuevo valor del usuario
 	 */
-	protected static void setUsuario(Usuario usuario) {
+	public static void setUsuario(Usuario usuario) {
 		//No se le puede asignar un valor nulo
 		if(usuario != null) {
 			VentanaSesion.usuario = usuario;
