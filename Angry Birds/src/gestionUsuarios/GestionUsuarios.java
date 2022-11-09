@@ -168,6 +168,9 @@ public class GestionUsuarios {
 					token = new Token(usuario);
 				}else {
 					token = new Token(stoken, caducidad, usuario);	
+					if(token.isCaducado()) {
+						token = new Token(usuario);
+					}
 				}
 			}
 			usuario.setToken(token);
