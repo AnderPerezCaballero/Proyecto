@@ -40,7 +40,7 @@ public abstract class VentanaSesion extends JFrame{
 
 	//Referencia de la ventana anterior
 	private static JFrame ventanaAnterior;
-	
+
 	//Contenedores
 	private JPanel panelSuperior;
 	private JPanel panelCentral;
@@ -75,14 +75,14 @@ public abstract class VentanaSesion extends JFrame{
 
 	//Variable que indica el estado de la ventana
 	private boolean estaCerrada;
-	
+
 	//Hilo ejecutado al cargar los datos del usuario
 	private MensajeCarga mensajeDeCarga;
-	
+
 	//Usuario que va a hacer uso de la aplicación
 	private static Usuario usuario;
 
-	
+
 
 
 	/** Constructor de la ventana 
@@ -92,7 +92,7 @@ public abstract class VentanaSesion extends JFrame{
 	public VentanaSesion(int numeroDeDatos, JFrame anteriorVentana) {
 
 		ventanaAnterior = anteriorVentana;
-		
+
 		// Inicialización de la ventana
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(ANCHURAVENTANA, ALTURAVENTANA);
@@ -121,16 +121,16 @@ public abstract class VentanaSesion extends JFrame{
 		labelMensaje = new JLabel();
 
 		botonAceptar = new MiBoton(Color.WHITE, FONDOOSCURO.brighter(), 35, 35);
-		
+
 		volver = new JLabel(imagenReescalada("/imgs/FlechaBlanca.png", 40, 40));
-		
+
 		guardarDispositivo = new JCheckBox("Guardar Dispositivo");
 
 		// Configurar componentes
 		botonAceptar.setEnabled(false);
 		botonAceptar.setToolTipText("Pulsa aquí para confirmar tus datos");
 		botonAceptar.setPreferredSize(new Dimension(ANCHURAVENTANA - 40, 40));
-//		botonAceptar.setFont(new Font(Font.DIALOG, Font.PLAIN, 15));
+		//		botonAceptar.setFont(new Font(Font.DIALOG, Font.PLAIN, 15));
 
 		//Añadir componentes a contenedores				
 		panelUsuario.add(labelUsuario);
@@ -237,7 +237,7 @@ public abstract class VentanaSesion extends JFrame{
 	 */
 	protected void iniciarAnimaciones() {
 		new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				while (!estaCerrada) {
@@ -257,7 +257,7 @@ public abstract class VentanaSesion extends JFrame{
 						botonAceptar.setEnabled(false);
 					}
 				}
-				
+
 			}
 		}).start();
 	}
@@ -298,7 +298,7 @@ public abstract class VentanaSesion extends JFrame{
 		iniciarAnimaciones();
 	}
 
-	
+
 	/** Método que centra la ventana en pantalla
 	 * @param ventana ventana a centrar en la pantalla
 	 */
@@ -370,7 +370,7 @@ public abstract class VentanaSesion extends JFrame{
 		botonAceptar.setBackground(Color.WHITE);
 		guardarDispositivo.setForeground(Color.WHITE);
 	}
-	
+
 	/**Resetea los textos de todos los JTextFields de la ventana
 	 * 
 	 */
@@ -378,13 +378,16 @@ public abstract class VentanaSesion extends JFrame{
 		inputUsuario.setText(null);
 		inputContraseña.setText(null);
 	}
-	
-	protected void fin() {
+
+	/**Cierra las ventanas relacionadas con el inicio de sesión y da comienzo al juego
+	 * 
+	 */
+	public void fin() {
+		estaCerrada = true;
 		ventanaAnterior.dispose();
 		dispose();
 	}
 
-	
 	/** Devuelve el color del fondo de la ventana
 	 * @return el color a devolver
 	 */
@@ -426,7 +429,7 @@ public abstract class VentanaSesion extends JFrame{
 	public JCheckBox getGuardarDispositivo() {
 		return guardarDispositivo;
 	}
-	
+
 	/** Devuelve el número de columnas de los JTextfield
 	 * @return el número de columnas a devolver
 	 */
@@ -475,7 +478,7 @@ public abstract class VentanaSesion extends JFrame{
 	public static Usuario getUsuario() {
 		return usuario;
 	}	
-	
+
 	/** Modifica el hilo mensajeDeCarga
 	 * @param mensajeDeCarga nuevo valor para el hilo
 	 */

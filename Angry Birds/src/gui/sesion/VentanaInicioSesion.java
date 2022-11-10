@@ -46,7 +46,7 @@ public class VentanaInicioSesion extends VentanaSesion{
 				resetTextos();
 				getLabelMensaje().setText("La contraseña introducida es incorrecta");
 			}else {
-				setMensajeDeCarga(new MensajeCarga("Iniciando Sesión", "Sesión iniciada", getBotonAceptar()));
+				setMensajeDeCarga(new MensajeCarga("Iniciando Sesión", "Sesión iniciada", this));
 				getMensajeDeCarga().start();
 				setUsuario(new Usuario(getInputUsuario().getText(), String.valueOf(getInputContraseña().getPassword())));
 				if(getGuardarDispositivo().isSelected()) {
@@ -55,7 +55,6 @@ public class VentanaInicioSesion extends VentanaSesion{
 					}
 				}
 				getMensajeDeCarga().interrupt();
-				fin();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

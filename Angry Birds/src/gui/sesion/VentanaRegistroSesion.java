@@ -80,7 +80,7 @@ public class VentanaRegistroSesion extends VentanaSesion{
 				getLabelMensaje().setText("Las contraseñas introducidas deben coincidir");
 				getInputContraseña().requestFocus();
 			}else {
-				setMensajeDeCarga(new MensajeCarga("Registrando nuevo usuario", "Usuario creado", getBotonAceptar()));
+				setMensajeDeCarga(new MensajeCarga("Registrando nuevo usuario", "Usuario creado", this));
 				getMensajeDeCarga().start();
 				setUsuario(new Usuario(getInputUsuario().getText(), String.valueOf(getInputContraseña().getPassword())));
 				GestionUsuarios.add(getUsuario());
@@ -90,7 +90,6 @@ public class VentanaRegistroSesion extends VentanaSesion{
 					}
 				}
 				getMensajeDeCarga().interrupt();
-				fin();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
