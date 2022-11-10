@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.sql.SQLException;
 
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -14,12 +15,11 @@ import gui.componentes.MensajeCarga;
 
 @SuppressWarnings("serial")
 public class VentanaRegistroSesion extends VentanaSesion{
-
+	
 	private JPanel panelConfirmarContraseña;
 	private JPanel panelConfirmarContraseña2;
 
 	private JLabel labelConfirmarContraseña;
-
 
 	private JPasswordField inputConfirmarContraseña;
 
@@ -27,8 +27,8 @@ public class VentanaRegistroSesion extends VentanaSesion{
 	/**Crea una nueva ventana para registrar un usuario
 	 * 
 	 */
-	public VentanaRegistroSesion() {
-		super(8);
+	public VentanaRegistroSesion(JFrame ventanaAnterior) {
+		super(8, ventanaAnterior);
 
 		panelConfirmarContraseña = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		panelConfirmarContraseña2 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -90,6 +90,7 @@ public class VentanaRegistroSesion extends VentanaSesion{
 					}
 				}
 				getMensajeDeCarga().interrupt();
+				fin();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -131,11 +132,13 @@ public class VentanaRegistroSesion extends VentanaSesion{
 	public static void main(String[] args) {
 		setUsuario(GestionUsuarios.usuarioAsociado());
 		if(getUsuario() == null) {
-			new VentanaRegistroSesion().iniciar();	
+			new VentanaRegistroSesion(null).iniciar();	
 		}else {
 			System.out.format("Se ha iniciado sesion con el siguiente usuario: %s", getUsuario());
 		}
-		new VentanaRegistroSesion().iniciar();	
+		new VentanaRegistroSesion(null).iniciar();	
 
 	}
+
+
 }

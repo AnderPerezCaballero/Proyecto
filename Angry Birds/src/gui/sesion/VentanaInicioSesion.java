@@ -1,6 +1,9 @@
 package gui.sesion;
 
 import java.sql.SQLException;
+
+import javax.swing.JFrame;
+
 import gestionUsuarios.GestionUsuarios;
 import gestionUsuarios.Usuario;
 import gui.componentes.MensajeCarga;
@@ -11,8 +14,8 @@ public class VentanaInicioSesion extends VentanaSesion{
 	/** Crea una nueva ventana para iniciar sesion con un usuario
 	 * 
 	 */
-	public VentanaInicioSesion() {
-		super(6);
+	public VentanaInicioSesion(JFrame ventanaAnterior) {
+		super(6, ventanaAnterior);
 
 		// Color de los paneles
 		colorPaneles(getFondooscuro());
@@ -52,20 +55,11 @@ public class VentanaInicioSesion extends VentanaSesion{
 					}
 				}
 				getMensajeDeCarga().interrupt();
+				fin();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			getLabelMensaje().setText("No ha sido posible iniciar sesión");
 		}
 	}	
-
-	public static void main(String[] args) {
-		setUsuario(GestionUsuarios.usuarioAsociado());
-		if(getUsuario() == null) {
-			new VentanaInicioSesion().iniciar();	
-		}else {
-			System.out.format("Se ha iniciado sesion con el siguiente usuario: %s", getUsuario());
-		}
-		new VentanaInicioSesion().iniciar();	
-	}
 }

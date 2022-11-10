@@ -33,13 +33,14 @@ import gui.componentes.MiBoton;
 public abstract class VentanaSesion extends JFrame{
 
 	//Atributos estáticos de la ventana
-	private static final int anchuraVentana = 350;
-	private static final int alturaVentana = 575;
+	private static final int ANCHURAVENTANA = 350;
+	private static final int ALTURAVENTANA = 575;
 	private static final Color FONDOOSCURO = new Color(35, 39, 42);
+	private static final int COLUMNAS = 30;
 
-	//Atributos no estáticos inmutables
-	private final int COLUMNAS = 30;
-
+	//Referencia de la ventana anterior
+	private static JFrame ventanaAnterior;
+	
 	//Contenedores
 	private JPanel panelSuperior;
 	private JPanel panelCentral;
@@ -82,14 +83,19 @@ public abstract class VentanaSesion extends JFrame{
 	private static Usuario usuario;
 
 	
+
+
 	/** Constructor de la ventana 
 	 * @param numeroDeDatos Variable que indica el número de datos que va a contener el gridLayout
+	 * @param anteriorVentana ventana a la que se debe volver en caso de que el usuario decida ir hacia atrás
 	 */
-	public VentanaSesion(int numeroDeDatos) {
+	public VentanaSesion(int numeroDeDatos, JFrame anteriorVentana) {
 
+		ventanaAnterior = anteriorVentana;
+		
 		// Inicialización de la ventana
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.setSize(anchuraVentana, alturaVentana);
+		this.setSize(ANCHURAVENTANA, ALTURAVENTANA);
 		this.estaCerrada = false;
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaSesion.class.getResource("/imgs/Icono.png")));
 
@@ -123,7 +129,7 @@ public abstract class VentanaSesion extends JFrame{
 		// Configurar componentes
 		botonAceptar.setEnabled(false);
 		botonAceptar.setToolTipText("Pulsa aquí para confirmar tus datos");
-		botonAceptar.setPreferredSize(new Dimension(anchuraVentana - 40, 40));
+		botonAceptar.setPreferredSize(new Dimension(ANCHURAVENTANA - 40, 40));
 //		botonAceptar.setFont(new Font(Font.DIALOG, Font.PLAIN, 15));
 
 		//Añadir componentes a contenedores				
@@ -219,7 +225,9 @@ public abstract class VentanaSesion extends JFrame{
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
-				cerrar();
+				if(!estaCerrada) {
+					cerrar();
+				}
 			}
 		});
 	}
@@ -271,8 +279,9 @@ public abstract class VentanaSesion extends JFrame{
 	 * 
 	 */
 	protected void anteriorVentana(){
-		this.setVisible(false);
+		setVisible(false);
 		estaCerrada = true;
+		ventanaAnterior.setVisible(true);
 	}
 
 	/**Pasa a la siguiente ventana, recogiendo los datos introducidos
@@ -284,9 +293,9 @@ public abstract class VentanaSesion extends JFrame{
 	 * 
 	 */
 	public void iniciar() {
-		VentanaSesion.centrar(this);
-		this.setVisible(true);
-		this.iniciarAnimaciones();
+		centrar(this);
+		setVisible(true);
+		iniciarAnimaciones();
 	}
 
 	
@@ -306,7 +315,7 @@ public abstract class VentanaSesion extends JFrame{
 	 * @param alto Altura que se le quiere dar a la imagen
 	 * @return Objeto ImageIcon reescalado de una manera "smooth"
 	 */
-	private ImageIcon imagenReescalada(String ruta, int ancho, int alto) {   
+	public static ImageIcon imagenReescalada(String ruta, int ancho, int alto) {   
 		return new ImageIcon(new ImageIcon(VentanaSesion.class.getResource(ruta)).getImage().getScaledInstance(ancho, alto,  java.awt.Image.SCALE_SMOOTH));
 	}
 
@@ -369,6 +378,11 @@ public abstract class VentanaSesion extends JFrame{
 		inputUsuario.setText(null);
 		inputContraseña.setText(null);
 	}
+	
+	protected void fin() {
+		ventanaAnterior.dispose();
+		dispose();
+	}
 
 	
 	/** Devuelve el color del fondo de la ventana
@@ -416,7 +430,7 @@ public abstract class VentanaSesion extends JFrame{
 	/** Devuelve el número de columnas de los JTextfield
 	 * @return el número de columnas a devolver
 	 */
-	public int getColumnas() {
+	public static int getColumnas() {
 		return COLUMNAS;
 	}
 
@@ -477,7 +491,5 @@ public abstract class VentanaSesion extends JFrame{
 		if(usuario != null) {
 			VentanaSesion.usuario = usuario;
 		}
-	}
-	
-	
+	}	
 }

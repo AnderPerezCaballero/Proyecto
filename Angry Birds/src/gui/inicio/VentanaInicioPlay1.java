@@ -10,10 +10,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-
 import gui.componentes.MiBoton;
 import gui.sesion.VentanaInicioSesion;
 import gui.sesion.VentanaRegistroSesion;
+import gui.sesion.VentanaSesion;
 
 
 @SuppressWarnings("serial")
@@ -22,7 +22,7 @@ public class VentanaInicioPlay1 extends VentanaInicio {
 	public VentanaInicioPlay1() {
 		super();
 		panelAbajo = new JPanel();
-		panelAbajo.setBackground(FONDOOSCURO);
+		panelAbajo.setBackground(VentanaSesion.getFondooscuro());
 		this.add(panelAbajo, BorderLayout.SOUTH);
 
 		panelAbajo.setLayout(new FlowLayout());
@@ -41,8 +41,8 @@ public class VentanaInicioPlay1 extends VentanaInicio {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dispose();
-				new VentanaInicioSesion().iniciar();
+				setVisible(false);
+				new VentanaInicioSesion(VentanaInicioPlay1.this).iniciar();
 			}
 		});
 
@@ -50,8 +50,8 @@ public class VentanaInicioPlay1 extends VentanaInicio {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dispose();
-				new VentanaRegistroSesion().iniciar();
+				setVisible(false);
+				new VentanaRegistroSesion(VentanaInicioPlay1.this).iniciar();
 			}
 		});
 

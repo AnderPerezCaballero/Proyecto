@@ -2,7 +2,6 @@ package gui.inicio;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +19,6 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,10 +27,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-public abstract class VentanaInicio extends JFrame {
-	
-	// Componentes
+import gui.sesion.VentanaSesion;
 
+@SuppressWarnings("serial")
+public abstract class VentanaInicio extends JFrame {
+
+	// Componentes
 	protected JPanel panelCentral;
 	protected JPanel panelAbajo;
 	protected JLabel imagen;
@@ -50,11 +50,8 @@ public abstract class VentanaInicio extends JFrame {
 	WindowListener actionVentana;
 
 	// Siempre igual
-
-	private static final long serialVersionUID = 1L;
 	private static final int alturaVentana = 685;
 	private static final int anchuraVentana = 700;
-	static final Color FONDOOSCURO = new Color(35, 39, 42);
 	private static final String nombreVentana = "Angry Birds";
 
 	public VentanaInicio() {
@@ -63,9 +60,9 @@ public abstract class VentanaInicio extends JFrame {
 		this.setSize(anchuraVentana, alturaVentana);
 		this.setLayout(new BorderLayout());
 		this.setLocationRelativeTo(null); // deja la ventana en el centro
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage("res/imgs/Icono.png"));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaInicioPlay1.class.getResource("/imgs/Icono.png")));
 		this.setTitle(nombreVentana);
-		
+
 		actionVentana = new WindowAdapter() {
 
 			@Override
@@ -80,22 +77,22 @@ public abstract class VentanaInicio extends JFrame {
 			}
 
 		};
-		
+
 		this.addWindowListener(actionVentana);
-		
+
 		barraMenu = new JMenuBar();
 		setJMenuBar(barraMenu);
-		barraMenu.setBackground(FONDOOSCURO);
+		barraMenu.setBackground(VentanaSesion.getFondooscuro());
 
 		sonido = new JMenu("SONIDO");
 		sonido.setForeground(Color.white);
 		sonido.setMnemonic(KeyEvent.VK_S);
 		barraMenu.add(sonido);
-		
-		itemMenu1 = new JCheckBoxMenuItem(ImagenReescalada("res/imgs/mute.png", 10, 10));
+
+		itemMenu1 = new JCheckBoxMenuItem(VentanaSesion.imagenReescalada("/imgs/mute.png", 10, 10));
 		itemMenu1.setBackground(Color.WHITE);
 		sonido.add(itemMenu1);
-		
+
 		// Para que cuando el checkBox de mute este pulsado la cancion pare
 		// y si se vuelve a pulsar para desmutear, vuelva a ponerse la cancion desde el
 		// principio
@@ -113,17 +110,17 @@ public abstract class VentanaInicio extends JFrame {
 		};
 
 		itemMenu1.addActionListener(actionMute);
-				
+
 		panelCentral = new JPanel();
 		panelCentral.setLayout(new BorderLayout());
-		imagen = new JLabel(ImagenReescalada("res/imgs/AngryBirdsInicio.jpg", 700, 600));
+		imagen = new JLabel(VentanaSesion.imagenReescalada("/imgs/AngryBirdsInicio.jpg", 700, 600));
 		this.getContentPane().add(panelCentral, BorderLayout.CENTER);
 		panelCentral.add(imagen, BorderLayout.CENTER);
 
 		panelAbajo = new JPanel();
-		panelAbajo.setBackground(FONDOOSCURO);
+		panelAbajo.setBackground(VentanaSesion.getFondooscuro());
 		this.add(panelAbajo, BorderLayout.SOUTH);
-		
+
 		escCerrar = new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -135,33 +132,23 @@ public abstract class VentanaInicio extends JFrame {
 		};
 
 		itemMenu1.addKeyListener(escCerrar);
-		
+
 	}
-	
+
 	// Para reproducir sonido
+	public void ReproducirMusica(String ruta) {
+		try {
+			AudioInputStream is = AudioSystem.getAudioInputStream(new File(ruta));
+			clip = AudioSystem.getClip();
+			clip.open(is);
+			clip.loop(0);
 
-		public void ReproducirMusica(String ruta) {
-			try {
-				AudioInputStream is = AudioSystem.getAudioInputStream(new File(ruta));
-				clip = AudioSystem.getClip();
-				clip.open(is);
-				clip.loop(0);
-
-			} catch (UnsupportedAudioFileException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (LineUnavailableException e) {
-				e.printStackTrace();
-			}
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
 		}
-	
-	// Para poner una imagen con otro tamanyo
-
-		private ImageIcon ImagenReescalada(String ruta, int ancho, int alto) {
-			return new ImageIcon(
-					new ImageIcon(ruta).getImage().getScaledInstance(ancho, alto, java.awt.Image.SCALE_SMOOTH));
-		}
-	
-
+	}
 }
