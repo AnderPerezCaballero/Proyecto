@@ -78,8 +78,8 @@ public class GestionUsuarios {
 			//Para Utilizar la conexión
 			//Se construye la plantilla de la SQL. Atencion a los huecos para los valores marcados con "?"
 			try(PreparedStatement insertSQL = conn.prepareStatement(String.format("UPDATE usuarios SET ID = ?, nombre = ?, contraseña = ?, tiempoJugado = ?, token = ?, caducidadToken = ? WHERE ID = %d", usuario.hashCode()))){
-
-				//Insertamos una nueva fila en la base de datos
+				
+				//Rellenar plantilla
 				insertSQL.setInt(1, usuario.getNombre().hashCode());
 				insertSQL.setString(2, usuario.getNombre());
 				insertSQL.setString(3, usuario.getContraseña());

@@ -24,7 +24,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import gui.sesion.VentanaSesion;
@@ -38,31 +37,27 @@ public abstract class VentanaInicio extends JFrame {
 	protected JLabel imagen;
 	private JMenu sonido;
 	private JMenuBar barraMenu;
-	private JMenuItem itemMenu;
 	protected JCheckBoxMenuItem itemMenu1;
-	private Thread hilo;
 	private Clip clip;
+	private static boolean cerrado;
 
 	// Listeners
-
 	KeyListener escCerrar;
 	ActionListener actionMute;
 	WindowListener actionVentana;
 
 	// Siempre igual
-	private static final int alturaVentana = 685;
-	private static final int anchuraVentana = 700;
 	private static final String nombreVentana = "Angry Birds";
 
 	public VentanaInicio() {
 
+		this.setExtendedState(MAXIMIZED_BOTH);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.setSize(anchuraVentana, alturaVentana);
 		this.setLayout(new BorderLayout());
-		this.setLocationRelativeTo(null); // deja la ventana en el centro
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaInicioPlay1.class.getResource("/imgs/Icono.png")));
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaSesion.class.getResource("/imgs/Icono.png")));
 		this.setTitle(nombreVentana);
-
+		cerrado = false;
+		
 		actionVentana = new WindowAdapter() {
 
 			@Override
@@ -73,9 +68,10 @@ public abstract class VentanaInicio extends JFrame {
 			@Override
 			public void windowClosed(WindowEvent e) {
 				clip.close();
-
+				if(!cerrado) {
+					VentanaSesion.cerrar(VentanaInicio.this);
+				}
 			}
-
 		};
 
 		this.addWindowListener(actionVentana);
@@ -90,13 +86,11 @@ public abstract class VentanaInicio extends JFrame {
 		barraMenu.add(sonido);
 
 		itemMenu1 = new JCheckBoxMenuItem(VentanaSesion.imagenReescalada("/imgs/mute.png", 10, 10));
-		itemMenu1.setBackground(Color.WHITE);
 		sonido.add(itemMenu1);
 
 		// Para que cuando el checkBox de mute este pulsado la cancion pare
 		// y si se vuelve a pulsar para desmutear, vuelva a ponerse la cancion desde el
 		// principio
-
 		actionMute = new ActionListener() {
 
 			@Override
@@ -114,12 +108,12 @@ public abstract class VentanaInicio extends JFrame {
 		panelCentral = new JPanel();
 		panelCentral.setLayout(new BorderLayout());
 		imagen = new JLabel(VentanaSesion.imagenReescalada("/imgs/AngryBirdsInicio.jpg", 700, 600));
-		this.getContentPane().add(panelCentral, BorderLayout.CENTER);
+		getContentPane().add(panelCentral, BorderLayout.CENTER);
 		panelCentral.add(imagen, BorderLayout.CENTER);
 
 		panelAbajo = new JPanel();
 		panelAbajo.setBackground(VentanaSesion.getFondooscuro());
-		this.add(panelAbajo, BorderLayout.SOUTH);
+		add(panelAbajo, BorderLayout.SOUTH);
 
 		escCerrar = new KeyAdapter() {
 			@Override
@@ -142,7 +136,6 @@ public abstract class VentanaInicio extends JFrame {
 			clip = AudioSystem.getClip();
 			clip.open(is);
 			clip.loop(0);
-
 		} catch (UnsupportedAudioFileException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -150,5 +143,12 @@ public abstract class VentanaInicio extends JFrame {
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**Define un nuevo valor para determinar si proceso relacionado con la selección de iniciar sesion/registrar usuario ha acabado
+	 * @param valor nuevo valor booleano
+	 */
+	public static void setEstaCerrada(boolean valor) {
+		cerrado = valor;
 	}
 }

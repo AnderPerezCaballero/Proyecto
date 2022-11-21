@@ -70,5 +70,6 @@ public class MensajeCarga extends Thread{
 			Thread.sleep(100);
 		}catch(InterruptedException e) {}
 		ventanaSesion.fin();
+		
 	}
 }

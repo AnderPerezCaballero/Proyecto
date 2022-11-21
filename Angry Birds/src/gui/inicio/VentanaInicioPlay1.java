@@ -41,7 +41,7 @@ public class VentanaInicioPlay1 extends VentanaInicio {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
+				setEnabled(false);
 				new VentanaInicioSesion(VentanaInicioPlay1.this).iniciar();
 			}
 		});
@@ -50,7 +50,7 @@ public class VentanaInicioPlay1 extends VentanaInicio {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
+				setEnabled(false);
 				new VentanaRegistroSesion(VentanaInicioPlay1.this).iniciar();
 			}
 		});
@@ -59,9 +59,5 @@ public class VentanaInicioPlay1 extends VentanaInicio {
 		inicioS.addKeyListener(escCerrar);
 		registro.addKeyListener(escCerrar);
 		this.setVisible(true);
-	}
-
-	public static void main(String args[]) {
-		new VentanaInicioPlay1();
 	}
 }

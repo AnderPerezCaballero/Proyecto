@@ -11,9 +11,9 @@ import java.awt.geom.RoundRectangle2D;
  * @author diego
  *
  */
+@SuppressWarnings("serial")
 public class MiBoton extends JButton{
 
-	private static final long serialVersionUID = 1L;
 	private	boolean redondo;
 	private Color colorFondo;
 	private Color colorPresionado;

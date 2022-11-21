@@ -28,6 +28,8 @@ import javax.swing.JTextField;
 import gestionUsuarios.Usuario;
 import gui.componentes.MensajeCarga;
 import gui.componentes.MiBoton;
+import gui.inicio.VentanaInicio;
+import gui.juego.VentanaNiveles;
 
 @SuppressWarnings("serial")
 public abstract class VentanaSesion extends JFrame{
@@ -81,10 +83,7 @@ public abstract class VentanaSesion extends JFrame{
 
 	//Usuario que va a hacer uso de la aplicación
 	private static Usuario usuario;
-
-
-
-
+	
 	/** Constructor de la ventana 
 	 * @param numeroDeDatos Variable que indica el número de datos que va a contener el gridLayout
 	 * @param anteriorVentana ventana a la que se debe volver en caso de que el usuario decida ir hacia atrás
@@ -163,7 +162,7 @@ public abstract class VentanaSesion extends JFrame{
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-					cerrar();
+					cerrar(VentanaSesion.this);
 				}
 			}
 		};
@@ -226,7 +225,7 @@ public abstract class VentanaSesion extends JFrame{
 			@Override
 			public void windowClosed(WindowEvent e) {
 				if(!estaCerrada) {
-					cerrar();
+					cerrar(VentanaSesion.this);
 				}
 			}
 		});
@@ -237,7 +236,6 @@ public abstract class VentanaSesion extends JFrame{
 	 */
 	protected void iniciarAnimaciones() {
 		new Thread(new Runnable() {
-
 			@Override
 			public void run() {
 				while (!estaCerrada) {
@@ -262,16 +260,16 @@ public abstract class VentanaSesion extends JFrame{
 		}).start();
 	}
 
-	/**Cierra la aplicación definitivamente
+	/**Cierra una aplicación definitivamente
 	 */
-	private void cerrar() {
-		this.setVisible(false);
+	public static void cerrar(JFrame ventana) {
+		ventana.setVisible(false);
 		String[] s = {"Si", "No"}; //Opciones del JOptionPane
-		if (JOptionPane.showOptionDialog(this, "¿Realmente desea salir de la aplicación?", "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, imagenReescalada("/imgs/Icono.png", 30, 30), s, 0) == 0) {
+		if (JOptionPane.showOptionDialog(ventana, "¿Realmente desea salir de la aplicación?", "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, imagenReescalada("/imgs/Icono.png", 30, 30), s, 0) == 0) {
 			//Quiero cerrar el programa entero, no cerrar solo la ventana -> dispose() no me sirve
 			System.exit(0);
 		}else {
-			this.setVisible(true);
+			ventana.setVisible(true);
 		}
 	}
 
@@ -281,7 +279,7 @@ public abstract class VentanaSesion extends JFrame{
 	protected void anteriorVentana(){
 		setVisible(false);
 		estaCerrada = true;
-		ventanaAnterior.setVisible(true);
+		ventanaAnterior.setEnabled(true);
 	}
 
 	/**Pasa a la siguiente ventana, recogiendo los datos introducidos
@@ -289,24 +287,13 @@ public abstract class VentanaSesion extends JFrame{
 	 */
 	protected abstract void siguienteVentana();
 
-	/**Incia el menu de inicio de sesion
+	/**Incia el menu de inicio de sesion/registro
 	 * 
 	 */
 	public void iniciar() {
-		centrar(this);
+		setLocationRelativeTo(null);
 		setVisible(true);
 		iniciarAnimaciones();
-	}
-
-
-	/** Método que centra la ventana en pantalla
-	 * @param ventana ventana a centrar en la pantalla
-	 */
-	public static void centrar(JFrame ventana) {
-		Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
-		int x = pantalla.width / 2;
-		int y = pantalla.height / 2;		
-		ventana.setLocation(x - ventana.getWidth() / 2, y - ventana.getHeight() / 2);
 	}
 
 	/** Devuelve una imagen reescalada a unas dimensiones especificas
@@ -384,8 +371,10 @@ public abstract class VentanaSesion extends JFrame{
 	 */
 	public void fin() {
 		estaCerrada = true;
+		VentanaInicio.setEstaCerrada(true);
 		ventanaAnterior.dispose();
 		dispose();
+		new VentanaNiveles().iniciar();
 	}
 
 	/** Devuelve el color del fondo de la ventana
