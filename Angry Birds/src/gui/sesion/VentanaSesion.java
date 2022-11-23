@@ -277,9 +277,9 @@ public abstract class VentanaSesion extends JFrame{
 	 * 
 	 */
 	protected void anteriorVentana(){
-		setVisible(false);
 		estaCerrada = true;
 		ventanaAnterior.setEnabled(true);
+		dispose();
 	}
 
 	/**Pasa a la siguiente ventana, recogiendo los datos introducidos

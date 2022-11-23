@@ -1,10 +1,8 @@
 package gui.juego;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,10 +14,7 @@ import gui.sesion.VentanaSesion;
 
 @SuppressWarnings("serial")
 public class VentanaNiveles extends JFrame{
-	
-	private static final int ANCHURAVENTANA = 700;
-	private static final int ALTURAVENTANA = 700;
-	
+
 	//JLabels
 	private JLabel titulo;
 	
@@ -31,7 +26,6 @@ public class VentanaNiveles extends JFrame{
 		// Inicialización de la ventana
 		this.setExtendedState(MAXIMIZED_BOTH);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.setSize(ANCHURAVENTANA, ALTURAVENTANA);
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaSesion.class.getResource("/imgs/Icono.png")));
 		
 		setContentPane(new MiPanel("/imgs/FondoNiveles.jpg", new BorderLayout()));
