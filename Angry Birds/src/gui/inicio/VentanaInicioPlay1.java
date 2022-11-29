@@ -8,12 +8,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLayer;
 import javax.swing.JPanel;
+import javax.swing.plaf.LayerUI;
 
 import gui.componentes.MiBoton;
 import gui.sesion.VentanaInicioSesion;
 import gui.sesion.VentanaRegistroSesion;
-import gui.sesion.VentanaSesion;
 
 
 @SuppressWarnings("serial")
@@ -22,8 +24,8 @@ public class VentanaInicioPlay1 extends VentanaInicio {
 	public VentanaInicioPlay1() {
 		super();
 		panelAbajo = new JPanel();
-		panelAbajo.setBackground(VentanaSesion.getFondooscuro());
-		this.add(panelAbajo, BorderLayout.SOUTH);
+		panelAbajo.setOpaque(false);
+		panelPrincipal.add(panelAbajo, BorderLayout.SOUTH);
 
 		panelAbajo.setLayout(new FlowLayout());
 
@@ -41,7 +43,7 @@ public class VentanaInicioPlay1 extends VentanaInicio {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setEnabled(false);
+				cambiarFondo();
 				new VentanaInicioSesion(VentanaInicioPlay1.this).iniciar();
 			}
 		});
@@ -50,14 +52,19 @@ public class VentanaInicioPlay1 extends VentanaInicio {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setEnabled(false);
+				cambiarFondo();
 				new VentanaRegistroSesion(VentanaInicioPlay1.this).iniciar();
 			}
 		});
 
-
 		inicioS.addKeyListener(escCerrar);
 		registro.addKeyListener(escCerrar);
 		this.setVisible(true);
+	}
+	
+	private void cambiarFondo() {
+        LayerUI<JComponent> layerUI = new gui.componentes.BlurLayerUI();
+        setContentPane(new JLayer<JComponent>(panelPrincipal, layerUI));
+		setEnabled(false);
 	}
 }

@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.sql.SQLException;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -12,6 +11,7 @@ import javax.swing.JPasswordField;
 import gestionUsuarios.GestionUsuarios;
 import gestionUsuarios.Usuario;
 import gui.componentes.MensajeCarga;
+import gui.inicio.VentanaInicio;
 
 @SuppressWarnings("serial")
 public class VentanaRegistroSesion extends VentanaSesion{
@@ -27,7 +27,7 @@ public class VentanaRegistroSesion extends VentanaSesion{
 	/**Crea una nueva ventana para registrar un usuario
 	 * 
 	 */
-	public VentanaRegistroSesion(JFrame ventanaAnterior) {
+	public VentanaRegistroSesion(VentanaInicio ventanaAnterior) {
 		super(8, ventanaAnterior);
 
 		panelConfirmarContraseña = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));

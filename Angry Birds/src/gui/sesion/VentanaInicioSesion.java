@@ -2,11 +2,10 @@ package gui.sesion;
 
 import java.sql.SQLException;
 
-import javax.swing.JFrame;
-
 import gestionUsuarios.GestionUsuarios;
 import gestionUsuarios.Usuario;
 import gui.componentes.MensajeCarga;
+import gui.inicio.VentanaInicio;
 
 @SuppressWarnings("serial")
 public class VentanaInicioSesion extends VentanaSesion{
@@ -14,7 +13,7 @@ public class VentanaInicioSesion extends VentanaSesion{
 	/** Crea una nueva ventana para iniciar sesion con un usuario
 	 * 
 	 */
-	public VentanaInicioSesion(JFrame ventanaAnterior) {
+	public VentanaInicioSesion(VentanaInicio ventanaAnterior) {
 		super(6, ventanaAnterior);
 
 		// Color de los paneles

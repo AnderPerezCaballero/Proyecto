@@ -41,7 +41,7 @@ public abstract class VentanaSesion extends JFrame{
 	private static final int COLUMNAS = 30;
 
 	//Referencia de la ventana anterior
-	private static JFrame ventanaAnterior;
+	private static VentanaInicio ventanaAnterior;
 
 	//Contenedores
 	private JPanel panelSuperior;
@@ -88,7 +88,7 @@ public abstract class VentanaSesion extends JFrame{
 	 * @param numeroDeDatos Variable que indica el número de datos que va a contener el gridLayout
 	 * @param anteriorVentana ventana a la que se debe volver en caso de que el usuario decida ir hacia atrás
 	 */
-	public VentanaSesion(int numeroDeDatos, JFrame anteriorVentana) {
+	public VentanaSesion(int numeroDeDatos, VentanaInicio anteriorVentana) {
 
 		ventanaAnterior = anteriorVentana;
 
@@ -279,6 +279,7 @@ public abstract class VentanaSesion extends JFrame{
 	protected void anteriorVentana(){
 		estaCerrada = true;
 		ventanaAnterior.setEnabled(true);
+		ventanaAnterior.setContentPane(ventanaAnterior.getPanelPrincipal());
 		dispose();
 	}
 
