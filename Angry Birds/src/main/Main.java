@@ -8,7 +8,6 @@ import gui.sesion.VentanaSesion;
 public class Main {
 	public static void main(String[] args) {
 		VentanaSesion.setUsuario(GestionUsuarios.usuarioAsociado());
-		System.out.println(VentanaSesion.getUsuario());
 		if(VentanaSesion.getUsuario() == null) {
 			new VentanaInicioPlay1();
 		}else {

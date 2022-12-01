@@ -31,15 +31,15 @@ public class MensajeCarga extends Thread{
 	public void run() {
 		String puntos = "";
 		while(!interrumpido || !puntos.equals("...")) {
-			try {
-				Thread.sleep(1000);
-			}catch(InterruptedException e) {
-				interrumpido = true;
-			}
 			if(puntos.length() > 2) {
 				puntos = "";
 			}else {
 				puntos += ".";
+			}
+			try {
+				Thread.sleep(1000);
+			}catch(InterruptedException e) {
+				interrumpido = true;
 			}
 			
 			final String PUNTOS = puntos;
@@ -55,6 +55,11 @@ public class MensajeCarga extends Thread{
 				interrumpido = true;
 			}
 		}
+		
+		try {
+			Thread.sleep(1000);
+		}catch(InterruptedException e) {}
+		
 		SwingUtilities.invokeLater(new Runnable() {
 			
 			@Override
