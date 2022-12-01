@@ -1,22 +1,31 @@
 package gestionUsuarios;
 
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.logging.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeSet;
+import java.util.logging.FileHandler;
+
+import objetos.Nivel;
 
 public class GestionUsuarios {
 
 	private static final String LIBRERIA = "jdbc:sqlite:lib/users.db";
 	private static final String FICHEROTOKEN = "archivos/token.dat";
+	private static Logger logger = null;
 
 	/** Añade un nuevo usuario a la base de datos
 	 * @param usuario objeto de tipo usuario a añadir
@@ -250,5 +259,21 @@ public class GestionUsuarios {
 			System.err.format("Error en la conversión de datos en %s", FICHEROTOKEN);
 			return null;
 		}
+	}
+	
+	private void log( Level level, String msg, Throwable excepcion ) {
+		if (logger==null) {  // Logger por defecto local:
+			logger = Logger.getLogger( "BD-local" );  // Nombre del logger
+			logger.setLevel( Level.ALL );  // Loguea todos los niveles
+			try {
+				logger.addHandler( new FileHandler( "bd.log.xml", true ) );  // Y saca el log a fichero xml
+			} catch (Exception e) {
+				logger.log( Level.SEVERE, "No se pudo crear fichero de log", e );
+			}
+		}
+		if (excepcion==null)
+			logger.log( level, msg );
+		else
+			logger.log( level, msg, excepcion );
 	}
 }
