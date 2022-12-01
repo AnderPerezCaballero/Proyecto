@@ -284,19 +284,5 @@ public class GestionUsuarios {
 		}
 	}
 	
-	private void log( Level level, String msg, Throwable excepcion ) {
-		if (logger==null) {  // Logger por defecto local:
-			logger = Logger.getLogger( "BD-local" );  // Nombre del logger
-			logger.setLevel( Level.ALL );  // Loguea todos los niveles
-			try {
-				logger.addHandler( new FileHandler( "bd.log.xml", true ) );  // Y saca el log a fichero xml
-			} catch (Exception e) {
-				logger.log( Level.SEVERE, "No se pudo crear fichero de log", e );
-			}
-		}
-		if (excepcion==null)
-			logger.log( level, msg );
-		else
-			logger.log( level, msg, excepcion );
-	}
+	
 }
