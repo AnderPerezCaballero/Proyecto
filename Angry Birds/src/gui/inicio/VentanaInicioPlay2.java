@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import gui.componentes.BlinkLabel;
+import gui.juego.VentanaNiveles;
 
 @SuppressWarnings("serial")
 public class VentanaInicioPlay2 extends VentanaInicio{
