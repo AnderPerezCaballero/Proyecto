@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import gestionUsuarios.GestionUsuarios;
 import gestionUsuarios.Usuario;
 import gui.componentes.MensajeCarga;
 import gui.componentes.MiBoton;
@@ -229,6 +230,7 @@ public abstract class VentanaSesion extends JFrame{
 				}
 			}
 		});
+		GestionUsuarios.cargarLibreria();
 	}
 
 	/**Inicia las animaciones de la ventana

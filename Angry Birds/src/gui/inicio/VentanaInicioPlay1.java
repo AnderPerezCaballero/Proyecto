@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLayer;
 import javax.swing.JPanel;
 import javax.swing.plaf.LayerUI;
