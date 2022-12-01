@@ -30,8 +30,12 @@ public class MensajeCarga extends Thread{
 	@Override
 	public void run() {
 		String puntos = "";
-		int contador = 0;
-		while(contador <= 1) {
+		while(!interrumpido || !puntos.equals("...")) {
+			try {
+				Thread.sleep(1000);
+			}catch(InterruptedException e) {
+				interrumpido = true;
+			}
 			if(puntos.length() > 2) {
 				puntos = "";
 			}else {
@@ -47,16 +51,8 @@ public class MensajeCarga extends Thread{
 					boton.setText(mensajeCarga + PUNTOS);
 				}
 			});
-			try {
-				Thread.sleep(1000);
-			}catch(InterruptedException e) {
-				interrumpido = true;
-			}
 			if(Thread.currentThread().isInterrupted() && !interrumpido) {
 				interrumpido = true;
-			}
-			if(interrumpido && puntos.equals("...")) {
-				contador++;
 			}
 		}
 		SwingUtilities.invokeLater(new Runnable() {
@@ -69,7 +65,7 @@ public class MensajeCarga extends Thread{
 		try {
 			Thread.sleep(100);
 		}catch(InterruptedException e) {}
-		ventanaSesion.fin();
 		
+		ventanaSesion.fin();
 	}
 }
