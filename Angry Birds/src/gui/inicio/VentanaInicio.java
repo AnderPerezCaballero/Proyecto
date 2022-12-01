@@ -1,7 +1,6 @@
 package gui.inicio;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,14 +19,12 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JLayer;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import javax.swing.plaf.LayerUI;
+
 
 import gui.componentes.MiPanel;
 import gui.sesion.VentanaSesion;
@@ -114,7 +111,7 @@ public abstract class VentanaInicio extends JFrame {
 		this.addWindowListener(actionVentana);
 		itemMenu1.addActionListener(actionMute);
 		
-		setContentPane(panelPrincipal);
+		add(panelPrincipal, "Center");
 		
 		escCerrar = new KeyAdapter() {
 			@Override
@@ -158,7 +155,5 @@ public abstract class VentanaInicio extends JFrame {
 	 */
 	public MiPanel getPanelPrincipal() {
 		return panelPrincipal;
-	}
-	
-	
+	}	
 }

@@ -23,8 +23,6 @@ public class GestionUsuarios {
 	 * @throws SQLException En caso de que ocurra algún tipo de error relacionado con la gestión de la base de datos y no se pueda añadir el usuario
 	 */
 	public static void add(Usuario usuario) throws SQLException {
-		cargarLibreria();
-
 		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
 		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
 
@@ -70,8 +68,6 @@ public class GestionUsuarios {
 	 * @throws SQLException Si no se consigue actualizar el usuario
 	 */
 	public static void actualizarUsuario(Usuario usuario) throws SQLException {
-		cargarLibreria();
-
 		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
 		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
 
@@ -115,8 +111,6 @@ public class GestionUsuarios {
 	 * @throws SQLException En caso de que ocurra algún tipo de error relacionado con la gestión de la base de datos
 	 */
 	public static boolean comprobarContraseña(String nombre, String contraseña) throws SQLException{
-		cargarLibreria();
-
 		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
 		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
 
@@ -133,8 +127,6 @@ public class GestionUsuarios {
 	 * @throws SQLException En caso de que ocurra algún tipo de error relacionado con la gestión de la base de datos
 	 */
 	public static boolean comprobarUsuario(String nombre) throws SQLException{
-		cargarLibreria();
-
 		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
 		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
 
@@ -154,7 +146,6 @@ public class GestionUsuarios {
 	 * @return true si se consigue guardar, false si no
 	 */
 	public static boolean recordarUsuario(Usuario usuario){
-		cargarLibreria();
 		Token token;
 		String stoken;
 		String caducidad;
@@ -168,31 +159,19 @@ public class GestionUsuarios {
 					token = new Token(usuario);
 				}else {
 					token = new Token(stoken, caducidad, usuario);	
-					if(token.isCaducado()) {
-						token = new Token(usuario);
-					}
 				}
 			}
 			usuario.setToken(token);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-
-		try {
 			guardarTokenEnFichero(usuario);
-			
-			//Solo se crea un nuevo token en caso de que sea la primera vez que se pide para ese usuario que se guarde en un dispositivo 
-			if(stoken == null || caducidad == null) {
+			if(token.isCaducado()) {
+				token = new Token(usuario);
 				actualizarUsuario(usuario);
 			}
 			return true;
-		}catch(IOException e) {
-			return false;
-		} catch (SQLException e) {
+		} catch (SQLException | IOException e) {
 			e.printStackTrace();
 			return false;
-		}		
+		}
 	}
 
 	/**Método que especifica si el dispositivo desde el que se esta ejecutando el programa tiene algún usuario asociado el cual ha pedido que se recuerde
@@ -212,8 +191,6 @@ public class GestionUsuarios {
 
 		//Lista de puntos del usuario
 		TreeSet<Puntuacion> puntuaciones = new TreeSet<>();
-
-		cargarLibreria();
 
 		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
 		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
@@ -243,7 +220,7 @@ public class GestionUsuarios {
 	/**Método que carga la libreria de la base de datos
 	 * 
 	 */
-	private static void cargarLibreria() {
+	public static void cargarLibreria() {
 		try {
 			Class.forName("org.sqlite.JDBC");
 		}catch(ClassNotFoundException e) {
