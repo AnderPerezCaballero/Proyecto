@@ -34,7 +34,7 @@ private KeyListener kl;
 		panelPrincipal.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
+				VentanaNiveles nv = new VentanaNiveles();
 				dispose();
 				
 			}
@@ -45,17 +45,16 @@ private KeyListener kl;
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() != KeyEvent.VK_ESCAPE) {
+					VentanaNiveles nv = new VentanaNiveles();
 					dispose();				
 				} 
 						
 			}
-			
+
 		};
 		
 		this.addKeyListener(kl);
 		this.addKeyListener(escCerrar);
-		
-		//Los listeners tendrían que pasar a la ventana de niveles pero no está hecha
 		
 		this.setVisible(true);
 	}
