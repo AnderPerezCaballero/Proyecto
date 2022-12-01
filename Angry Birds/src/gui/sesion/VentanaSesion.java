@@ -29,6 +29,7 @@ import gestionUsuarios.Usuario;
 import gui.componentes.MensajeCarga;
 import gui.componentes.MiBoton;
 import gui.inicio.VentanaInicio;
+import gui.inicio.VentanaInicioPlay1;
 import gui.juego.VentanaNiveles;
 
 @SuppressWarnings("serial")
@@ -88,10 +89,9 @@ public abstract class VentanaSesion extends JFrame{
 	 * @param numeroDeDatos Variable que indica el número de datos que va a contener el gridLayout
 	 * @param anteriorVentana ventana a la que se debe volver en caso de que el usuario decida ir hacia atrás
 	 */
-	public VentanaSesion(int numeroDeDatos, VentanaInicio anteriorVentana) {
+	public VentanaSesion(int numeroDeDatos, VentanaInicioPlay1 anteriorVentana) {
 
 		ventanaAnterior = anteriorVentana;
-
 		// Inicialización de la ventana
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(ANCHURAVENTANA, ALTURAVENTANA);
@@ -279,7 +279,8 @@ public abstract class VentanaSesion extends JFrame{
 	protected void anteriorVentana(){
 		estaCerrada = true;
 		ventanaAnterior.setEnabled(true);
-		ventanaAnterior.setContentPane(ventanaAnterior.getPanelPrincipal());
+		ventanaAnterior.remove(((VentanaInicioPlay1) ventanaAnterior).getJLayer());
+		ventanaAnterior.add(ventanaAnterior.getPanelPrincipal());
 		dispose();
 	}
 
@@ -375,7 +376,7 @@ public abstract class VentanaSesion extends JFrame{
 		VentanaInicio.setEstaCerrada(true);
 		ventanaAnterior.dispose();
 		dispose();
-		new VentanaNiveles().iniciar();
+		new VentanaNiveles().setVisible(true);
 	}
 
 	/** Devuelve el color del fondo de la ventana
