@@ -1,5 +1,7 @@
 package gui.inicio;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -7,6 +9,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import gui.componentes.BlinkLabel;
@@ -18,6 +21,11 @@ private KeyListener kl;
 	public VentanaInicioPlay2() {
 		super();
 		
+		panelAbajo = new JPanel();
+		panelAbajo.setOpaque(false);
+		panelPrincipal.add(panelAbajo, BorderLayout.SOUTH);
+
+		panelAbajo.setLayout(new FlowLayout());
 		BlinkLabel bl = new BlinkLabel("PULSA CUALQUIER TECLA PARA JUGAR");
 		panelAbajo.add(bl);
 		bl.setFont(new Font("Arial", Font.CENTER_BASELINE,15));
