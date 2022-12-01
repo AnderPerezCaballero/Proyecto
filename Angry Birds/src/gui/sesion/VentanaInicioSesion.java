@@ -6,6 +6,7 @@ import gestionUsuarios.GestionUsuarios;
 import gestionUsuarios.Usuario;
 import gui.componentes.MensajeCarga;
 import gui.inicio.VentanaInicio;
+import gui.inicio.VentanaInicioPlay1;
 
 @SuppressWarnings("serial")
 public class VentanaInicioSesion extends VentanaSesion{
@@ -13,9 +14,9 @@ public class VentanaInicioSesion extends VentanaSesion{
 	/** Crea una nueva ventana para iniciar sesion con un usuario
 	 * 
 	 */
-	public VentanaInicioSesion(VentanaInicio ventanaAnterior) {
+	public VentanaInicioSesion(VentanaInicioPlay1 ventanaAnterior) {
 		super(6, ventanaAnterior);
-
+		
 		// Color de los paneles
 		colorPaneles(getFondooscuro());
 

@@ -12,6 +12,7 @@ import gestionUsuarios.GestionUsuarios;
 import gestionUsuarios.Usuario;
 import gui.componentes.MensajeCarga;
 import gui.inicio.VentanaInicio;
+import gui.inicio.VentanaInicioPlay1;
 
 @SuppressWarnings("serial")
 public class VentanaRegistroSesion extends VentanaSesion{
@@ -27,7 +28,7 @@ public class VentanaRegistroSesion extends VentanaSesion{
 	/**Crea una nueva ventana para registrar un usuario
 	 * 
 	 */
-	public VentanaRegistroSesion(VentanaInicio ventanaAnterior) {
+	public VentanaRegistroSesion(VentanaInicioPlay1 ventanaAnterior) {
 		super(8, ventanaAnterior);
 
 		panelConfirmarContraseña = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -126,18 +127,5 @@ public class VentanaRegistroSesion extends VentanaSesion{
 	protected void resetTextos() {
 		super.resetTextos();
 		inputConfirmarContraseña.setText(null);
-	}	
-
-	public static void main(String[] args) {
-		setUsuario(GestionUsuarios.usuarioAsociado());
-		if(getUsuario() == null) {
-			new VentanaRegistroSesion(null).iniciar();	
-		}else {
-			System.out.format("Se ha iniciado sesion con el siguiente usuario: %s", getUsuario());
-		}
-		new VentanaRegistroSesion(null).iniciar();	
-
 	}
-
-
 }
