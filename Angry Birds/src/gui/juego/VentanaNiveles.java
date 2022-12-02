@@ -80,7 +80,7 @@ public class VentanaNiveles extends JFrame{
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					if(e.getPoint().distance(jl.getSize().getWidth() / 2, jl.getSize().getHeight() / 2) < jl.getIcon().getIconHeight() / 2) {
-						if(NIVEL <= NIVELESBLOQUEADOS) {
+						if(NIVEL <= 9 - NIVELESBLOQUEADOS) {
 							System.out.println("Empezando el nivel " + NIVEL);
 							System.exit(0);
 						}else {
