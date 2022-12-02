@@ -21,14 +21,14 @@ import gui.sesion.VentanaRegistroSesion;
 
 
 @SuppressWarnings("serial")
-public class VentanaInicioPlay1 extends VentanaInicio {
+public class VentanaJugar1 extends VentanaJugar {
 
 	private static JLayer<MiPanel> jLayer;
 	
 	private JButton iniciarSesion;
 	private JButton registro;
 	
-	public VentanaInicioPlay1() {
+	public VentanaJugar1() {
 		super();
 		LayerUI<MiPanel> layerUI = new BlurLayerUI();
 		jLayer = new JLayer<MiPanel>(panelPrincipal, layerUI);
@@ -56,7 +56,7 @@ public class VentanaInicioPlay1 extends VentanaInicio {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cambiarFondo();
-				new VentanaInicioSesion(VentanaInicioPlay1.this).iniciar();
+				new VentanaInicioSesion(VentanaJugar1.this).iniciar();
 			}
 		});
 
@@ -65,7 +65,7 @@ public class VentanaInicioPlay1 extends VentanaInicio {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cambiarFondo();
-				new VentanaRegistroSesion(VentanaInicioPlay1.this).iniciar();
+				new VentanaRegistroSesion(VentanaJugar1.this).iniciar();
 			}
 		});
 

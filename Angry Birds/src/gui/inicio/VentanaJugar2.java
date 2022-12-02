@@ -15,10 +15,10 @@ import gui.componentes.BlinkLabel;
 import gui.juego.VentanaNiveles;
 
 @SuppressWarnings("serial")
-public class VentanaInicioPlay2 extends VentanaInicio{
+public class VentanaJugar2 extends VentanaJugar{
 	private KeyListener kl;
 
-	public VentanaInicioPlay2() {
+	public VentanaJugar2() {
 		super();
 
 		panelAbajo = new JPanel();

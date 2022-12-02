@@ -30,7 +30,7 @@ import gui.componentes.MiPanel;
 import gui.sesion.VentanaSesion;
 
 @SuppressWarnings("serial")
-public abstract class VentanaInicio extends JFrame {
+public abstract class VentanaJugar extends JFrame {
 
 	// Componentes
 	protected JPanel panelAbajo;
@@ -52,7 +52,7 @@ public abstract class VentanaInicio extends JFrame {
 	// Siempre igual
 	private static final String nombreVentana = "Angry Birds";
 
-	public VentanaInicio() {
+	public VentanaJugar() {
 
 		this.setExtendedState(MAXIMIZED_BOTH);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -103,7 +103,7 @@ public abstract class VentanaInicio extends JFrame {
 			public void windowClosed(WindowEvent e) {
 				clip.close();
 				if(!cerrado) {
-					VentanaSesion.cerrar(VentanaInicio.this);
+					VentanaSesion.cerrar(VentanaJugar.this);
 				}
 			}
 		};

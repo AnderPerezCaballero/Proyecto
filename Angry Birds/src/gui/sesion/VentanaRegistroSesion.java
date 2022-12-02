@@ -11,8 +11,8 @@ import javax.swing.JPasswordField;
 import gestionUsuarios.GestionUsuarios;
 import gestionUsuarios.Usuario;
 import gui.componentes.MensajeCarga;
-import gui.inicio.VentanaInicio;
-import gui.inicio.VentanaInicioPlay1;
+import gui.inicio.VentanaJugar;
+import gui.inicio.VentanaJugar1;
 
 @SuppressWarnings("serial")
 public class VentanaRegistroSesion extends VentanaSesion{
@@ -28,7 +28,7 @@ public class VentanaRegistroSesion extends VentanaSesion{
 	/**Crea una nueva ventana para registrar un usuario
 	 * 
 	 */
-	public VentanaRegistroSesion(VentanaInicioPlay1 ventanaAnterior) {
+	public VentanaRegistroSesion(VentanaJugar1 ventanaAnterior) {
 		super(8, ventanaAnterior);
 
 		panelConfirmarContraseña = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
