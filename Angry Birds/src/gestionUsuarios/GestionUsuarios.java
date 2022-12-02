@@ -8,13 +8,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.logging.*;
+
+import objetos.Nivel;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.TreeSet;
-import java.util.logging.FileHandler;
 
 public class GestionUsuarios {
 
@@ -255,6 +258,41 @@ public class GestionUsuarios {
 			return null;
 		}
 	}
+	
+	private void crearTablas() throws SQLException{
+		cargarLibreria();
+		
+		try {
+			
+			Connection conexion = DriverManager.getConnection(LIBRERIA);
+			Statement stmnt = conexion.createStatement();
+			stmnt.executeUpdate("CREATE TABLE if not exists Nivel(rutaMapa String, id Integer, numCerdos Integer)");
+			log(Level.INFO, "Creada la tabla Nivel en la BD users", null );
+			
+		} catch (Exception e) {
+			
+			log(Level.SEVERE, "La tabla Nivel no se ha podido crear en la BD users", e);
+			// TODO: handle exception
+		}
+	}
+	
+	private void anyadirNivel(Nivel nvl) {
+		cargarLibreria();
+		
+		try {
+			
+			Connection conexion = DriverManager.getConnection(LIBRERIA);
+			Statement stmnt = conexion.createStatement();
+			stmnt.executeUpdate(String.format("INSERT INTO Nivel VALUES( %s, %d, %d)", nvl.getRutaMapa(), nvl.getId(), nvl.getNumCerdos()));
+			log(Level.INFO, "Nivel anyadido correctamente", null);
+			
+		}catch (Exception e) {
+			log(Level.SEVERE, "No se ha podido anyadir el nivel correctamente", e);
+			
+		}
+	}
+	
+	
 	
 	private void log(Level level, String mensage, Throwable excepcion) {
 		if (logger==null) { 
