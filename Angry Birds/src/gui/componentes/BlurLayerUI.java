@@ -10,6 +10,10 @@ import java.awt.image.Kernel;
 import javax.swing.JComponent;
 import javax.swing.plaf.LayerUI;
 
+/**
+ * @author https://docs.oracle.com/javase/tutorial/uiswing/misc/jlayer.html
+ *
+ */
 @SuppressWarnings("serial")
 public class BlurLayerUI extends LayerUI<MiPanel> {
     private BufferedImage mOffscreenImage;
