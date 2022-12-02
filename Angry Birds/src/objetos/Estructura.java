@@ -13,7 +13,7 @@ public class Estructura extends ObjetoPrimitivo {
 		super(x,y);
 		this.anchura=anchura;
 		this.altura=altura;
-		
+		rutaFoto="/imgs/estructura.jpg";
 		// TODO Auto-generated constructor stub
 	}
 	public void setX(int x) {

@@ -41,6 +41,7 @@ public class Pajaro extends ObjetoPrimitivo {
 		this.radio = radio;
 		vX = 0;// al principio los pajaros tiene que ser estaticos por lo que su velocidad es de 0 en ambas direcciones hasta que se realice el lanzamiento
 		vY =0;
+		rutaFoto= "/imgs/pajaro.jpg";
 	}
 	
 	public void moverYDibujar( VentanaJuego v, double incX, double incY ) {

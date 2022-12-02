@@ -5,9 +5,11 @@ import java.awt.Point;
 
 public class Enemigo extends ObjetoPrimitivo{
 	protected int radio;
+	
 	public Enemigo(int x,int y,int radio) {
 		super(x,y);
 		this.radio=radio;
+		rutaFoto= "/imgs/enemigo.jpg";
 	}
 	public void setX(int x) {
 		if (x-radio<0) {
