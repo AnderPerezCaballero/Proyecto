@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.logging.*;
+
+import objetos.Nivel;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -258,7 +261,7 @@ public class GestionUsuarios {
 	
 	private void crearTablas() throws SQLException{
 		cargarLibreria();
-		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
+		
 		try {
 			
 			Connection conexion = DriverManager.getConnection(LIBRERIA);
@@ -270,6 +273,21 @@ public class GestionUsuarios {
 			
 			log(Level.SEVERE, "La tabla Nivel no se ha podido crear en la BD users", e);
 			// TODO: handle exception
+		}
+	}
+	
+	private void anyadirNivel(Nivel nvl) {
+		cargarLibreria();
+		
+		try {
+			
+			Connection conexion = DriverManager.getConnection(LIBRERIA);
+			Statement stmnt = conexion.createStatement();
+			stmnt.executeUpdate(String.format("INSERT INTO Nivel VALUES( %s, %d, %d)", nvl.getRutaMapa(), nvl.getId(), nvl.getNumCerdos()));
+			log(Level.INFO, "Nivel anyadido correctamente", null);
+			
+		}catch (Exception e) {
+			
 		}
 	}
 	
