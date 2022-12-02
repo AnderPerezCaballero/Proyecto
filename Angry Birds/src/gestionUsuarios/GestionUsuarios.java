@@ -13,8 +13,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.TreeSet;
-import java.util.logging.FileHandler;
 
 public class GestionUsuarios {
 
@@ -253,6 +253,23 @@ public class GestionUsuarios {
 		}catch(ClassNotFoundException e) {
 			System.err.format("Error en la conversión de datos en %s", FICHEROTOKEN);
 			return null;
+		}
+	}
+	
+	private void crearTablas() throws SQLException{
+		cargarLibreria();
+		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
+		try {
+			
+			Connection conexion = DriverManager.getConnection(LIBRERIA);
+			Statement stmnt = conexion.createStatement();
+			stmnt.executeUpdate("CREATE TABLE if not exists Nivel(rutaMapa String, id Integer, numCerdos Integer)");
+			log(Level.INFO, "Creada la tabla Nivel en la BD users", null );
+			
+		} catch (Exception e) {
+			
+			log(Level.SEVERE, "La tabla Nivel no se ha podido crear en la BD users", e);
+			// TODO: handle exception
 		}
 	}
 	
