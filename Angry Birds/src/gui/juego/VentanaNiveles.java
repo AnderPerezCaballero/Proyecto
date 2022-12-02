@@ -8,6 +8,8 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,7 +23,7 @@ import gui.sesion.VentanaSesion;
 public class VentanaNiveles extends JFrame{
 
 	private static final int RADIOICONONIVELES = 126;
-	private static final int NIVELESBLOQUEADOS = 6;		//A partir de que niveles está bloqueado
+	private static final int NIVELESBLOQUEADOS = 4;		//Número de niveles bloqueados
 	
 	//JLabels
 	private JLabel labelTitulo;
@@ -60,7 +62,7 @@ public class VentanaNiveles extends JFrame{
 				public void mouseMoved(MouseEvent e) {
 					if(e.getPoint().distance(jl.getSize().getWidth() / 2, jl.getSize().getHeight() / 2) < jl.getIcon().getIconHeight() / 2) {
 						if(jl.getIcon().getIconHeight() <= RADIOICONONIVELES) {
-							if(NIVEL < NIVELESBLOQUEADOS) {
+							if(NIVEL <= 9 - NIVELESBLOQUEADOS) {
 								jl.setIcon(VentanaSesion.imagenReescalada("/imgs/Empezar.png", RADIOICONONIVELES + 30, RADIOICONONIVELES + 30));
 							}else {
 								jl.setIcon(VentanaSesion.imagenReescalada("/imgs/Candado.png", RADIOICONONIVELES + 30, RADIOICONONIVELES + 30));
@@ -80,7 +82,7 @@ public class VentanaNiveles extends JFrame{
 					if(e.getPoint().distance(jl.getSize().getWidth() / 2, jl.getSize().getHeight() / 2) < jl.getIcon().getIconHeight() / 2) {
 						if(NIVEL < NIVELESBLOQUEADOS) {
 							System.out.println("Empezando el nivel " + NIVEL);
-							dispose();
+							System.exit(0);
 						}else {
 							jl.setIcon(VentanaSesion.imagenReescalada(String.format("/imgs/Nivel%d.png", NIVEL), RADIOICONONIVELES, RADIOICONONIVELES));
 							JOptionPane.showMessageDialog(VentanaNiveles.this, "Nivel bloqueado", "Aviso", JOptionPane.WARNING_MESSAGE);
@@ -92,6 +94,13 @@ public class VentanaNiveles extends JFrame{
 		}
 		add(panelCentral, "Center");
 		add(panelSuperior, "North");
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				VentanaSesion.cerrar(VentanaNiveles.this);
+			}
+		});
 	}
 
 	public static void main(String[] args) {

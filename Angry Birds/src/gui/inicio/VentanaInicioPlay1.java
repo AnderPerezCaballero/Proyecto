@@ -2,6 +2,7 @@ package gui.inicio;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -37,14 +38,16 @@ public class VentanaInicioPlay1 extends VentanaInicio {
 
 		panelAbajo.setLayout(new FlowLayout());
 
-		iniciarSesion = new MiBoton(Color.WHITE, Color.gray.brighter(), 35, 35);
-		iniciarSesion.setText("Inicar Sesion");
-		iniciarSesion.setFont(new Font("Arial", Font.BOLD,15));
+		iniciarSesion = new MiBoton(Color.WHITE, Color.WHITE.brighter(), 75, 75);
+		iniciarSesion.setText("Iniciar Sesión");
+		iniciarSesion.setFont(new Font(Font.SERIF, Font.BOLD, 35));
+		iniciarSesion.setPreferredSize(new Dimension(150, 75));
 		panelAbajo.add(iniciarSesion, BorderLayout.WEST);
 
-		registro = new MiBoton(Color.WHITE, Color.gray.brighter(), 35, 35);
+		registro = new MiBoton(Color.WHITE, Color.WHITE.darker(), 75, 75);
 		registro.setText("Registrarse");
-		registro.setFont(new Font("Arial", Font.BOLD,15));
+		registro.setFont(new Font(Font.SERIF, Font.BOLD, 35));
+		registro.setPreferredSize(new Dimension(150, 75));
 		panelAbajo.add(registro, BorderLayout.EAST);
 		add(panelPrincipal, "Center");
 
