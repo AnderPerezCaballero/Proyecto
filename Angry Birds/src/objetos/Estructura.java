@@ -67,4 +67,7 @@ public class Estructura extends ObjetoPrimitivo {
 			return false;
 		}
 	}
+	public void dibuja(VentanaJuego v) {
+		v.dibujaImagen(rutaFoto, (double)y, (double) x, v.getEscalaDibujo(),0,0);
+	}
 }

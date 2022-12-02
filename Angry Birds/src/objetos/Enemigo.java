@@ -1,5 +1,6 @@
 package objetos;
 
+import java.awt.Color;
 import java.awt.Point;
 
 public class Enemigo extends ObjetoPrimitivo{
@@ -29,5 +30,9 @@ public class Enemigo extends ObjetoPrimitivo{
 	public boolean contienePunto(Point punto) {
 		double dist= Math.sqrt(Math.pow(x-punto.getX(),2)+Math.pow(y-punto.getY(),2));
 		return dist<= radio;
+	}
+	
+	public void dibuja(VentanaJuego v) {
+		v.dibujaImagen(rutaFoto, (double)y, (double) x, v.getEscalaDibujo(),0,0);
 	}
 }

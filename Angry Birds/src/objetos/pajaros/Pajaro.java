@@ -1,5 +1,6 @@
 package objetos.pajaros;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.util.stream.Stream;
 
@@ -8,16 +9,27 @@ import javax.swing.JFrame;
 import objetos.Enemigo;
 import objetos.Estructura;
 import objetos.ObjetoPrimitivo;
+import objetos.VentanaJuego;
 
 public class Pajaro extends ObjetoPrimitivo {
 	protected int radio;
 	protected int vX;
 	protected int vY;
 	public Habilidad habilidad;
+	public Color color;
+	protected String rutaFoto;
 //	public Pajaro(int x, int y) {
 //		super(x, y);
 //		// TODO Auto-generated constructor stub
 //	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
 
 	/**Constructor de pajaro normal
 	 * @param x entero que indica la posicion en el eje x y ha de ser positivo o 0
@@ -29,6 +41,20 @@ public class Pajaro extends ObjetoPrimitivo {
 		this.radio = radio;
 		vX = 0;// al principio los pajaros tiene que ser estaticos por lo que su velocidad es de 0 en ambas direcciones hasta que se realice el lanzamiento
 		vY =0;
+	}
+	
+	public void moverYDibujar( VentanaJuego v, double incX, double incY ) {
+		borra( v );
+		x += incX;  // x = x + incX;  (derecha positivo, izquierda negativo)
+		y += incY;  // y = y + incY;  (abajo positivo, arriba negativo)
+		dibuja( v );
+	}
+	
+	public void borra( VentanaJuego v ) {
+		v.dibujaCirculo( x, y, radio, 2, Color.WHITE );
+	}
+	public void dibuja(VentanaJuego v) {
+		v.dibujaImagen(rutaFoto, (double)y, (double) x, v.getEscalaDibujo(),0,0);
 	}
 
 //	public void vuela() {
@@ -82,12 +108,8 @@ public class Pajaro extends ObjetoPrimitivo {
 //			return true;
 //		}if (y-radio== e.getY()+e.getRadio() ) {
 //			return true;
-		if (Math.sqrt(Math.pow(x-e.getX(),2)+Math.pow(y-e.getY(),2))<=radio+e.getRadio()) {
-			return true;
-		}else {
-			return false;
-			// este metodo tendra que perfeccionarse porque esto solo comprueba los choques en ciertos angunlos(0,90,180,270)
-		}//ambos metodos posiblemente deban tener uno complementario comprobando la fuerza del impacto
+		return (Math.sqrt(Math.pow(x-e.getX(),2)+Math.pow(y-e.getY(),2))<=radio+e.getRadio());
+//ambos metodos posiblemente deban tener uno complementario comprobando la fuerza del impacto
 	}
 	/**Metodo booleano que devuelve si el pajaro choca con algun objeto
 	 * @param p el objeto con el que se realiza la prueba
@@ -146,5 +168,15 @@ public class Pajaro extends ObjetoPrimitivo {
 	public boolean contienePunto(Point punto) {
 		double dist= Math.sqrt(Math.pow(x-punto.getX(),2)+Math.pow(y-punto.getY(),2));
 		return dist<=radio;
+	}
+	public void mueveYDibuja(VentanaJuego v,int tiempo) {
+		this.x= x+vX;
+		this.y=y+vY-gravedad(tiempo);
+	}
+	public int gravedad(int tiempo) {
+		if(tiempo==0) {
+			return 1;
+		}
+		return 2*gravedad(tiempo-1);
 	}
 }
