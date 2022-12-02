@@ -37,7 +37,7 @@ public class GestionUsuarios {
 				insertSQL.setInt(1, usuario.getNombre().hashCode());
 				insertSQL.setString(2, usuario.getNombre());
 				insertSQL.setString(3, usuario.getContraseña());
-				insertSQL.setInt(4, usuario.getTiempoJugado());
+				insertSQL.setLong(4, usuario.getTiempoJugado());
 
 				try {
 					insertSQL.setString(5, usuario.getToken().getToken());
@@ -83,7 +83,7 @@ public class GestionUsuarios {
 				insertSQL.setInt(1, usuario.getNombre().hashCode());
 				insertSQL.setString(2, usuario.getNombre());
 				insertSQL.setString(3, usuario.getContraseña());
-				insertSQL.setInt(4, usuario.getTiempoJugado());
+				insertSQL.setLong(4, usuario.getTiempoJugado());
 				insertSQL.setString(5, usuario.getToken().getToken());
 				insertSQL.setString(6, usuario.getToken().getCaducidad().toString());
 
