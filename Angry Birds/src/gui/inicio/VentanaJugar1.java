@@ -38,16 +38,16 @@ public class VentanaJugar1 extends VentanaJugar {
 
 		panelAbajo.setLayout(new FlowLayout());
 
-		iniciarSesion = new MiBoton(Color.WHITE, Color.WHITE.brighter(), 75, 75);
+		iniciarSesion = new MiBoton(Color.WHITE, Color.WHITE.darker(), 50, 50);
 		iniciarSesion.setText("Iniciar Sesión");
 		iniciarSesion.setFont(new Font(Font.SERIF, Font.BOLD, 35));
-		iniciarSesion.setPreferredSize(new Dimension(150, 75));
+		iniciarSesion.setPreferredSize(new Dimension(300, 50));
 		panelAbajo.add(iniciarSesion, BorderLayout.WEST);
 
-		registro = new MiBoton(Color.WHITE, Color.WHITE.darker(), 75, 75);
+		registro = new MiBoton(Color.WHITE, Color.WHITE.darker(), 50, 50);
 		registro.setText("Registrarse");
 		registro.setFont(new Font(Font.SERIF, Font.BOLD, 35));
-		registro.setPreferredSize(new Dimension(150, 75));
+		registro.setPreferredSize(new Dimension(300, 50));
 		panelAbajo.add(registro, BorderLayout.EAST);
 		add(panelPrincipal, "Center");
 

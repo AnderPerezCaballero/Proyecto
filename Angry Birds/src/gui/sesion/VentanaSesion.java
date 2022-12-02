@@ -130,7 +130,6 @@ public abstract class VentanaSesion extends JFrame{
 		botonAceptar.setEnabled(false);
 		botonAceptar.setToolTipText("Pulsa aquí para confirmar tus datos");
 		botonAceptar.setPreferredSize(new Dimension(ANCHURAVENTANA - 40, 40));
-		//		botonAceptar.setFont(new Font(Font.DIALOG, Font.PLAIN, 15));
 
 		//Añadir componentes a contenedores				
 		panelUsuario.add(labelUsuario);
