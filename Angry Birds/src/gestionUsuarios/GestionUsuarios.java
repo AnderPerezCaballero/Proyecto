@@ -287,9 +287,12 @@ public class GestionUsuarios {
 			log(Level.INFO, "Nivel anyadido correctamente", null);
 			
 		}catch (Exception e) {
+			log(Level.SEVERE, "No se ha podido anyadir el nivel correctamente", e);
 			
 		}
 	}
+	
+	
 	
 	private void log(Level level, String mensage, Throwable excepcion) {
 		if (logger==null) { 
