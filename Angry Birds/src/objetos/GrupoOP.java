@@ -111,6 +111,14 @@ public class GrupoOP {
 		return null;
 	}
 	
+	public List<ObjetoPrimitivo> getGrupoOP() {
+		return grupoOP;
+	}
+
+	public void setGrupoOP(List<ObjetoPrimitivo> grupoOP) {
+		this.grupoOP = grupoOP;
+	}
+
 	/** Dibuja todas las pajaros del grupo
 	 * @param v	Ventana en la que dibujar
 	 */

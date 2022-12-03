@@ -20,6 +20,8 @@ import java.awt.image.BufferedImage;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
 import javax.swing.ImageIcon;
@@ -49,7 +51,53 @@ public class VentanaJuego {
 	private boolean ejeYInvertido = true;            // Eje Y invertido con respecto a la representación matemática clásica (por defecto true -crece hacia abajo-)
 	private Color colorFondo = Color.white; // El color de fondo
 	private static volatile HashMap<String,ImageIcon> recursosGraficos = new HashMap<>();
-	private Lock lock;
+	private Lock lock= new Lock() {
+		
+		@Override
+		public void unlock() {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
+			// TODO Auto-generated method stub
+			return false;
+		}
+		
+		@Override
+		public boolean tryLock() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+		
+		@Override
+		public Condition newCondition() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+		@Override
+		public void lockInterruptibly() throws InterruptedException {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void lock() {
+			// TODO Auto-generated method stub
+			
+		}
+	};
+	
+	public void acaba() {
+		if (!cerrada) ventana.dispose();
+		cerrada = true;
+	}
+	
+	public Graphics2D getGraphics() {
+		return this.graphics;
+	}
 	
 	/** Construye una nueva ventana gráfica con fondo blanco y la visualiza en el centro de la pantalla
 	 * @param anchura	Anchura en píxels (valor positivo) de la zona de pintado

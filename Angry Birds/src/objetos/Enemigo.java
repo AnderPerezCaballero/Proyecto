@@ -35,6 +35,7 @@ public class Enemigo extends ObjetoPrimitivo{
 	}
 	
 	public void dibuja(VentanaJuego v) {
-		v.dibujaImagen(rutaFoto, (double)y, (double) x, v.getEscalaDibujo(),0,0);
+		v.dibujaCirculo(x, y, radio, 3, Color.GREEN,Color.GREEN);
+	//	v.dibujaImagen(rutaFoto, (double)y, (double) x, v.getEscalaDibujo(),0,0);
 	}
 }

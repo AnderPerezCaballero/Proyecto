@@ -36,9 +36,10 @@ public class Pajaro extends ObjetoPrimitivo {
 	 * @param y entero que indica la posicion en el eje y y ha de ser positivo o 0
 	 * @param radio entero que define el tamaño del pajaro
 	 */
-	public Pajaro(int x, int y, int radio) {
+	public Pajaro(int x, int y, int radio,Color color) {
 		super(x, y);
 		this.radio = radio;
+		this.color=color;
 		vX = 0;// al principio los pajaros tiene que ser estaticos por lo que su velocidad es de 0 en ambas direcciones hasta que se realice el lanzamiento
 		vY =0;
 		rutaFoto= "/imgs/pajaro.jpg";
@@ -55,7 +56,8 @@ public class Pajaro extends ObjetoPrimitivo {
 		v.dibujaCirculo( x, y, radio, 2, Color.WHITE );
 	}
 	public void dibuja(VentanaJuego v) {
-		v.dibujaImagen(rutaFoto, (double)y, (double) x, v.getEscalaDibujo(),0,0);
+		v.dibujaCirculo(x, y, radio, 2, color);
+	//	v.dibujaImagen(rutaFoto, (double)y, (double) x, v.getEscalaDibujo(),0,0);
 	}
 
 //	public void vuela() {
@@ -67,15 +69,15 @@ public class Pajaro extends ObjetoPrimitivo {
 	 * @param v ventana cuyos bordes se comprobaran
 	 * @return booleano indicando si existe o no choque
 	 */
-	public boolean choqueConLimitesLaterales(JFrame v) {
-		return x+radio>=v.getWidth()||x-radio<=0;
+	public boolean choqueConLimitesLaterales(VentanaJuego v) {
+		return x+radio>=v.getAnchura()||x-radio<=0;
 	}
 	/**Metodo para comprobar si el pajaro rebota con los bordes de la pantalla de manera horizontal
 	 * @param v ventana cuyos bordes se comprobaran
 	 * @return booleano indicando si existe o no choque
 	 */
-	public boolean choqueConLimitesVertical(JFrame v) {
-		return y+radio>=v.getHeight()||y-radio<=0;
+	public boolean choqueConLimitesVertical(VentanaJuego v) {
+		return y+radio>=v.getAltura()||y-radio<=0;
 	}
 	/**Metdod para comprobar el choque con estructuras
 	 * @param e Estructura (con la que se comprueba el choque)
@@ -170,14 +172,14 @@ public class Pajaro extends ObjetoPrimitivo {
 		double dist= Math.sqrt(Math.pow(x-punto.getX(),2)+Math.pow(y-punto.getY(),2));
 		return dist<=radio;
 	}
-	public void mueveYDibuja(VentanaJuego v,int tiempo) {
+	public void mueve(int tiempo) {
 		this.x= x+vX;
 		this.y=y+vY-gravedad(tiempo);
 	}
 	public int gravedad(int tiempo) {
-		if(tiempo==0) {
-			return 1;
+		if(tiempo==5) {
+			return (int)Math.pow(2,5);
 		}
-		return 2*gravedad(tiempo-1);
+		return 2*gravedad(tiempo+1);
 	}
 }
