@@ -5,10 +5,10 @@ import objetos.pajaros.Pajaro;
 
 public class Nivel {
 	
-	protected String rutaMapa;
-	protected int id;
-	protected int numCerdos;
-	protected List<Pajaro> listaPajaros;
+	private String rutaMapa;
+	private int id;
+	private int numCerdos;
+	private List<Pajaro> listaPajaros;
 	
 	public Nivel(String rutaMapa, int id, int numCerdos, List<Pajaro> listaPajaros) {
 		super();
@@ -49,9 +49,4 @@ public class Nivel {
 	public void setListaPajaros(List<Pajaro> listaPajaros) {
 		this.listaPajaros = listaPajaros;
 	}
-	
-	
-	
-	
-
 }
