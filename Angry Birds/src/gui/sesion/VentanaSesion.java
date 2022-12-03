@@ -25,10 +25,12 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import gestionUsuarios.GestionUsuarios;
 import gestionUsuarios.Usuario;
 import gui.componentes.MensajeCarga;
 import gui.componentes.MiBoton;
-import gui.inicio.VentanaInicio;
+import gui.inicio.VentanaJugar;
+import gui.inicio.VentanaJugar1;
 import gui.juego.VentanaNiveles;
 
 @SuppressWarnings("serial")
@@ -41,7 +43,7 @@ public abstract class VentanaSesion extends JFrame{
 	private static final int COLUMNAS = 30;
 
 	//Referencia de la ventana anterior
-	private static JFrame ventanaAnterior;
+	private static VentanaJugar ventanaAnterior;
 
 	//Contenedores
 	private JPanel panelSuperior;
@@ -88,10 +90,9 @@ public abstract class VentanaSesion extends JFrame{
 	 * @param numeroDeDatos Variable que indica el número de datos que va a contener el gridLayout
 	 * @param anteriorVentana ventana a la que se debe volver en caso de que el usuario decida ir hacia atrás
 	 */
-	public VentanaSesion(int numeroDeDatos, JFrame anteriorVentana) {
+	public VentanaSesion(int numeroDeDatos, VentanaJugar1 anteriorVentana) {
 
 		ventanaAnterior = anteriorVentana;
-
 		// Inicialización de la ventana
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(ANCHURAVENTANA, ALTURAVENTANA);
@@ -129,7 +130,6 @@ public abstract class VentanaSesion extends JFrame{
 		botonAceptar.setEnabled(false);
 		botonAceptar.setToolTipText("Pulsa aquí para confirmar tus datos");
 		botonAceptar.setPreferredSize(new Dimension(ANCHURAVENTANA - 40, 40));
-		//		botonAceptar.setFont(new Font(Font.DIALOG, Font.PLAIN, 15));
 
 		//Añadir componentes a contenedores				
 		panelUsuario.add(labelUsuario);
@@ -229,6 +229,7 @@ public abstract class VentanaSesion extends JFrame{
 				}
 			}
 		});
+		GestionUsuarios.cargarLibreria();
 	}
 
 	/**Inicia las animaciones de la ventana
@@ -279,6 +280,8 @@ public abstract class VentanaSesion extends JFrame{
 	protected void anteriorVentana(){
 		estaCerrada = true;
 		ventanaAnterior.setEnabled(true);
+		ventanaAnterior.remove(((VentanaJugar1) ventanaAnterior).getJLayer());
+		ventanaAnterior.add(ventanaAnterior.getPanelPrincipal());
 		dispose();
 	}
 
@@ -371,10 +374,10 @@ public abstract class VentanaSesion extends JFrame{
 	 */
 	public void fin() {
 		estaCerrada = true;
-		VentanaInicio.setEstaCerrada(true);
+		VentanaJugar.setEstaCerrada(true);
 		ventanaAnterior.dispose();
 		dispose();
-		new VentanaNiveles().iniciar();
+		new VentanaNiveles().setVisible(true);
 	}
 
 	/** Devuelve el color del fondo de la ventana

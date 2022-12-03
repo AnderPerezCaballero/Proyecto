@@ -1,7 +1,6 @@
 package gui.inicio;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,19 +25,23 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
+
+import gui.componentes.MiPanel;
 import gui.sesion.VentanaSesion;
 
 @SuppressWarnings("serial")
-public abstract class VentanaInicio extends JFrame {
+public abstract class VentanaJugar extends JFrame {
 
 	// Componentes
-	protected JPanel panelCentral;
 	protected JPanel panelAbajo;
 	protected JLabel imagen;
+	protected MiPanel panelPrincipal;
 	private JMenu sonido;
 	private JMenuBar barraMenu;
 	protected JCheckBoxMenuItem itemMenu1;
 	private Clip clip;
+	
+	//Estado del inicio
 	private static boolean cerrado;
 
 	// Listeners
@@ -49,45 +52,32 @@ public abstract class VentanaInicio extends JFrame {
 	// Siempre igual
 	private static final String nombreVentana = "Angry Birds";
 
-	public VentanaInicio() {
+	public VentanaJugar() {
 
 		this.setExtendedState(MAXIMIZED_BOTH);
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.setLayout(new BorderLayout());
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaSesion.class.getResource("/imgs/Icono.png")));
 		this.setTitle(nombreVentana);
 		cerrado = false;
 		
-		actionVentana = new WindowAdapter() {
-
-			@Override
-			public void windowOpened(WindowEvent e) {
-				ReproducirMusica("res/audio/Cancion.wav");
-			}
-
-			@Override
-			public void windowClosed(WindowEvent e) {
-				clip.close();
-				if(!cerrado) {
-					VentanaSesion.cerrar(VentanaInicio.this);
-				}
-			}
-		};
-
-		this.addWindowListener(actionVentana);
-
+		panelPrincipal = new MiPanel("/imgs/AngryBirdsInicio.jpg", new BorderLayout());
+		
 		barraMenu = new JMenuBar();
-		setJMenuBar(barraMenu);
-		barraMenu.setBackground(VentanaSesion.getFondooscuro());
-
+		barraMenu.setOpaque(false);
+		panelPrincipal.add(barraMenu, "North");
+		
 		sonido = new JMenu("SONIDO");
-		sonido.setForeground(Color.white);
 		sonido.setMnemonic(KeyEvent.VK_S);
+		sonido.setOpaque(false);
 		barraMenu.add(sonido);
+	
 
 		itemMenu1 = new JCheckBoxMenuItem(VentanaSesion.imagenReescalada("/imgs/mute.png", 10, 10));
-		sonido.add(itemMenu1);
-
+		itemMenu1.setMnemonic(KeyEvent.VK_S);
+		sonido.add(itemMenu1);       
+		
+		//EVENTOS
+		
 		// Para que cuando el checkBox de mute este pulsado la cancion pare
 		// y si se vuelve a pulsar para desmutear, vuelva a ponerse la cancion desde el
 		// principio
@@ -103,18 +93,26 @@ public abstract class VentanaInicio extends JFrame {
 			}
 		};
 
+		actionVentana = new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				ReproducirMusica("res/audio/Cancion.wav");
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+				clip.close();
+				if(!cerrado) {
+					VentanaSesion.cerrar(VentanaJugar.this);
+				}
+			}
+		};
+
+		this.addWindowListener(actionVentana);
 		itemMenu1.addActionListener(actionMute);
-
-		panelCentral = new JPanel();
-		panelCentral.setLayout(new BorderLayout());
-		imagen = new JLabel(VentanaSesion.imagenReescalada("/imgs/AngryBirdsInicio.jpg", 700, 600));
-		getContentPane().add(panelCentral, BorderLayout.CENTER);
-		panelCentral.add(imagen, BorderLayout.CENTER);
-
-		panelAbajo = new JPanel();
-		panelAbajo.setBackground(VentanaSesion.getFondooscuro());
-		add(panelAbajo, BorderLayout.SOUTH);
-
+		
+		add(panelPrincipal, "Center");
+		
 		escCerrar = new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -151,4 +149,11 @@ public abstract class VentanaInicio extends JFrame {
 	public static void setEstaCerrada(boolean valor) {
 		cerrado = valor;
 	}
+
+	/** Devuelve el panelPrincipal de la ventana
+	 * @return el panelPrincipal a devolver
+	 */
+	public MiPanel getPanelPrincipal() {
+		return panelPrincipal;
+	}	
 }

@@ -1,30 +1,37 @@
 package gestionUsuarios;
 
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.logging.*;
+
+import objetos.Nivel;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeSet;
 
 public class GestionUsuarios {
 
 	private static final String LIBRERIA = "jdbc:sqlite:lib/users.db";
 	private static final String FICHEROTOKEN = "archivos/token.dat";
+	private static Logger logger = null;
 
 	/** Añade un nuevo usuario a la base de datos
 	 * @param usuario objeto de tipo usuario a añadir
 	 * @throws SQLException En caso de que ocurra algún tipo de error relacionado con la gestión de la base de datos y no se pueda añadir el usuario
 	 */
 	public static void add(Usuario usuario) throws SQLException {
-		cargarLibreria();
-
 		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
 		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
 
@@ -35,7 +42,7 @@ public class GestionUsuarios {
 				insertSQL.setInt(1, usuario.getNombre().hashCode());
 				insertSQL.setString(2, usuario.getNombre());
 				insertSQL.setString(3, usuario.getContraseña());
-				insertSQL.setInt(4, usuario.getTiempoJugado());
+				insertSQL.setLong(4, usuario.getTiempoJugado());
 
 				try {
 					insertSQL.setString(5, usuario.getToken().getToken());
@@ -70,8 +77,6 @@ public class GestionUsuarios {
 	 * @throws SQLException Si no se consigue actualizar el usuario
 	 */
 	public static void actualizarUsuario(Usuario usuario) throws SQLException {
-		cargarLibreria();
-
 		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
 		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
 
@@ -83,7 +88,7 @@ public class GestionUsuarios {
 				insertSQL.setInt(1, usuario.getNombre().hashCode());
 				insertSQL.setString(2, usuario.getNombre());
 				insertSQL.setString(3, usuario.getContraseña());
-				insertSQL.setInt(4, usuario.getTiempoJugado());
+				insertSQL.setLong(4, usuario.getTiempoJugado());
 				insertSQL.setString(5, usuario.getToken().getToken());
 				insertSQL.setString(6, usuario.getToken().getCaducidad().toString());
 
@@ -115,8 +120,6 @@ public class GestionUsuarios {
 	 * @throws SQLException En caso de que ocurra algún tipo de error relacionado con la gestión de la base de datos
 	 */
 	public static boolean comprobarContraseña(String nombre, String contraseña) throws SQLException{
-		cargarLibreria();
-
 		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
 		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
 
@@ -133,8 +136,6 @@ public class GestionUsuarios {
 	 * @throws SQLException En caso de que ocurra algún tipo de error relacionado con la gestión de la base de datos
 	 */
 	public static boolean comprobarUsuario(String nombre) throws SQLException{
-		cargarLibreria();
-
 		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
 		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
 
@@ -154,7 +155,6 @@ public class GestionUsuarios {
 	 * @return true si se consigue guardar, false si no
 	 */
 	public static boolean recordarUsuario(Usuario usuario){
-		cargarLibreria();
 		Token token;
 		String stoken;
 		String caducidad;
@@ -168,31 +168,19 @@ public class GestionUsuarios {
 					token = new Token(usuario);
 				}else {
 					token = new Token(stoken, caducidad, usuario);	
-					if(token.isCaducado()) {
-						token = new Token(usuario);
-					}
 				}
 			}
 			usuario.setToken(token);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-
-		try {
 			guardarTokenEnFichero(usuario);
-			
-			//Solo se crea un nuevo token en caso de que sea la primera vez que se pide para ese usuario que se guarde en un dispositivo 
-			if(stoken == null || caducidad == null) {
+			if(token.isCaducado()) {
+				token = new Token(usuario);
 				actualizarUsuario(usuario);
 			}
 			return true;
-		}catch(IOException e) {
-			return false;
-		} catch (SQLException e) {
+		} catch (SQLException | IOException e) {
 			e.printStackTrace();
 			return false;
-		}		
+		}
 	}
 
 	/**Método que especifica si el dispositivo desde el que se esta ejecutando el programa tiene algún usuario asociado el cual ha pedido que se recuerde
@@ -212,8 +200,6 @@ public class GestionUsuarios {
 
 		//Lista de puntos del usuario
 		TreeSet<Puntuacion> puntuaciones = new TreeSet<>();
-
-		cargarLibreria();
 
 		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
 		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
@@ -243,7 +229,7 @@ public class GestionUsuarios {
 	/**Método que carga la libreria de la base de datos
 	 * 
 	 */
-	private static void cargarLibreria() {
+	public static void cargarLibreria() {
 		try {
 			Class.forName("org.sqlite.JDBC");
 		}catch(ClassNotFoundException e) {
@@ -273,5 +259,83 @@ public class GestionUsuarios {
 			System.err.format("Error en la conversión de datos en %s", FICHEROTOKEN);
 			return null;
 		}
+	}
+	
+	private void crearTablas() throws SQLException{
+		cargarLibreria();
+		
+		try {
+			
+			Connection conexion = DriverManager.getConnection(LIBRERIA);
+			Statement stmnt = conexion.createStatement();
+			stmnt.executeUpdate("CREATE TABLE if not exists Nivel(rutaMapa String, id Integer, numCerdos Integer)");
+			log(Level.INFO, "Creada la tabla Nivel en la BD users", null );
+			
+		} catch (Exception e) {
+			log(Level.SEVERE, "La tabla Nivel no se ha podido crear en la BD users", e);
+			e.printStackTrace();
+		}
+	}
+	
+	private void anyadirNivel(Nivel nvl) {
+		cargarLibreria();
+		
+		try {
+			
+			Connection conexion = DriverManager.getConnection(LIBRERIA);
+			Statement stmnt = conexion.createStatement();
+			stmnt.executeUpdate(String.format("INSERT INTO Nivel VALUES( %s, %d, %d)", nvl.getRutaMapa(), nvl.getId(), nvl.getNumCerdos()));
+			log(Level.INFO, "Nivel anyadido correctamente", null);
+			
+		}catch (Exception e) {
+			log(Level.SEVERE, "No se ha podido anyadir el nivel correctamente", e);
+			e.printStackTrace();
+			
+		}
+	}
+	
+	private List<Nivel> cargarNivel() {
+		cargarLibreria();
+		
+		try {
+			Connection conexion = DriverManager.getConnection(LIBRERIA);
+			Statement stmnt = conexion.createStatement();
+			String stringSQL = "SELECT * FROM Nivel";
+			ResultSet rs = stmnt.executeQuery(stringSQL);
+			
+			List<Nivel> listaNiveles = new ArrayList<Nivel>();
+			
+			while(rs.next()) {
+				Nivel nvl = new Nivel(rs.getString("rutaMapa"), rs.getInt("numCerdos"), rs.getInt("id"), null);
+				listaNiveles.add(nvl);			
+			}
+			rs.close();
+			log(Level.INFO, "Todos los niveles de la BD users han sido seleccionados con exito", null);
+			return listaNiveles;
+			
+		}catch (Exception e) {
+			log(Level.SEVERE, "No se han podido seleccionar todos los niveles de la BD users", e);
+			e.printStackTrace();
+			return null;	
+		}		
+		
+	}
+	
+	
+	
+	private void log(Level level, String mensage, Throwable excepcion) {
+		if (logger==null) { 
+			logger=Logger.getLogger("BD users");  
+			logger.setLevel(Level.ALL);
+			try {
+				logger.addHandler(new FileHandler("users.log.xml", true));
+			}catch (Exception e) {
+				logger.log(Level.SEVERE, "No se pudo crear el fichero de log", e);
+			}
+		}
+		if (excepcion==null)
+			logger.log(level, mensage);
+		else
+			logger.log(level, mensage, excepcion);
 	}
 }

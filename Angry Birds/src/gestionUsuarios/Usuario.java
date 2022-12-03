@@ -9,7 +9,7 @@ public class Usuario implements Serializable{
 	
 	private String nombre;						//nombre del usuario
 	private String contraseña;					//contraseña del usuario
-	private int tiempoJugado;					//tiempo total jugado por el usuario (en segundos)
+	private long tiempoJugado;					//tiempo total jugado por el usuario (en segundos)
 	private TreeSet<Puntuacion> puntuaciones;	//treeset que guarda todas las puntuaciones conseguidas por el usuario
 	private Token token;						//token asociado al usuario
 	
@@ -34,7 +34,7 @@ public class Usuario implements Serializable{
 	 * @param puntuaciones TreeSet de puntuaciones del usuario
 	 * @param token token asociado al usuario
 	 */
-	public Usuario(String nombre, String contraseña, int tiempoJugado, TreeSet<Puntuacion> puntuaciones, Token token) {
+	public Usuario(String nombre, String contraseña, long tiempoJugado, TreeSet<Puntuacion> puntuaciones, Token token) {
 		this.nombre = nombre;
 		this.contraseña = contraseña;
 		this.tiempoJugado = tiempoJugado;
@@ -59,21 +59,14 @@ public class Usuario implements Serializable{
 	/** Devuelve el tiempo total jugado por el usuario
 	 * @return	Tiempo jugado del usuario en total (en segundos), sin tener en cuenta las pantallas de inicio
 	 */
-	public int getTiempoJugado() {
+	public long getTiempoJugado() {
 		return tiempoJugado;
-	}
-
-	/** Cambia el token asociado al usuario
-	 * @param token nuevo token del usuario
-	 */
-	public void setToken(Token token) {
-		this.token = token;
 	}
 	
 	/** Añade cierta cantidad de segundos al tiempo total jugado por el usuario
 	 * @param tiempo Segundos a añadir al total
 	 */
-	public void addTiempo(double tiempo) {
+	public void addTiempo(long tiempo) {
 		this.tiempoJugado += tiempo;
 	}
 	
@@ -89,6 +82,13 @@ public class Usuario implements Serializable{
 	 */
 	public Token getToken() {
 		return token;
+	}
+	
+	/** Cambia el token asociado al usuario
+	 * @param token nuevo token del usuario
+	 */
+	public void setToken(Token token) {
+		this.token = token;
 	}
 
 	@Override
