@@ -45,7 +45,6 @@ public class VentanaJuego {
 	private boolean botonMedio;     // Información de si el ultimo botón pulsado es el del medio o no lo es
 	private Point pointMoved;       // Coordenada pasada de ratón (si existe)
 	private Point pointMovedPrev;   // Coordenada pasada anterior de ratón (si existe)
-	private boolean dibujadoInmediato = true; // Refresco de dibujado en cada orden de dibujado
 	private Point offsetInicio = new Point( 0, 0 );  // Offset de inicio de coordenadas ((0,0) por defecto)
 	private double escalaDibujo = 1.0;               // Escala de dibujado (1=1 píxeles por defecto)
 	private boolean ejeYInvertido = true;            // Eje Y invertido con respecto a la representación matemática clásica (por defecto true -crece hacia abajo-)
@@ -274,7 +273,6 @@ public class VentanaJuego {
 	public void borra() {
 		graphics.setColor( colorFondo );
 		graphics.fillRect( 0, 0, panel.getWidth()+2, panel.getHeight()+2 );
-		if (dibujadoInmediato) repaint();
 	}
 	
 	/** Dibuja un rectángulo en la ventana
@@ -301,7 +299,6 @@ public class VentanaJuego {
 			graphics.drawRect( (int)Math.round(calcX(x)), (int)Math.round(calcY(y)), (int)Math.round(anchura*escalaDibujo), (int)Math.round(altura*escalaDibujo) );
 		else
 			graphics.drawRect( (int)Math.round(calcX(x)), (int)Math.round(calcY(y))-(int)Math.round(altura*escalaDibujo), (int)Math.round(anchura*escalaDibujo), (int)Math.round(altura*escalaDibujo) );
-		if (dibujadoInmediato) repaint();
 	}
 
 		// Convierte x de coordenadas propuestas a coordenadas visuales (con zoom y desplazamiento)
@@ -334,7 +331,6 @@ public class VentanaJuego {
 			graphics.drawRect( (int)Math.round(calcX(x)), (int)Math.round(calcY(y)), (int)Math.round(anchura*escalaDibujo), (int)Math.round(altura*escalaDibujo) );
 		else
 			graphics.drawRect( (int)Math.round(calcX(x)), (int)Math.round(calcY(y))-(int)Math.round(altura*escalaDibujo), (int)Math.round(anchura*escalaDibujo), (int)Math.round(altura*escalaDibujo) );
-		if (dibujadoInmediato) repaint();
 	}
 	
 	/** Dibuja un rectángulo azul en la ventana
@@ -373,7 +369,6 @@ public class VentanaJuego {
 		graphics.fillOval( (int)Math.round(calcX(x)-radio*escalaDibujo), (int)Math.round(calcY(y)-radio*escalaDibujo), (int)Math.round(radio*2*escalaDibujo), (int)Math.round(radio*2*escalaDibujo) );
 		graphics.setColor( color );
 		graphics.drawOval( (int)Math.round(calcX(x)-radio*escalaDibujo), (int)Math.round(calcY(y)-radio*escalaDibujo), (int)Math.round(radio*2*escalaDibujo), (int)Math.round(radio*2*escalaDibujo) );
-		if (dibujadoInmediato) repaint();
 	}
 	
 	/** Dibuja un círculo en la ventana
@@ -444,7 +439,6 @@ public class VentanaJuego {
         graphics.drawImage( ii.getImage(), difAncho, difAlto, anchoDibujado, altoDibujado, null);  // Dibujar la imagen con el tamaño calculado tras aplicar el zoom
 		graphics.setTransform( new AffineTransform() );  // Restaurar graphics  (sin rotación ni traslación)
 		graphics.setComposite(AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ));  // Restaurar graphics (pintado sin transparencia)
-		if (dibujadoInmediato) repaint();
 	}
 	public void repaint() {
 		panel.repaint();
@@ -455,24 +449,14 @@ public class VentanaJuego {
 		panel.paintImmediately( 0, 0, panel.getWidth(), panel.getHeight() );
 		lMens.paintImmediately( 0, 0, lMens.getWidth(), lMens.getHeight() );
 	}
-
-	public void setDibujadoInmediato( boolean dibujadoInmediato ) {
-		this.dibujadoInmediato = dibujadoInmediato;
-	}
+	
 	public void espera( long milis ) {
 		try {
 			Thread.sleep( milis );
 		} catch (InterruptedException e) {
 		}
 	}
-
-	/** Informa del modo de dibujado (por defecto el modo es de dibujado inmediato = true)
-	 * @return true si cada orden de dibujado inmediatamente pinta la ventana. false si se
-	 * van acumulando las órdenes y se pinta la ventana solo al hacer un {@link #repaint()}.
-	 */
-	public boolean isDibujadoInmediato() {
-		return dibujadoInmediato;
-	}
+	
 	public boolean estaCerrada() {
 		return cerrada;
 	}
