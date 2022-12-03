@@ -64,10 +64,10 @@ public class BetaJuego {
 				pajaro1.setvX(pajaro1.getX()-destino.x);
 				pajaro1.setvY(pajaro1.getY()-destino.y);
 				pajaro1.mueve(0);
-			}
-			if (avanceFot) { // Gestión del movimiento solo si no está en pausa, o solo un fotograma
+				// Gestión del movimiento solo si no está en pausa, o solo un fotograma
 				// Choque con bordes
-				grupoPajaros.compruebaChoqueLimites( vent);
+				pajaro1.choqueConLimitesLaterales(vent);
+				pajaro1.choqueConLimitesVertical(vent);
 				// Choque entre bolas
 				grupoPajaros.compruebaChoqueCon(grupoEnemigos);
 				grupoPajaros.compruebaChoqueCon(grupoEstructuras);
