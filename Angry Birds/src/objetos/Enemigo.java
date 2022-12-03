@@ -9,7 +9,7 @@ public class Enemigo extends ObjetoPrimitivo{
 	public Enemigo(int x,int y,int radio) {
 		super(x,y);
 		this.radio=radio;
-		rutaFoto= "/imgs/enemigo.jpg";
+		rutaFoto= "/res/imgs/cerdo.png";
 	}
 	public void setX(int x) {
 		if (x-radio<0) {
@@ -35,7 +35,7 @@ public class Enemigo extends ObjetoPrimitivo{
 	}
 	
 	public void dibuja(VentanaJuego v) {
-		v.dibujaCirculo(x, y, radio, 3, Color.GREEN,Color.GREEN);
-	//	v.dibujaImagen(rutaFoto, (double)y, (double) x, v.getEscalaDibujo(),0,0);
+		//v.dibujaCirculo(x, y, radio, 3, Color.GREEN,Color.GREEN);
+		v.dibujaImagen("/imgs/cerdo.png", (double)y, (double) x,60,60, v.getEscalaDibujo(),0,1.0f);
 	}
 }

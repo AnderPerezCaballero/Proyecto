@@ -42,7 +42,7 @@ public class Pajaro extends ObjetoPrimitivo {
 		this.color=color;
 		vX = 0;// al principio los pajaros tiene que ser estaticos por lo que su velocidad es de 0 en ambas direcciones hasta que se realice el lanzamiento
 		vY =0;
-		rutaFoto= "/imgs/pajaro.jpg";
+		rutaFoto= "/res/imgs/pajaroRojo.png";
 	}
 	
 	public void moverYDibujar( VentanaJuego v, double incX, double incY ) {
@@ -56,8 +56,8 @@ public class Pajaro extends ObjetoPrimitivo {
 		v.dibujaCirculo( x, y, radio, 2, Color.WHITE );
 	}
 	public void dibuja(VentanaJuego v) {
-		v.dibujaCirculo(x, y, radio, 2, color);
-	//	v.dibujaImagen(rutaFoto, (double)y, (double) x, v.getEscalaDibujo(),0,0);
+//		v.dibujaCirculo(x, y, radio, 2, color);
+		v.dibujaImagen("/imgs/pajaroRojo.png", (double)y, (double) x,60,60, v.getEscalaDibujo(),0,1.0f);
 	}
 
 //	public void vuela() {
