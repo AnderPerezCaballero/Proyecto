@@ -2,9 +2,9 @@ package objetos.pajaros;
 
 import java.awt.Color;
 import java.awt.Point;
-import java.util.stream.Stream;
 
-import javax.swing.JFrame;
+
+
 
 import objetos.Enemigo;
 import objetos.Estructura;
@@ -12,24 +12,13 @@ import objetos.ObjetoPrimitivo;
 import objetos.VentanaJuego;
 
 public class Pajaro extends ObjetoPrimitivo {
-	protected int radio;
-	protected int vX;
-	protected int vY;
-	public Habilidad habilidad;
-	public Color color;
-	protected String rutaFoto;
-//	public Pajaro(int x, int y) {
-//		super(x, y);
-//		// TODO Auto-generated constructor stub
-//	}
-
-	public Color getColor() {
-		return color;
-	}
-
-	public void setColor(Color color) {
-		this.color = color;
-	}
+	
+	private static final String IMAGEN = "/imgs/PajaroRojo.png";
+	
+	private int radio;
+	private int vX;
+	private int vY;
+	private Habilidad habilidad;
 
 	/**Constructor de pajaro normal
 	 * @param x entero que indica la posicion en el eje x y ha de ser positivo o 0
@@ -39,10 +28,9 @@ public class Pajaro extends ObjetoPrimitivo {
 	public Pajaro(int x, int y, int radio,Color color) {
 		super(x, y);
 		this.radio = radio;
-		this.color=color;
 		vX = 0;// al principio los pajaros tiene que ser estaticos por lo que su velocidad es de 0 en ambas direcciones hasta que se realice el lanzamiento
 		vY =0;
-		rutaFoto= "/res/imgs/pajaroRojo.png";
+		habilidad = Habilidad.SINHABILIDAD;
 	}
 	
 	public void moverYDibujar( VentanaJuego v, double incX, double incY ) {
@@ -57,7 +45,7 @@ public class Pajaro extends ObjetoPrimitivo {
 	}
 	public void dibuja(VentanaJuego v) {
 //		v.dibujaCirculo(x, y, radio, 2, color);
-		v.dibujaImagen("/imgs/pajaroRojo.png", (double)y, (double) x,60,60, v.getEscalaDibujo(),0,1.0f);
+		v.dibujaImagen(IMAGEN, (double)y, (double) x,60,60, v.getEscalaDibujo(),0,1.0f);
 	}
 
 //	public void vuela() {
@@ -72,6 +60,7 @@ public class Pajaro extends ObjetoPrimitivo {
 	public boolean choqueConLimitesLaterales(VentanaJuego v) {
 		return x+radio>=v.getAnchura()||x-radio<=0;
 	}
+	
 	/**Metodo para comprobar si el pajaro rebota con los bordes de la pantalla de manera horizontal
 	 * @param v ventana cuyos bordes se comprobaran
 	 * @return booleano indicando si existe o no choque
@@ -79,6 +68,7 @@ public class Pajaro extends ObjetoPrimitivo {
 	public boolean choqueConLimitesVertical(VentanaJuego v) {
 		return y+radio>=v.getAltura()||y-radio<=0;
 	}
+	
 	/**Metdod para comprobar el choque con estructuras
 	 * @param e Estructura (con la que se comprueba el choque)
 	 * @return Boolean
@@ -97,6 +87,7 @@ public class Pajaro extends ObjetoPrimitivo {
 			return false;
 		}
 	}
+	
 	/**Metodo booleano para comprobar el choque con Enemigos 
 	 * @param e Enemigo
 	 * @return boolean
@@ -114,6 +105,7 @@ public class Pajaro extends ObjetoPrimitivo {
 		return (Math.sqrt(Math.pow(x-e.getX(),2)+Math.pow(y-e.getY(),2))<=radio+e.getRadio());
 //ambos metodos posiblemente deban tener uno complementario comprobando la fuerza del impacto
 	}
+	
 	/**Metodo booleano que devuelve si el pajaro choca con algun objeto
 	 * @param p el objeto con el que se realiza la prueba
 	 * @return boolean
@@ -132,21 +124,25 @@ public class Pajaro extends ObjetoPrimitivo {
 	
 //	public void dibuja(JFrame v) {
 //	}
+	
 	public void setX(int x) {
 		if (x-radio<0) {
 		}else {
 			this.x=x;
 		}
 	}
+	
 	public void setY(int y) {	
 		if (y-radio<0) {
 		}else {
 			this.y=y;
 		}
 	}
+	
 	public int getRadio() { 
 		return radio;
 	}
+	
 	/**Metodo set del parametro radio que no permite poner numeros negativos
 	 * @param radio solo permite enteros positivos
 	 */
@@ -156,26 +152,33 @@ public class Pajaro extends ObjetoPrimitivo {
 		this.radio = radio;
 		}// luego despues de probar definire mejor entre que parametros podra variar verdaderamente el radio
 	}
+	
 	public int getvX() {
 		return vX;
 	}
+	
 	public void setvX(int vX) {
 		this.vX = vX; // Metodo que sera usuado para aplicarle el movimiento al pajaroo en conunto de setvY
 	}
+	
 	public int getvY() {
 		return vY;
 	}
+	
 	public void setvY(int vY) {
 		this.vY = vY;
 	}
+	
 	public boolean contienePunto(Point punto) {
 		double dist= Math.sqrt(Math.pow(x-punto.getX(),2)+Math.pow(y-punto.getY(),2));
 		return dist<=radio;
 	}
+	
 	public void mueve(int tiempo) {
 		this.x= x+vX;
 		this.y=y+vY-gravedad(tiempo);
 	}
+	
 	public int gravedad(int tiempo) {
 		if(tiempo==5) {
 			return (int)Math.pow(2,5);
