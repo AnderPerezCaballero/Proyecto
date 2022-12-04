@@ -81,6 +81,8 @@ public class VentanaJuego {
 			}
 			@Override
 			protected void paintComponent(Graphics g) {
+				g.drawImage(Imagenes.getImageIcon("/imgs/FondoNivel.jpg").getImage(), 0, 0, getWidth(), getHeight(), this);
+				setOpaque(false);
 				super.paintComponent(g);
 				((Graphics2D)g).drawImage(buffer, null, 0, 0);
 			}
@@ -389,18 +391,16 @@ public class VentanaJuego {
 		return graphics;
 	}
 
-	/** Repinta la ventana. En caso de que el dibujado inmediato esté desactivado,
-	 * es imprescindible llamar a este método para que la ventana gráfica se refresque.
+	/** Repinta la ventana
+	 * 
 	 */
 	public void repaint() {
+//		graphics.drawImage(Imagenes.getImageIcon("/imgs/FondoNivel.jpg").getImage(), 0, 0, ventana.getWidth(), ventana.getHeight(), ventana);
 		panel.repaint();
-		graphics.drawImage(Imagenes.getImageIcon("/imgs/FondoNivel.jpg").getImage(), 0, 0, ventana.getWidth(), ventana.getHeight(), ventana);
 	}
 
-	/** Carga una imagen de un fichero gráfico y la dibuja en la ventana. Si la imagen no puede cargarse, no se dibuja nada.
-	 * El recurso gráfico se busca en el paquete de esta clase o en la clase llamadora.
-	 * El recurso gráfico se carga en memoria, de modo que al volver a dibujar la misma imagen, no se vuelve a cargar ya de fichero
-	 * @param recursoGrafico	Nombre del fichero (path absoluto desde la carpeta raíz de clases del proyecto o relativo desde este paquete)  (p. ej. "img/prueba.png")
+	/** Carga una imagen y la dibuja en la ventana. Si la imagen no puede cargarse, no se dibuja nada.
+	 * @param rutaImagen	Ruta de la imagen a dibujar
 	 * @param centroX	Coordenada x de la ventana donde colocar el centro de la imagen 
 	 * @param centroY	Coordenada y de la ventana donde colocar el centro de la imagen
 	 * @param anchuraDibujo	Pixels de anchura con los que dibujar la imagen (se escala de acuerdo a su tamaño)
@@ -409,10 +409,14 @@ public class VentanaJuego {
 	 * @param radsRotacion	Rotación en radianes
 	 * @param opacity	Opacidad (0.0f = totalmente transparente, 1.0f = totalmente opaca)
 	 */
-	public void dibujaImagen(String recursoGrafico, double centroX, double centroY, 
+	public void dibujaImagen(String rutaImagen, double centroX, double centroY, 
 			int anchuraDibujo, int alturaDibujo, double zoom, double radsRotacion, float opacity) {
 		
-		ImageIcon imageIcon = Imagenes.getImageIcon(recursoGrafico); if (imageIcon==null) return;
+		ImageIcon imageIcon = Imagenes.getImageIcon(rutaImagen);
+		
+		if (imageIcon==null) {
+			return;
+		}
 		
 		graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR); // Configuración para mejor calidad del gráfico escalado
 		graphics.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
@@ -434,17 +438,20 @@ public class VentanaJuego {
 	/** Carga una imagen de un fichero gráfico y la dibuja en la ventana. Si la imagen no puede cargarse, no se dibuja nada.
 	 * El recurso gráfico se busca en el paquete de esta clase o en la clase llamadora.
 	 * El recurso gráfico se carga en memoria, de modo que al volver a dibujar la misma imagen, no se vuelve a cargar ya de fichero
-	 * @param recursoGrafico	Nombre del fichero (path absoluto desde la carpeta raíz de clases del proyecto o relativo desde este paquete)  (p. ej. "img/prueba.png")
+	 * @param rutaImagen	Ruta de la imagen a dibujar
 	 * @param centroX	Coordenada x de la ventana donde colocar el centro de la imagen 
 	 * @param centroY	Coordenada y de la ventana donde colocar el centro de la imagen
 	 * @param zoom	Zoom a aplicar (mayor que 1 aumenta la imagen, menor que 1 y mayor que 0 la disminuye)
 	 * @param radsRotacion	Rotación en radianes
 	 * @param opacity	Opacidad (0.0f = totalmente transparente, 1.0f = totalmente opaca)
 	 */
-	public void dibujaImagen(String recursoGrafico, double centroX, double centroY, 
+	public void dibujaImagen(String rutaImagen, double centroX, double centroY, 
 			double zoom, double radsRotacion, float opacity) {
-		ImageIcon imageIcon = Imagenes.getImageIcon(recursoGrafico); if (imageIcon==null) return;
-		dibujaImagen(recursoGrafico, centroX, centroY, imageIcon.getIconWidth(), imageIcon.getIconHeight(), zoom, radsRotacion, opacity);
+		ImageIcon imageIcon = Imagenes.getImageIcon(rutaImagen);
+		if (imageIcon==null) {
+			return;
+		}
+		dibujaImagen(rutaImagen, centroX, centroY, imageIcon.getIconWidth(), imageIcon.getIconHeight(), zoom, radsRotacion, opacity);
 	}
 
 	/** Devuelve el objeto ventana (JFrame) correspondiente a la ventana de juego
