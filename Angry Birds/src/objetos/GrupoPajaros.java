@@ -13,7 +13,7 @@ public class GrupoPajaros extends GrupoOP {
 	}
 	public boolean compruebaChoqueLimites(VentanaJuego v) {
 		for(Pajaro p: listaPajaros) {
-			return p.choqueConLimitesLaterales(v)|| p.choqueConLimitesVertical(v);
+			return p.choqueConLimitesVerticales(v)|| p.choqueConLimitesHorizontales(v);
 		}return false;
 	}
 	public boolean compruebaChoqueCon(GrupoOP op) {

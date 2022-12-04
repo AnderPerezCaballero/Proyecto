@@ -13,9 +13,13 @@ public class Pajaro extends ObjetoPrimitivo {
 	private static final String IMAGEN = "/imgs/PajaroRojo.png";
 
 	private static int radio = 30;
-	private int vX;
-	private int vY;
+	private double vX;
+	private double vY;
 	private Habilidad habilidad;
+	private boolean estaSeleccionado;
+	private boolean lanzado;
+	private long tiempoEnAire;
+	private long momentoLanzado;
 
 	/**Constructor de pajaro normal
 	 * @param x entero que indica la posicion en el eje x y ha de ser positivo o 0
@@ -27,11 +31,35 @@ public class Pajaro extends ObjetoPrimitivo {
 		vX = 0;// al principio los pajaros tiene que ser estaticos por lo que su velocidad es de 0 en ambas direcciones hasta que se realice el lanzamiento
 		vY =0;
 		habilidad = Habilidad.SINHABILIDAD;
+		estaSeleccionado = false;
+		lanzado = false;
+	}
+	
+	public Pajaro(Point p, Color color) {
+		this(p.x, p.y, color);
 	}
 
 	public void dibuja(VentanaJuego v) {
-
-		v.dibujaImagen(IMAGEN, x, y, radio, radio, 1, 0,1.0f);
+		v.dibujaImagen(IMAGEN, x, y, radio, radio, 1, 0, 1.0f);
+		
+	}
+	
+	public void lanzar(Point posicionLanzado, Point posicionInicial) {
+		double distanciaX = posicionLanzado.distance(posicionInicial.x, posicionLanzado.y); 
+		double distanciaY = posicionLanzado.distance(posicionLanzado.x, posicionInicial.y); 
+		vX = distanciaX * (distanciaX / (distanciaX * distanciaX + distanciaY * distanciaY));
+		vY = - distanciaY * (distanciaX / (distanciaX * distanciaX + distanciaY * distanciaY));
+		lanzado = true;
+		tiempoEnAire = 0;
+		momentoLanzado = System.currentTimeMillis();
+	}
+	
+	public void move(int milisEntreFrames) {
+		tiempoEnAire += System.currentTimeMillis() - momentoLanzado;
+		System.out.println(x);
+		System.out.println(y);
+		x = (int) Math.round(x + vX * milisEntreFrames);
+		y = (int) Math.round(y + vY * tiempoEnAire / (1000 * milisEntreFrames) +  tiempoEnAire * tiempoEnAire / (1000 * 1000 * milisEntreFrames * milisEntreFrames));
 	}
 
 	//	public void vuela() {
@@ -43,16 +71,16 @@ public class Pajaro extends ObjetoPrimitivo {
 	 * @param v ventana cuyos bordes se comprobaran
 	 * @return booleano indicando si existe o no choque
 	 */
-	public boolean choqueConLimitesLaterales(VentanaJuego v) {
-		return x+radio>=v.getAnchura()||x-radio<=0;
+	public boolean choqueConLimitesVerticales(VentanaJuego v) {
+		return x+getRadio()>=v.getAnchura()||x-getRadio()<=0;
 	}
 
 	/**Metodo para comprobar si el pajaro rebota con los bordes de la pantalla de manera horizontal
 	 * @param v ventana cuyos bordes se comprobaran
 	 * @return booleano indicando si existe o no choque
 	 */
-	public boolean choqueConLimitesVertical(VentanaJuego v) {
-		return y+radio>=v.getAltura()||y-radio<=0;
+	public boolean choqueConLimitesHorizontales(VentanaJuego v) {
+		return y+getRadio()>=v.getAltura()||y-getRadio()<=0;
 	}
 
 	/**Metdod para comprobar el choque con estructuras
@@ -130,7 +158,7 @@ public class Pajaro extends ObjetoPrimitivo {
 	}
 
 	public int getRadio() { 
-		return radio;
+		return radio - 20;
 	}
 
 	/**Metodo set del parametro radio que no permite poner numeros negativos
@@ -143,29 +171,24 @@ public class Pajaro extends ObjetoPrimitivo {
 		}// luego despues de probar definire mejor entre que parametros podra variar verdaderamente el radio
 	}
 
-	public int getvX() {
+	public double getvX() {
 		return vX;
 	}
 
-	public void setvX(int vX) {
+	public void setvX(double vX) {
 		this.vX = vX; // Metodo que sera usuado para aplicarle el movimiento al pajaroo en conunto de setvY
 	}
 
-	public int getvY() {
+	public double getvY() {
 		return vY;
 	}
 
-	public void setvY(int vY) {
+	public void setvY(double vY) {
 		this.vY = vY;
 	}
 
 	public boolean contienePunto(Point punto) {
-		return punto.distance(radio, radio) < radio * 2;
-	}
-
-	public void mueve(int tiempo) {
-		this.x= x+vX;
-		this.y=y+vY-gravedad(tiempo);
+		return punto.distance(radio, radio) < getRadio() * 2;
 	}
 
 	public int gravedad(int tiempo) {
@@ -174,4 +197,17 @@ public class Pajaro extends ObjetoPrimitivo {
 		}
 		return 2*gravedad(tiempo+1);
 	}
+	
+	public boolean isSeleccionado() {
+		return estaSeleccionado;
+	}
+	
+	public void setSeleccionado(boolean seleccionado) {
+		estaSeleccionado = seleccionado;
+	}
+	
+	public boolean isLanzado() {
+		return lanzado;
+	}
+
 }
