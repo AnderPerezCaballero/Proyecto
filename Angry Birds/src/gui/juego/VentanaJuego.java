@@ -81,8 +81,6 @@ public class VentanaJuego {
 			}
 			@Override
 			protected void paintComponent(Graphics g) {
-				g.drawImage(Imagenes.getImageIcon("/imgs/FondoNivel.jpg").getImage(), 0, 0, getWidth(), getHeight(), this);
-				setOpaque(false);
 				super.paintComponent(g);
 				((Graphics2D)g).drawImage(buffer, null, 0, 0);
 			}
@@ -395,7 +393,7 @@ public class VentanaJuego {
 	 * 
 	 */
 	public void repaint() {
-//		graphics.drawImage(Imagenes.getImageIcon("/imgs/FondoNivel.jpg").getImage(), 0, 0, ventana.getWidth(), ventana.getHeight(), ventana);
+		graphics.drawImage(Imagenes.getImageIcon("/imgs/FondoNivel.jpg").getImage(), 0, 0, ventana.getWidth(), ventana.getHeight(), panel);
 		panel.repaint();
 	}
 

@@ -15,8 +15,7 @@ public abstract class ObjetoPrimitivo {
 	}
 	
 	public Point getLocation() {
-		Point p= new Point(x,y);
-		return p;
+		return new Point(x,y);
 	}
 	
 	public int getX() {
