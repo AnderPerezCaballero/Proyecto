@@ -16,7 +16,7 @@ import gui.inicio.VentanaJugar1;
 
 @SuppressWarnings("serial")
 public class VentanaRegistroSesion extends VentanaSesion{
-	
+
 	private JPanel panelConfirmarContraseña;
 	private JPanel panelConfirmarContraseña2;
 
@@ -30,6 +30,8 @@ public class VentanaRegistroSesion extends VentanaSesion{
 	 */
 	public VentanaRegistroSesion(VentanaJugar1 ventanaAnterior) {
 		super(8, ventanaAnterior);
+		
+		this.setTitle("Registrarme");
 
 		panelConfirmarContraseña = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		panelConfirmarContraseña2 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -59,7 +61,7 @@ public class VentanaRegistroSesion extends VentanaSesion{
 			if (getInputContraseña().getPassword() != null) {
 				inputConfirmarContraseña.requestFocus();
 			}
-		
+
 		});
 
 		inputConfirmarContraseña.addActionListener(e -> {
@@ -73,11 +75,10 @@ public class VentanaRegistroSesion extends VentanaSesion{
 	protected void siguienteVentana() {
 		try {
 			if(GestionUsuarios.comprobarUsuario(getInputUsuario().getText())) {
-				resetTextos();
+				resetTextos(true);
 				getLabelMensaje().setText("El usuario que has introducido ya está registrado");
 			}else if(!String.valueOf(getInputContraseña().getPassword()).equals(String.valueOf(inputConfirmarContraseña.getPassword()))) {
-				getInputContraseña().setText(null);
-				inputConfirmarContraseña.setText(null);
+				resetTextos(false);
 				getLabelMensaje().setText("Las contraseñas introducidas deben coincidir");
 				getInputContraseña().requestFocus();
 			}else {
@@ -124,8 +125,8 @@ public class VentanaRegistroSesion extends VentanaSesion{
 	}
 
 	@Override
-	protected void resetTextos() {
-		super.resetTextos();
-		inputConfirmarContraseña.setText(null);
+	protected void resetTextos(boolean resetAll) {
+		super.resetTextos(resetAll);
+		inputConfirmarContraseña.setText(null);		
 	}
 }

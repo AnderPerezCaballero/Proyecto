@@ -1,4 +1,4 @@
-package objetos;
+package gui.juego;
 
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
@@ -11,6 +11,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentListener;
 import java.awt.event.FocusAdapter;
@@ -42,6 +43,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import gui.componentes.Imagenes;
+import gui.sesion.VentanaSesion;
+
 public class VentanaJuego {
 
 	private JFrame ventana;         // Ventana que se visualiza
@@ -68,6 +72,7 @@ public class VentanaJuego {
 		cerrada = false;
 		ventana = new JFrame(titulo);
 		ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		ventana.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaSesion.class.getResource("/imgs/Icono.png")));
 		buffer = new BufferedImage(2000, 1500, BufferedImage.TYPE_INT_ARGB);
 		graphics = buffer.createGraphics();
 		panel = new JPanel() {

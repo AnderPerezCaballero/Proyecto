@@ -50,14 +50,14 @@ public abstract class VentanaJugar extends JFrame {
 	WindowListener actionVentana;
 
 	// Siempre igual
-	private static final String nombreVentana = "Angry Birds";
+	private static final String NOMBREVENTANA = "Angry Birds";
 
 	public VentanaJugar() {
 
 		this.setExtendedState(MAXIMIZED_BOTH);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaSesion.class.getResource("/imgs/Icono.png")));
-		this.setTitle(nombreVentana);
+		this.setTitle(NOMBREVENTANA);
 		cerrado = false;
 		
 		panelPrincipal = new MiPanel("/imgs/AngryBirdsInicio.jpg", new BorderLayout());

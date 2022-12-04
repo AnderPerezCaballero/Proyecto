@@ -17,6 +17,8 @@ public class VentanaInicioSesion extends VentanaSesion{
 	public VentanaInicioSesion(VentanaJugar1 ventanaAnterior) {
 		super(6, ventanaAnterior);
 		
+		this.setTitle("Iniciar Sesión");
+		
 		// Color de los paneles
 		colorPaneles(getFondooscuro());
 
@@ -40,11 +42,12 @@ public class VentanaInicioSesion extends VentanaSesion{
 	protected void siguienteVentana() {
 		try {
 			if(!GestionUsuarios.comprobarUsuario(getInputUsuario().getText())) {
-				resetTextos();
+				resetTextos(true);
 				getLabelMensaje().setText("El usuario introducido no existe");
 			}else if(!GestionUsuarios.comprobarContraseña(getInputUsuario().getText(), String.valueOf(getInputContraseña().getPassword()))) {
-				resetTextos();
+				resetTextos(false);
 				getLabelMensaje().setText("La contraseña introducida es incorrecta");
+				getInputContraseña().requestFocus();
 			}else {
 				setMensajeDeCarga(new MensajeCarga("Iniciando Sesión", "Sesión iniciada", this));
 				getMensajeDeCarga().start();

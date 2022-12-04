@@ -14,6 +14,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -37,10 +41,10 @@ import gui.juego.VentanaNiveles;
 public abstract class VentanaSesion extends JFrame{
 
 	//Atributos estáticos de la ventana
-	private static final int ANCHURAVENTANA = 350;
-	private static final int ALTURAVENTANA = 575;
-	private static final Color FONDOOSCURO = new Color(35, 39, 42);
-	private static final int COLUMNAS = 30;
+	private static int anchuraVentana = 350;
+	private static int alturaVentana = 575;
+	private static Color fondo = new Color(35, 39, 42);
+	private static int numColumnas = 30;
 
 	//Referencia de la ventana anterior
 	private static VentanaJugar ventanaAnterior;
@@ -86,16 +90,43 @@ public abstract class VentanaSesion extends JFrame{
 	//Usuario que va a hacer uso de la aplicación
 	private static Usuario usuario;
 	
+	//Variable que indica el borrado del mensaje que sale por pantalla
+	private boolean borrar;
+	
+	//Propiedades de la ventana
+	private Properties propiedades;
+	
 	/** Constructor de la ventana 
 	 * @param numeroDeDatos Variable que indica el número de datos que va a contener el gridLayout
 	 * @param anteriorVentana ventana a la que se debe volver en caso de que el usuario decida ir hacia atrás
 	 */
 	public VentanaSesion(int numeroDeDatos, VentanaJugar1 anteriorVentana) {
 
+		propiedades = new Properties();
+		
+		//Se inicializa el label primero que todo para sacar mensajes en la ventana en caso de error
+		labelMensaje = new JLabel();
+		
+		// Carga el fichero de propiedades en el objeto Properties
+		try (InputStream input = new FileInputStream("lib/propiedades.properties")) {
+		    propiedades.load(input);
+		    
+		    int r = Integer.parseInt(propiedades.getProperty("Fondo_R"));
+		    int g = Integer.parseInt(propiedades.getProperty("Fondo_G"));
+		    int b = Integer.parseInt(propiedades.getProperty("Fondo_B"));
+		    fondo = new Color(r, g, b);
+		    
+		    anchuraVentana = Integer.parseInt(propiedades.getProperty("Anchura_Ventana"));
+		    alturaVentana = Integer.parseInt(propiedades.getProperty("Altura_Ventana"));
+			
+		} catch (IOException | IllegalArgumentException e) {
+		    labelMensaje.setText("Propiedades de la ventana no cargadas");
+		}	
+		
 		ventanaAnterior = anteriorVentana;
 		// Inicialización de la ventana
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.setSize(ANCHURAVENTANA, ALTURAVENTANA);
+		this.setSize(anchuraVentana, alturaVentana);
 		this.estaCerrada = false;
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaSesion.class.getResource("/imgs/Icono.png")));
 
@@ -116,11 +147,10 @@ public abstract class VentanaSesion extends JFrame{
 
 		labelUsuario = new JLabel("Usuario:");
 		labelContraseña = new JLabel("Contraseña:");
-		inputUsuario = new JTextField(COLUMNAS);
-		inputContraseña = new JPasswordField(COLUMNAS);
-		labelMensaje = new JLabel();
+		inputUsuario = new JTextField(numColumnas);
+		inputContraseña = new JPasswordField(numColumnas);
 
-		botonAceptar = new MiBoton(Color.WHITE, FONDOOSCURO.brighter(), 35, 35);
+		botonAceptar = new MiBoton(Color.WHITE, fondo.brighter(), 35, 35);
 
 		volver = new JLabel(imagenReescalada("/imgs/FlechaBlanca.png", 40, 40));
 
@@ -129,7 +159,7 @@ public abstract class VentanaSesion extends JFrame{
 		// Configurar componentes
 		botonAceptar.setEnabled(false);
 		botonAceptar.setToolTipText("Pulsa aquí para confirmar tus datos");
-		botonAceptar.setPreferredSize(new Dimension(ANCHURAVENTANA - 40, 40));
+		botonAceptar.setPreferredSize(new Dimension(anchuraVentana - 40, 40));
 
 		//Añadir componentes a contenedores				
 		panelUsuario.add(labelUsuario);
@@ -157,6 +187,8 @@ public abstract class VentanaSesion extends JFrame{
 
 		panelInferior.add(panelAceptar);
 
+		borrar = true;
+		
 		//EVENTOS
 		cierraConEsc = new KeyAdapter() {
 			@Override
@@ -305,7 +337,7 @@ public abstract class VentanaSesion extends JFrame{
 	 * @param alto Altura que se le quiere dar a la imagen
 	 * @return Objeto ImageIcon reescalado de una manera "smooth"
 	 */
-	public static ImageIcon imagenReescalada(String ruta, int ancho, int alto) {   
+	public static ImageIcon imagenReescalada(String ruta, int ancho, int alto) {  
 		return new ImageIcon(new ImageIcon(VentanaSesion.class.getResource(ruta)).getImage().getScaledInstance(ancho, alto,  java.awt.Image.SCALE_SMOOTH));
 	}
 
@@ -323,7 +355,20 @@ public abstract class VentanaSesion extends JFrame{
 	 * @throws NullPointerException En caso que en algún campo no se haya escrito nada
 	 */
 	protected boolean condicionesBorrarMensaje() throws NullPointerException {
-		return inputUsuario.getText().length() > 0 || inputContraseña.getPassword().length > 0;
+		return (inputUsuario.getText().length() > 0 || inputContraseña.getPassword().length > 0) && borrar;
+	}
+	
+	/**Resetea los textos de todos los JTextFields de la ventana
+	 * @param resetAll Variable que especifica si resetear todos los textos (true), o sólo la contraseña (false)
+	 */
+	protected void resetTextos(boolean resetAll) {
+		if(resetAll) {
+			inputUsuario.setText(null);
+			borrar = true;
+		}else {
+			borrar = false;
+		}
+		inputContraseña.setText(null);
 	}
 
 	/** Pinta todos los paneles de la ventana de cierto color
@@ -361,14 +406,6 @@ public abstract class VentanaSesion extends JFrame{
 		guardarDispositivo.setForeground(Color.WHITE);
 	}
 
-	/**Resetea los textos de todos los JTextFields de la ventana
-	 * 
-	 */
-	protected void resetTextos() {
-		inputUsuario.setText(null);
-		inputContraseña.setText(null);
-	}
-
 	/**Cierra las ventanas relacionadas con el inicio de sesión y da comienzo al juego
 	 * 
 	 */
@@ -384,7 +421,7 @@ public abstract class VentanaSesion extends JFrame{
 	 * @return el color a devolver
 	 */
 	public static Color getFondooscuro() {
-		return FONDOOSCURO;
+		return fondo;
 	}
 
 	/** Devuelve el panelDatos
@@ -426,7 +463,7 @@ public abstract class VentanaSesion extends JFrame{
 	 * @return el número de columnas a devolver
 	 */
 	public static int getColumnas() {
-		return COLUMNAS;
+		return numColumnas;
 	}
 
 	/** Devuelve el botonAceptar

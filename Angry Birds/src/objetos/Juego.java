@@ -6,6 +6,7 @@ import java.awt.Point;
 
 import javax.swing.JFrame;
 
+import gui.juego.VentanaJuego;
 import objetos.pajaros.Pajaro;
 
 

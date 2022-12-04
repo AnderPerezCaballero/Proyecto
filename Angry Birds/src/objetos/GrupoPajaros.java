@@ -2,6 +2,7 @@ package objetos;
 
 import java.util.List;
 
+import gui.juego.VentanaJuego;
 import objetos.pajaros.Pajaro;
 
 public class GrupoPajaros extends GrupoOP {

@@ -2,6 +2,8 @@ package objetos;
 
 import java.awt.Point;
 
+import gui.juego.VentanaJuego;
+
 public class Enemigo extends ObjetoPrimitivo{
 	
 	private static final String IMAGEN = "/imgs/cerdo.png"; 

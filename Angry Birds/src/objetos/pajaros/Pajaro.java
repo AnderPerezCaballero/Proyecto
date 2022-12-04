@@ -3,13 +3,10 @@ package objetos.pajaros;
 import java.awt.Color;
 import java.awt.Point;
 
-
-
-
+import gui.juego.VentanaJuego;
 import objetos.Enemigo;
 import objetos.Estructura;
 import objetos.ObjetoPrimitivo;
-import objetos.VentanaJuego;
 
 public class Pajaro extends ObjetoPrimitivo {
 	

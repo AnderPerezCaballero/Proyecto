@@ -2,6 +2,8 @@ package objetos;
 
 import java.awt.Point;
 
+import gui.juego.VentanaJuego;
+
 public abstract class ObjetoPrimitivo {
 	
 	protected int x;
