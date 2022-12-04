@@ -33,5 +33,53 @@ public class NivelTest {
 		assertEquals("RutaEjemplo", nv.getRutaMapa() );
 		
 	}
+
+	@Test 
+	public void setRutaMapaTest() {
+		nv.setRutaMapa("NuevaRuta");
+		assertEquals("NuevaRuta", nv.getRutaMapa());
+	}
 	
+	@Test
+	public void getIdTest() {
+		assertEquals(1, nv.getId());
+		
+	}
+	
+	@Test
+	public void setIdTest() {
+		nv.setId(2);
+		assertEquals(2, nv.getId());
+	}
+	
+	@Test
+	public void getNumCerdosTest() {
+		assertEquals(4, nv.getNumCerdos());
+	}
+	
+	@Test
+	public void setNumCerdosTest() {
+		nv.setNumCerdos(2);
+		assertEquals(2, nv.getNumCerdos());
+	}
+	
+	@Test
+	public void getListaPajarosTest() {
+		assertEquals(listaPajaros, nv.getListaPajaros());
+		
+	}
+	
+	@Test
+	public void setListaPajarosTest() {
+		List<Pajaro> nuevaLista = new ArrayList<>();
+		nuevaLista.add(new Pajaro(13, 10, 12, null));
+		nuevaLista.add(new Pajaro(15, 6, 10, null));
+		nuevaLista.add(new Pajaro(15, 10, 7, null));
+		
+		nv.setListaPajaros(nuevaLista);
+		assertEquals(nuevaLista, nv.getListaPajaros());
+	}
+	
+
+
 }
