@@ -26,7 +26,7 @@ public class Juego {
 	
 	private static Point posicionRaton;
 	
-	private static final Point POSICIONINICIALPAJARO = new Point(150, 515);
+	private static final Point POSICIONINICIALPAJARO = new Point(180, 620);
 	private static Pajaro pajaro;
 	
 	private static final Color COLORTIRAPAJAROS = new Color(48, 22, 8);
@@ -69,9 +69,9 @@ public class Juego {
 				}
 				if(ventanaJuego.isRatonPulsado() && pajaro.isSeleccionado()) {
 					pajaro.setLocation(posicionRaton);
-					ventanaJuego.dibujaLinea(160, 520, pajaro.getX(), pajaro.getY(), 4, COLORTIRAPAJAROS);
+					ventanaJuego.dibujaLinea(180, 620, pajaro.getX(), pajaro.getY(), 4, COLORTIRAPAJAROS);
 					pajaro.dibuja(ventanaJuego);
-					ventanaJuego.dibujaLinea(140, 525, pajaro.getX(), pajaro.getY() , 4, COLORTIRAPAJAROS);		
+					ventanaJuego.dibujaLinea(160, 625, pajaro.getX(), pajaro.getY() , 4, COLORTIRAPAJAROS);		
 				}else {
 					if(pajaro.isSeleccionado() && !ventanaJuego.isRatonPulsado()) {
 						pajaro.setLocation(POSICIONINICIALPAJARO);
@@ -95,7 +95,7 @@ public class Juego {
 			
 //			grupoPajaros.dibuja(ventanaJuego);
 //			if(pajaro.getLocation().distance(new Point(150, 515)) < pajaro.getRadio()) {
-				ventanaJuego.dibujaImagen("/imgs/TiraPajarosDelante.png", 149, 551, 0.47, 0, 1);
+			//	ventanaJuego.dibujaImagen("/imgs/TiraPajarosDelante.png", 149, 551, 0.47, 0, 1);
 //			}
 			
 
