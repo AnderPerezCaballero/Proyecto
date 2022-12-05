@@ -18,7 +18,7 @@ public class Juego {
 	private static final int TAMANYO_Estructura = 50;  // Tamaño estándar de la Estructura
 	private static VentanaJuego ventanaJuego;
 	private static JFrame ventana;
-	private static GrupoPajaros grupoPajaros;
+	private static GrupoOP grupoPajaros;
 	private static GrupoOP grupoEstructuras;
 	private static GrupoOP grupoEnemigos;
 	private static long milisAbierta;
@@ -34,7 +34,7 @@ public class Juego {
 	public static void init() {
 		
 		ventanaJuego = new VentanaJuego();
-		grupoPajaros = new GrupoPajaros();
+		grupoPajaros = new GrupoOP();
 		grupoEnemigos= new GrupoOP();
 		grupoEstructuras= new GrupoOP((int)Math.random()*20);
 //		grupoPajaros.anyadeObjetoPrimitivo();
@@ -85,9 +85,7 @@ public class Juego {
 					pajaro.setvX(0);
 					pajaro.setY(700);
 				}
-				if(pajaro.choqueConEnemigos(grupoPajaros)!=null) {
 					grupoEnemigos.remover(pajaro.choqueConEnemigos(grupoEnemigos));
-				}
 			}
 			
 			pajaro.dibuja(ventanaJuego);
