@@ -82,8 +82,7 @@ public class Juego {
 			}else {
 				pajaro.move(milisEntreFrames);
 				if(pajaro.choqueConLimitesHorizontales(ventanaJuego)) {
-					pajaro.setvX(0);
-					pajaro.setY(700);
+					pajaro.setvY(-pajaro.getvY());
 				}
 					grupoEnemigos.remover(pajaro.choqueConEnemigos(grupoEnemigos));
 			}

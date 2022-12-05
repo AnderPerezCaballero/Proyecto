@@ -81,7 +81,7 @@ public class Pajaro extends ObjetoPrimitivo {
 	 * @return booleano indicando si existe o no choque
 	 */
 	public boolean choqueConLimitesHorizontales(VentanaJuego v) {
-		return y+getRadio()<=0||y-getRadio()>=700;
+		return y+getRadio()<=0||y-getRadio()>=600;
 	}
 
 	/**Metdod para comprobar el choque con estructuras
