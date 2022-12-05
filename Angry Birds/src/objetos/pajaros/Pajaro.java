@@ -6,6 +6,7 @@ import java.awt.Point;
 import gui.juego.VentanaJuego;
 import objetos.Enemigo;
 import objetos.Estructura;
+import objetos.GrupoOP;
 import objetos.ObjetoPrimitivo;
 
 public class Pajaro extends ObjetoPrimitivo {
@@ -48,7 +49,7 @@ public class Pajaro extends ObjetoPrimitivo {
 		double distanciaX = posicionLanzado.distance(posicionInicial.x, posicionLanzado.y); 
 		double distanciaY = posicionLanzado.distance(posicionLanzado.x, posicionInicial.y); 
 		vX = distanciaX * (distanciaX / (distanciaX * distanciaX + distanciaY * distanciaY));
-		vY = - distanciaY * (distanciaX / (distanciaX * distanciaX + distanciaY * distanciaY));
+		vY = distanciaY * (distanciaX / (distanciaX * distanciaX + distanciaY * distanciaY));
 		lanzado = true;
 		tiempoEnAire = 0;
 		momentoLanzado = System.currentTimeMillis();
@@ -59,11 +60,11 @@ public class Pajaro extends ObjetoPrimitivo {
 		System.out.println(x);
 		System.out.println(y);
 		x = (int) Math.round(x + vX * milisEntreFrames);
-		y = (int) Math.round(y + vY * tiempoEnAire / (1000 * milisEntreFrames) +  tiempoEnAire * tiempoEnAire / (1000 * 1000 * milisEntreFrames * milisEntreFrames));
+		y = (int) Math.round(y + vY * milisEntreFrames );
 	}
-
 	//	public void vuela() {
-	//		this.setX(x+vX);
+	//		this.setX(x+vX);/ (1000 * milisEntreFrames) +  tiempoEnAire * tiempoEnAire / (1000 * 1000 * milisEntreFrames * milisEntreFrames));
+	//}
 	//		this.setY(vY);// sera mas desarrollado hasta aplicar una función óptima
 	//	} 
 
@@ -80,48 +81,41 @@ public class Pajaro extends ObjetoPrimitivo {
 	 * @return booleano indicando si existe o no choque
 	 */
 	public boolean choqueConLimitesHorizontales(VentanaJuego v) {
-		return y+getRadio()>=v.getAltura()||y-getRadio()<=0;
+		return y+getRadio()<=0||y-getRadio()>=700;
 	}
 
 	/**Metdod para comprobar el choque con estructuras
 	 * @param e Estructura (con la que se comprueba el choque)
 	 * @return Boolean
 	 */
-	public boolean choqueConEstructura(Estructura e) {
-		//		Creo esste metodo para simplificar el metoddo choqueCon		
-		//		if () {
-		//			return true;
-		//		}if ((x+radio<= e.getX()+e.getAnchura()/2&&x+radio>= e.getX()-e.getAnchura()/2)&&(y-radio<= e.getY()+e.getAltura()/2&&y-radio>= e.getY()-e.getAltura()/2)) {
-		//			return true;
-		//		}if ((x-radio<= e.getX()+e.getAnchura()/2&&x-radio>= e.getX()-e.getAnchura()/2)&&(y+radio<= e.getY()+e.getAltura()/2&&y+radio>= e.getY()-e.getAltura()/2)) {
-		//			return true;
-		//		}if ((x-radio<= e.getX()+e.getAnchura()/2&&x-radio>= e.getX()-e.getAnchura()/2)&&(y-radio<= e.getY()+e.getAltura()/2&&y-radio>= e.getY()-e.getAltura()/2)) {
-		//			return true;
-		//		}else {
-		//			return false;
-		//		}
-
-		return (x+radio<= e.getX()+e.getAnchura()/2&&x+radio>= e.getX()-e.getAnchura()/2)&&(y+radio<= e.getY()+e.getAltura()/2&&y+radio>= e.getY()-e.getAltura()/2)
-				|| (x+radio<= e.getX()+e.getAnchura()/2&&x+radio>= e.getX()-e.getAnchura()/2)&&(y-radio<= e.getY()+e.getAltura()/2&&y-radio>= e.getY()-e.getAltura()/2)
-				|| (x-radio<= e.getX()+e.getAnchura()/2&&x-radio>= e.getX()-e.getAnchura()/2)&&(y+radio<= e.getY()+e.getAltura()/2&&y+radio>= e.getY()-e.getAltura()/2)
-				|| (x-radio<= e.getX()+e.getAnchura()/2&&x-radio>= e.getX()-e.getAnchura()/2)&&(y-radio<= e.getY()+e.getAltura()/2&&y-radio>= e.getY()-e.getAltura()/2);
+	public Estructura choqueConEstructura(GrupoOP op) {
+		for (ObjetoPrimitivo o: op.getGrupoOP()) {
+			if(o instanceof Estructura) {
+				Estructura e= (Estructura)o;
+				if (x+radio<= e.getX()+e.getAnchura()/2&&x+radio>= e.getX()-e.getAnchura()/2)&&((y+getRadio()<= e.getY()+e.getAltura()/2)&&(y+getRadio()>= e.getY()-e.getAltura()/2))
+				|| (x+getRadio()<= e.getX()+e.getAnchura()/2&&x+getRadio()>= e.getX()-e.getAnchura()/2)&&(y-getRadio()<= e.getY()+e.getAltura()/2&&y-getRadio()>= e.getY()-e.getAltura()/2)
+				|| (x-getRadio()<= e.getX()+e.getAnchura()/2&&x-getRadio()>= e.getX()-e.getAnchura()/2)&&(y+getRadio()<= e.getY()+e.getAltura()/2&&y+getRadio()>= e.getY()-e.getAltura()/2)
+				|| (x-getRadio()<= e.getX()+e.getAnchura()/2&&x-getRadio()>= e.getX()-e.getAnchura()/2)&&(y-getRadio()<= e.getY()+e.getAltura()/2&&y-getRadio()>= e.getY()-e.getAltura()/2){
+					return e;
+			}
+		}
+		}return null;
 	}
 
 	/**Metodo booleano para comprobar el choque con Enemigos 
 	 * @param e Enemigo
 	 * @return boolean
 	 */
-	public boolean choqueConEnemigos(Enemigo e) {
-		//		Creo este metodo para simplificar el metoddo choqueCon
-		//		if (x+radio== e.getX()-e.getRadio()) {
-		//			return true;
-		//		}if (x-radio== e.getX()+e.getRadio()) {
-		//			return true;
-		//		}if (y+radio== e.getY()-e.getRadio()) {
-		//			return true;
-		//		}if (y-radio== e.getY()+e.getRadio() ) {
-		//			return true;
-		return (Math.sqrt(Math.pow(x-e.getX(),2)+Math.pow(y-e.getY(),2))<=radio+e.getRadio());
+	public Enemigo choqueConEnemigos(GrupoOP op) {
+		for (ObjetoPrimitivo o: op.getGrupoOP()) {
+			if (o instanceof Enemigo) {
+				Enemigo e= (Enemigo) o;
+				Point p= new Point(e.getX(), e.getY());
+				if(p.distance(x,y)<e.getRadio()+getRadio()){
+					return e;
+				}
+			}
+		}return null;
 		//ambos metodos posiblemente deban tener uno complementario comprobando la fuerza del impacto
 	}
 
@@ -129,7 +123,7 @@ public class Pajaro extends ObjetoPrimitivo {
 	 * @param p el objeto con el que se realiza la prueba
 	 * @return boolean
 	 */
-	public boolean choqueCon (ObjetoPrimitivo p) {
+	public ObjetoPrimitivo choqueCon (ObjetoPrimitivo p) {
 		if(p instanceof Estructura) {
 			Estructura e= (Estructura) p;
 			return choqueConEstructura(e);
@@ -137,12 +131,10 @@ public class Pajaro extends ObjetoPrimitivo {
 			Enemigo e = (Enemigo) p;
 			return choqueConEnemigos(e);
 		}else {
-			return false;
+			return null;
 		}
 	}
 
-	//	public void dibuja(JFrame v) {
-	//	}
 
 	public void setX(int x) {
 		this.x=x;
@@ -164,12 +156,6 @@ public class Pajaro extends ObjetoPrimitivo {
 	/**Metodo set del parametro radio que no permite poner numeros negativos
 	 * @param radio solo permite enteros positivos
 	 */
-	public void setRadio(int radio) {
-		if (radio<0) {
-		}else {
-			this.radio = radio;
-		}// luego despues de probar definire mejor entre que parametros podra variar verdaderamente el radio
-	}
 
 	public double getvX() {
 		return vX;

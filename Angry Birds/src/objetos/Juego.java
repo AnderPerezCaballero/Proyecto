@@ -39,7 +39,7 @@ public class Juego {
 		grupoEstructuras= new GrupoOP((int)Math.random()*20);
 //		grupoPajaros.anyadeObjetoPrimitivo();
 		for (int i=0;i<3;i++) {
-			grupoEnemigos.anyadeObjetoPrimitivo(new Enemigo(1000+100*i,700,20));
+			grupoEnemigos.anyadeObjetoPrimitivo(new Enemigo(700,(1000+100*i),60));
 		}
 		
 		pajaro = new Pajaro(POSICIONINICIALPAJARO, null);
@@ -81,10 +81,17 @@ public class Juego {
 				}
 			}else {
 				pajaro.move(milisEntreFrames);
+				if(pajaro.choqueConLimitesHorizontales(ventanaJuego)) {
+					pajaro.setvX(0);
+					pajaro.setY(700);
+				}
+				if(pajaro.choqueConEnemigos(grupoPajaros)!=null) {
+					grupoEnemigos.remover(pajaro.choqueConEnemigos(grupoEnemigos));
+				}
 			}
 			
 			pajaro.dibuja(ventanaJuego);
-			
+			grupoEnemigos.dibuja(ventanaJuego);
 
 			
 			

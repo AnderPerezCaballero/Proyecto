@@ -113,6 +113,10 @@ public class GrupoOP {
 		return null;
 	}
 	
+	public void remover(ObjetoPrimitivo op) {
+		this.getGrupoOP().remove(op);	
+		}
+	
 	public List<ObjetoPrimitivo> getGrupoOP() {
 		return grupoOP;
 	}
