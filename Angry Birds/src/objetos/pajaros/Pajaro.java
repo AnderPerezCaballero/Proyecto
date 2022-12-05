@@ -91,11 +91,11 @@ public class Pajaro extends ObjetoPrimitivo {
 	public Estructura choqueConEstructura(GrupoOP op) {
 		for (ObjetoPrimitivo o: op.getGrupoOP()) {
 			if(o instanceof Estructura) {
-				Estructura e= (Estructura)o;
-				if (x+radio<= e.getX()+e.getAnchura()/2&&x+radio>= e.getX()-e.getAnchura()/2)&&((y+getRadio()<= e.getY()+e.getAltura()/2)&&(y+getRadio()>= e.getY()-e.getAltura()/2))
+				Estructura e = (Estructura)o;
+				if ((x+radio <= e.getX()+e.getAnchura()/2&&x+radio>= e.getX()-e.getAnchura()/2)&&((y+getRadio()<= e.getY()+e.getAltura()/2)&&(y+getRadio()>= e.getY()-e.getAltura()/2))
 				|| (x+getRadio()<= e.getX()+e.getAnchura()/2&&x+getRadio()>= e.getX()-e.getAnchura()/2)&&(y-getRadio()<= e.getY()+e.getAltura()/2&&y-getRadio()>= e.getY()-e.getAltura()/2)
 				|| (x-getRadio()<= e.getX()+e.getAnchura()/2&&x-getRadio()>= e.getX()-e.getAnchura()/2)&&(y+getRadio()<= e.getY()+e.getAltura()/2&&y+getRadio()>= e.getY()-e.getAltura()/2)
-				|| (x-getRadio()<= e.getX()+e.getAnchura()/2&&x-getRadio()>= e.getX()-e.getAnchura()/2)&&(y-getRadio()<= e.getY()+e.getAltura()/2&&y-getRadio()>= e.getY()-e.getAltura()/2){
+				|| (x-getRadio()<= e.getX()+e.getAnchura()/2&&x-getRadio()>= e.getX()-e.getAnchura()/2)&&(y-getRadio()<= e.getY()+e.getAltura()/2&&y-getRadio()>= e.getY()-e.getAltura()/2)){
 					return e;
 			}
 		}
