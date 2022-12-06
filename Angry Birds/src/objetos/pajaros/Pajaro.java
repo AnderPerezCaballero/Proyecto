@@ -7,13 +7,14 @@ import gui.juego.VentanaJuego;
 import objetos.Enemigo;
 import objetos.Estructura;
 import objetos.GrupoOP;
+import objetos.Juego;
 import objetos.ObjetoPrimitivo;
 
 public class Pajaro extends ObjetoPrimitivo {
 
 	private static final String IMAGEN = "/imgs/PajaroRojo.png";
 
-	private static int radio = 30;
+	private static int radio = 15;
 	private double vX;
 	private double vY;
 	private Habilidad habilidad;
@@ -41,26 +42,33 @@ public class Pajaro extends ObjetoPrimitivo {
 	}
 
 	public void dibuja(VentanaJuego v) {
-		v.dibujaImagen(IMAGEN, x, y, radio, radio, 1, 0, 1.0f);
+		v.dibujaImagen(IMAGEN, x, y, radio * 2, radio * 2, 1, 0, 1.0f);
 		
 	}
 	
 	public void lanzar(Point posicionLanzado, Point posicionInicial) {
 		double distanciaX = posicionLanzado.distance(posicionInicial.x, posicionLanzado.y); 
 		double distanciaY = posicionLanzado.distance(posicionLanzado.x, posicionInicial.y); 
-		vX = distanciaX * (distanciaX / (distanciaX * distanciaX + distanciaY * distanciaY));
-		vY = distanciaY * (distanciaX / (distanciaX * distanciaX + distanciaY * distanciaY));
+		double angulo = Math.toRadians(Math.atan(distanciaX / distanciaY) * 180.0 / Math.PI);
+		vX = distanciaX * Math.cos(angulo);
+		vY = distanciaY * Math.sin(angulo);
 		lanzado = true;
 		tiempoEnAire = 0;
 		momentoLanzado = System.currentTimeMillis();
+		System.out.println(vX);
+		System.out.println(vY);
+	}
+	
+	public void dibujarVectorLanzamiento(VentanaJuego v, Point posicionLanzado, Point posicionInicial) {
+		v.dibujaFlecha(posicionLanzado.x, posicionLanzado.y, posicionInicial.x, posicionInicial.y, 2, Color.RED);
 	}
 	
 	public void move(int milisEntreFrames) {
+//		milisEntreFrames = milisEntreFrames / 1000;
 		tiempoEnAire += System.currentTimeMillis() - momentoLanzado;
-		System.out.println(x);
-		System.out.println(y);
 		x = (int) Math.round(x + vX * milisEntreFrames);
-		y = (int) Math.round(y + vY * milisEntreFrames );
+		y = (int) Math.round(y + vY * milisEntreFrames);
+//		System.out.println(getLocation());
 	}
 	//	public void vuela() {
 	//		this.setX(x+vX);/ (1000 * milisEntreFrames) +  tiempoEnAire * tiempoEnAire / (1000 * 1000 * milisEntreFrames * milisEntreFrames));
@@ -68,20 +76,19 @@ public class Pajaro extends ObjetoPrimitivo {
 	//		this.setY(vY);// sera mas desarrollado hasta aplicar una función óptima
 	//	} 
 
-	/**Metodo para comprobar si el pajaro rebota con los bordes de la pantalla de manera horizontal
+	/**Metodo para comprobar si el pajaro rebota con los bordes de la pantalla de manera horizontal. Solo se tiene en cuenta el borde izquierdo
 	 * @param v ventana cuyos bordes se comprobaran
 	 * @return booleano indicando si existe o no choque
 	 */
-	public boolean choqueConLimitesVerticales(VentanaJuego v) {
-		return x+getRadio()>=v.getAnchura()||x-getRadio()<=0;
+	public boolean choqueConLimitesVerticales() {
+		return x-getRadio()<=0;
 	}
 
-	/**Metodo para comprobar si el pajaro rebota con los bordes de la pantalla de manera horizontal
-	 * @param v ventana cuyos bordes se comprobaran
+	/**Metodo para comprobar que el pájaro rebota con el suelo
 	 * @return booleano indicando si existe o no choque
 	 */
-	public boolean choqueConLimitesHorizontales(VentanaJuego v) {
-		return y+getRadio()<=0||y-getRadio()>=600;
+	public boolean choqueConLimitesHorizontales() {
+		return y + radio >= Juego.getYSuelo();
 	}
 
 	/**Metdod para comprobar el choque con estructuras
@@ -150,7 +157,7 @@ public class Pajaro extends ObjetoPrimitivo {
 	}
 
 	public int getRadio() { 
-		return radio - 20;
+		return radio;
 	}
 
 	/**Metodo set del parametro radio que no permite poner numeros negativos

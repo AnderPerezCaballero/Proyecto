@@ -88,6 +88,7 @@ public class VentanaJuego {
 		panel.setLayout(null);  // Layout nulo para cuando saquemos componentes encima del dibujo
 		ventana.getContentPane().add(panel, BorderLayout.CENTER);
 		ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		ventana.setSize(1280, 720);
 		ventana.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
