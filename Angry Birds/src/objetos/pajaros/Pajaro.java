@@ -48,15 +48,30 @@ public class Pajaro extends ObjetoPrimitivo {
 	
 	public void lanzar(Point posicionLanzado, Point posicionInicial) {
 		double distanciaX = posicionLanzado.distance(posicionInicial.x, posicionLanzado.y); 
-		double distanciaY = posicionLanzado.distance(posicionLanzado.x, posicionInicial.y); 
-		double angulo = Math.toRadians(Math.atan(distanciaX / distanciaY) * 180.0 / Math.PI);
-		vX = distanciaX * Math.cos(angulo);
-		vY = distanciaY * Math.sin(angulo);
+		double distanciaY = posicionLanzado.distance(posicionLanzado.x, posicionInicial.y);
+		
+		double angulo = Math.toRadians(Math.atan(distanciaY / distanciaX) * 180.0 / Math.PI);
+		double v = Math.sqrt(distanciaX * distanciaX + distanciaY * distanciaY);
+		
+		vX = v * Math.cos(angulo);
+		vY = v * Math.sin(angulo);
+		
+		if(posicionLanzado.x > posicionInicial.x) {
+			vX = -vX;
+		}
+		if(posicionLanzado.y > posicionInicial.y) {
+			vY = -vY;
+		}
+
 		lanzado = true;
 		tiempoEnAire = 0;
-		momentoLanzado = System.currentTimeMillis();
-		System.out.println(vX);
-		System.out.println(vY);
+		momentoLanzado = System.currentTimeMillis() / 10000;
+		
+//		System.out.println(posicionLanzado.x - posicionInicial.x);
+//		System.out.println(posicionLanzado.y - posicionInicial.y);
+//		System.out.println(angulo);
+//		System.out.println(vX);
+//		System.out.println(vY);
 	}
 	
 	public void dibujarVectorLanzamiento(VentanaJuego v, Point posicionLanzado, Point posicionInicial) {
@@ -64,11 +79,12 @@ public class Pajaro extends ObjetoPrimitivo {
 	}
 	
 	public void move(int milisEntreFrames) {
-//		milisEntreFrames = milisEntreFrames / 1000;
-		tiempoEnAire += System.currentTimeMillis() - momentoLanzado;
+		milisEntreFrames = milisEntreFrames / 1000;
+		tiempoEnAire += System.currentTimeMillis() / 10000 - momentoLanzado;
 		x = (int) Math.round(x + vX * milisEntreFrames);
 		y = (int) Math.round(y + vY * milisEntreFrames);
-//		System.out.println(getLocation());
+//		vY = (int) Math.round(vY + vY * 0.1);
+		System.out.println(getLocation());
 	}
 	//	public void vuela() {
 	//		this.setX(x+vX);/ (1000 * milisEntreFrames) +  tiempoEnAire * tiempoEnAire / (1000 * 1000 * milisEntreFrames * milisEntreFrames));

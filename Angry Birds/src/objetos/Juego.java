@@ -157,9 +157,6 @@ public class Juego {
 		return YPOSICIONSUELO;
 	}
 
-	public static Point getPosicionInicial() {
-		return POSICIONINICIALPAJARO;
-	}
 
 
 
