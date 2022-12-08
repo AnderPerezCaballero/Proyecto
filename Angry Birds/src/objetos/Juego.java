@@ -12,10 +12,11 @@ import objetos.pajaros.Pajaro;
 
 
 public class Juego {
-	private static final int milisEntreFrames = 10;  // Msgs. de duración de cada fotograma (aprox. = espera entre fotograma y siguiente)
+	private static final int MILISEGUNDOSENTREFRAMES = 10;  // Msgs. de duración de cada fotograma (aprox. = espera entre fotograma y siguiente)
 	private static final double DIST_MARGEN_CASILLA = 0.001;  // Margen de error en píxels de comparación de centro de casilla en movimientos finos (por debajo de esto se entiende que está en el mismo píxel)
 	private static final Color[] COLORESPOSIBLES =  { Color.RED, Color.GREEN, Color.BLUE };
 	private static final int TAMANYO_Estructura = 50;  // Tamaño estándar de la Estructura
+	private static final double GRAVEDAD = 9.81;
 	private static VentanaJuego ventanaJuego;
 	private static JFrame ventana;
 	private static GrupoOP grupoPajaros;
@@ -74,7 +75,7 @@ public class Juego {
 					pajaro.setLocation(posicionRaton);
 					
 					//Choques
-					if(pajaro.choqueConLimitesHorizontales()) {
+					if(pajaro.choqueConSuelo()) {
 						pajaro.setY(YPOSICIONSUELO - pajaro.getRadio());
 					}
 					if(pajaro.choqueConLimitesVerticales()) {
@@ -105,14 +106,14 @@ public class Juego {
 			}else {
 				
 				//Movimiento del pájaro
-				pajaro.move(milisEntreFrames);
+				pajaro.move(MILISEGUNDOSENTREFRAMES, GRAVEDAD);
 				
 				//Choques
-				if(pajaro.choqueConLimitesHorizontales()) {
-					pajaro.setvY(-pajaro.getvY());
+				if(pajaro.choqueConSuelo()) {
+					pajaro.reverseVY();
 				}
 				if(pajaro.choqueConLimitesVerticales()) {
-					pajaro.setvX(-pajaro.getvX());
+					pajaro.reversevX();
 				}
 				
 //				grupoEnemigos.remover(pajaro.choqueConEnemigos(grupoEnemigos));
@@ -124,9 +125,9 @@ public class Juego {
 
 
 			//			grupoPajaros.dibuja(ventanaJuego);
-			//			if(pajaro.getLocation().distance(new Point(150, 515)) < pajaro.getRadio()) {
+//						if(pajaro.getLocation().distance(new Point(223, 785)) < 30) {
 			ventanaJuego.dibujaImagen("/imgs/TiraPajarosDelante.png", 223, 840, 0.74, 0, 1);
-			//			}
+//						}
 
 
 
@@ -137,7 +138,7 @@ public class Juego {
 
 
 			try {
-				Thread.sleep(milisEntreFrames);
+				Thread.sleep(MILISEGUNDOSENTREFRAMES);
 			}catch(InterruptedException e) {}
 
 
