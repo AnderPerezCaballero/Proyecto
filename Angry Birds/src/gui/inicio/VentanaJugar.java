@@ -149,11 +149,4 @@ public abstract class VentanaJugar extends JFrame {
 	public static void setEstaCerrada(boolean valor) {
 		cerrado = valor;
 	}
-
-	/** Devuelve el panelPrincipal de la ventana
-	 * @return el panelPrincipal a devolver
-	 */
-	public MiPanel getPanelPrincipal() {
-		return panelPrincipal;
-	}	
 }

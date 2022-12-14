@@ -30,7 +30,6 @@ public class VentanaInicioSesion extends VentanaSesion{
 
 		getBotonAceptar().setText("Iniciar Sesión");
 
-
 		getInputContraseña().addActionListener(e -> {
 			if (getInputContraseña().getPassword() != null) {
 				getBotonAceptar().requestFocus();

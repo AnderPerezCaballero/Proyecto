@@ -24,14 +24,13 @@ import gui.sesion.VentanaRegistroSesion;
 public class VentanaJugar1 extends VentanaJugar {
 
 	private static JLayer<MiPanel> jLayer;
-	
+
 	private JButton iniciarSesion;
 	private JButton registro;
-	
+
 	public VentanaJugar1() {
 		super();
-		LayerUI<MiPanel> layerUI = new BlurLayerUI();
-		jLayer = new JLayer<MiPanel>(panelPrincipal, layerUI);
+		jLayer = new JLayer<MiPanel>(panelPrincipal);
 		panelAbajo = new JPanel();
 		panelAbajo.setOpaque(false);
 		panelPrincipal.add(panelAbajo, BorderLayout.SOUTH);
@@ -49,13 +48,13 @@ public class VentanaJugar1 extends VentanaJugar {
 		registro.setFont(new Font(Font.SERIF, Font.BOLD, 35));
 		registro.setPreferredSize(new Dimension(300, 50));
 		panelAbajo.add(registro, BorderLayout.EAST);
-		add(panelPrincipal, "Center");
+		add(jLayer, "Center");
 
 		iniciarSesion.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cambiarFondo();
+				cambiarFondo(true);
 				new VentanaInicioSesion(VentanaJugar1.this).iniciar();
 			}
 		});
@@ -64,7 +63,7 @@ public class VentanaJugar1 extends VentanaJugar {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cambiarFondo();
+				cambiarFondo(true);
 				new VentanaRegistroSesion(VentanaJugar1.this).iniciar();
 			}
 		});
@@ -73,13 +72,17 @@ public class VentanaJugar1 extends VentanaJugar {
 		registro.addKeyListener(escCerrar);
 		this.setVisible(true);		
 	}
-	
-	private void cambiarFondo() {
-		remove(panelPrincipal);
-		add(jLayer);
-		setEnabled(false);
+
+	public void cambiarFondo(boolean borroso) {
+		if(borroso) {
+			jLayer.setUI(new BlurLayerUI());
+			setEnabled(false);
+		}else {
+			jLayer.setUI(new LayerUI<>());
+			setEnabled(true);
+		}
 	}
-	
+
 	public JLayer<MiPanel> getJLayer() {
 		return jLayer;
 	}

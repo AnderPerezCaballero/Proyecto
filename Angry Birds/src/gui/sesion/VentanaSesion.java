@@ -41,13 +41,13 @@ import gui.juego.VentanaNiveles;
 public abstract class VentanaSesion extends JFrame{
 
 	//Atributos estáticos de la ventana
-	private static int anchuraVentana = 350;
-	private static int alturaVentana = 575;
+	private static int anchuraVentana = 400;
+	private static int alturaVentana = 700;
 	private static Color fondo = new Color(35, 39, 42);
 	private static int numColumnas = 30;
 
 	//Referencia de la ventana anterior
-	private static VentanaJugar ventanaAnterior;
+	private static VentanaJugar1 ventanaAnterior;
 
 	//Contenedores
 	private JPanel panelSuperior;
@@ -311,9 +311,7 @@ public abstract class VentanaSesion extends JFrame{
 	 */
 	protected void anteriorVentana(){
 		estaCerrada = true;
-		ventanaAnterior.setEnabled(true);
-		ventanaAnterior.remove(((VentanaJugar1) ventanaAnterior).getJLayer());
-		ventanaAnterior.add(ventanaAnterior.getPanelPrincipal());
+		ventanaAnterior.cambiarFondo(false);
 		dispose();
 	}
 
