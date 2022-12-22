@@ -1,6 +1,7 @@
 package gestionUsuarios;
 
 import java.io.Serializable;
+import java.util.Set;
 import java.util.TreeSet;
 
 public class Usuario implements Serializable{
@@ -10,7 +11,7 @@ public class Usuario implements Serializable{
 	private String nombre;						//nombre del usuario
 	private String contraseña;					//contraseña del usuario
 	private long tiempoJugado;					//tiempo total jugado por el usuario (en segundos)
-	private TreeSet<Puntuacion> puntuaciones;	//treeset que guarda todas las puntuaciones conseguidas por el usuario
+	private Set<Puntuacion> puntuaciones;		//set que guarda todas las puntuaciones conseguidas por el usuario
 	private Token token;						//token asociado al usuario
 	
 
@@ -34,7 +35,7 @@ public class Usuario implements Serializable{
 	 * @param puntuaciones TreeSet de puntuaciones del usuario
 	 * @param token token asociado al usuario
 	 */
-	public Usuario(String nombre, String contraseña, long tiempoJugado, TreeSet<Puntuacion> puntuaciones, Token token) {
+	public Usuario(String nombre, String contraseña, long tiempoJugado, Set<Puntuacion> puntuaciones, Token token) {
 		this.nombre = nombre;
 		this.contraseña = contraseña;
 		this.tiempoJugado = tiempoJugado;
@@ -73,7 +74,7 @@ public class Usuario implements Serializable{
 	/** Devuelve el TreeSet de puntuaciones del usuario
 	 * @return TreeSet de puntuaciones del usuario
 	 */
-	public TreeSet<Puntuacion> getPuntuaciones(){
+	public Set<Puntuacion> getPuntuaciones(){
 		return puntuaciones;
 	}	
 	

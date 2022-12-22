@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
 
 public class GestionUsuarios {
@@ -199,7 +200,7 @@ public class GestionUsuarios {
 		}
 
 		//Lista de puntos del usuario
-		TreeSet<Puntuacion> puntuaciones = new TreeSet<>();
+		Set<Puntuacion> puntuaciones = new TreeSet<>();
 
 		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
 		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
@@ -261,65 +262,62 @@ public class GestionUsuarios {
 		}
 	}
 	
-	private void crearTablas() throws SQLException{
-		cargarLibreria();
-		
-		try {
-			
-			Connection conexion = DriverManager.getConnection(LIBRERIA);
-			Statement stmnt = conexion.createStatement();
-			stmnt.executeUpdate("CREATE TABLE if not exists Nivel(rutaMapa String, id Integer, numCerdos Integer)");
-			log(Level.INFO, "Creada la tabla Nivel en la BD users", null );
-			
-		} catch (Exception e) {
-			log(Level.SEVERE, "La tabla Nivel no se ha podido crear en la BD users", e);
-			e.printStackTrace();
-		}
-	}
-	
-	private void anyadirNivel(Nivel nvl) {
-		cargarLibreria();
-		
-		try {
-			
-			Connection conexion = DriverManager.getConnection(LIBRERIA);
-			Statement stmnt = conexion.createStatement();
-			stmnt.executeUpdate(String.format("INSERT INTO Nivel VALUES( %s, %d, %d)", nvl.getRutaMapa(), nvl.getId(), nvl.getNumCerdos()));
-			log(Level.INFO, "Nivel anyadido correctamente", null);
-			
-		}catch (Exception e) {
-			log(Level.SEVERE, "No se ha podido anyadir el nivel correctamente", e);
-			e.printStackTrace();
-			
-		}
-	}
-	
-	private List<Nivel> cargarNivel() {
-		cargarLibreria();
-		
-		try {
-			Connection conexion = DriverManager.getConnection(LIBRERIA);
-			Statement stmnt = conexion.createStatement();
-			String stringSQL = "SELECT * FROM Nivel";
-			ResultSet rs = stmnt.executeQuery(stringSQL);
-			
-			List<Nivel> listaNiveles = new ArrayList<Nivel>();
-			
-			while(rs.next()) {
-				Nivel nvl = new Nivel(rs.getString("rutaMapa"), rs.getInt("numCerdos"), rs.getInt("id"), null);
-				listaNiveles.add(nvl);			
-			}
-			rs.close();
-			log(Level.INFO, "Todos los niveles de la BD users han sido seleccionados con exito", null);
-			return listaNiveles;
-			
-		}catch (Exception e) {
-			log(Level.SEVERE, "No se han podido seleccionar todos los niveles de la BD users", e);
-			e.printStackTrace();
-			return null;	
-		}		
-		
-	}
+//	private void crearTablas() throws SQLException{
+//		
+//		try {
+//			
+//			Connection conexion = DriverManager.getConnection(LIBRERIA);
+//			Statement stmnt = conexion.createStatement();
+//			stmnt.executeUpdate("CREATE TABLE if not exists Nivel(rutaMapa String, id Integer, numCerdos Integer)");
+//			log(Level.INFO, "Creada la tabla Nivel en la BD users", null );
+//			
+//		} catch (Exception e) {
+//			log(Level.SEVERE, "La tabla Nivel no se ha podido crear en la BD users", e);
+//			e.printStackTrace();
+//		}
+//	}
+//	
+//	private void anyadirNivel(Nivel nvl) {
+//		
+//		try {
+//			
+//			Connection conexion = DriverManager.getConnection(LIBRERIA);
+//			Statement stmnt = conexion.createStatement();
+//			stmnt.executeUpdate(String.format("INSERT INTO Nivel VALUES( %s, %d, %d)", nvl.getRutaMapa(), nvl.getId(), nvl.getNumCerdos()));
+//			log(Level.INFO, "Nivel anyadido correctamente", null);
+//			
+//		}catch (Exception e) {
+//			log(Level.SEVERE, "No se ha podido anyadir el nivel correctamente", e);
+//			e.printStackTrace();
+//			
+//		}
+//	}
+//	
+//	private List<Nivel> cargarNivel() {
+//		
+//		try {
+//			Connection conexion = DriverManager.getConnection(LIBRERIA);
+//			Statement stmnt = conexion.createStatement();
+//			String stringSQL = "SELECT * FROM Nivel";
+//			ResultSet rs = stmnt.executeQuery(stringSQL);
+//			
+//			List<Nivel> listaNiveles = new ArrayList<Nivel>();
+//			
+//			while(rs.next()) {
+//				Nivel nvl = new Nivel(rs.getString("rutaMapa"), rs.getInt("numCerdos"), rs.getInt("id"), null);
+//				listaNiveles.add(nvl);			
+//			}
+//			rs.close();
+//			log(Level.INFO, "Todos los niveles de la BD users han sido seleccionados con exito", null);
+//			return listaNiveles;
+//			
+//		}catch (Exception e) {
+//			log(Level.SEVERE, "No se han podido seleccionar todos los niveles de la BD users", e);
+//			e.printStackTrace();
+//			return null;	
+//		}		
+//		
+//	}
 	
 	
 	
@@ -333,9 +331,11 @@ public class GestionUsuarios {
 				logger.log(Level.SEVERE, "No se pudo crear el fichero de log", e);
 			}
 		}
-		if (excepcion==null)
+		if (excepcion==null) {
 			logger.log(level, mensage);
-		else
+		}
+		else {
 			logger.log(level, mensage, excepcion);
+		}
 	}
 }
