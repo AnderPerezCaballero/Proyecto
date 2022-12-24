@@ -1,0 +1,23 @@
+#Número de pájaros con los que se juega en el mapa
+Pajaros = 1
+
+#Grupo de cerdos del mapa
+Cerdos{
+	1550, 754
+	1668, 754
+	1786, 754
+}
+
+#Grupo de vigas del mapa
+Vigas{
+	#Vigas que hacen de soporte
+	1500, 849, 0, piedra
+	1610, 849, 0, madera
+	1728, 849, 0, madera
+	1838, 849, 0, piedra
+
+	#Vigas que hacen de base
+	1550, 781, 90, cristal
+	1668, 781, 90, cristal
+	1786, 781, 90, cristal
+}
