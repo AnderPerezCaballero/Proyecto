@@ -3,9 +3,9 @@ Pajaros = 1
 
 #Grupo de cerdos del mapa
 Cerdos{
-	1550, 754
-	1670, 754
-	1790, 754
+	1670, 890
+	1610, 754
+	1730, 754
 }
 
 #Grupo de vigas del mapa
@@ -16,8 +16,15 @@ Vigas{
 	1730, 849, 0, cristal
 	1842, 849, 0, cristal
 
+	1558, 713, 0, cristal
+	1670, 713, 0, cristal
+	1782, 713, 0, cristal
+	
 	#Vigas que hacen de base
 	1550, 781, 90, cristal
 	1670, 781, 90, cristal
 	1790, 781, 90, cristal
+
+	1610, 645, 90, cristal
+	1730, 645, 90, cristal
 }
