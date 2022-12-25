@@ -121,7 +121,7 @@ public class VentanaRegistroSesion extends VentanaSesion{
 
 	@Override
 	protected boolean condicionesBorrarMensaje() throws NullPointerException {
-		return getInputUsuario().getText().length() > 0 && (getInputContraseña().getPassword().length > 0 || inputConfirmarContraseña.getPassword().length > 0);
+		return ((getInputUsuario().getText().length() > 0 || getInputContraseña().getPassword().length > 0 || inputConfirmarContraseña.getPassword().length > 0) && getBorrar()) || getInputContraseña().getPassword().length > 0 || inputConfirmarContraseña.getPassword().length > 0;
 	}
 
 	@Override

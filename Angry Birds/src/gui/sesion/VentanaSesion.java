@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -257,7 +259,16 @@ public abstract class VentanaSesion extends JFrame{
 			@Override
 			public void windowClosed(WindowEvent e) {
 				if(!estaCerrada) {
-					cerrar(VentanaSesion.this);
+					setVisible(false);
+					ventanaAnterior.setVisible(false);
+					String[] s = {"Si", "No"}; //Opciones del JOptionPane
+					if (JOptionPane.showOptionDialog(VentanaSesion.this, "¿Realmente desea salir de la aplicación?", "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, imagenReescalada("/imgs/Icono.png", 30, 30), s, 0) == 0) {
+						//Quiero cerrar el programa entero, no cerrar solo la ventana -> dispose() no me sirve
+						System.exit(0);
+					}else {
+						ventanaAnterior.setVisible(true);
+						setVisible(true);
+					}
 				}
 			}
 		});
@@ -291,19 +302,6 @@ public abstract class VentanaSesion extends JFrame{
 
 			}
 		}).start();
-	}
-
-	/**Cierra una aplicación definitivamente
-	 */
-	public static void cerrar(JFrame ventana) {
-		ventana.setVisible(false);
-		String[] s = {"Si", "No"}; //Opciones del JOptionPane
-		if (JOptionPane.showOptionDialog(ventana, "¿Realmente desea salir de la aplicación?", "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, imagenReescalada("/imgs/Icono.png", 30, 30), s, 0) == 0) {
-			//Quiero cerrar el programa entero, no cerrar solo la ventana -> dispose() no me sirve
-			System.exit(0);
-		}else {
-			ventana.setVisible(true);
-		}
 	}
 
 	/**Vuelve a la ventana anterior
@@ -353,7 +351,7 @@ public abstract class VentanaSesion extends JFrame{
 	 * @throws NullPointerException En caso que en algún campo no se haya escrito nada
 	 */
 	protected boolean condicionesBorrarMensaje() throws NullPointerException {
-		return (inputUsuario.getText().length() > 0 || inputContraseña.getPassword().length > 0) && borrar;
+		return (inputUsuario.getText().length() > 0 || inputContraseña.getPassword().length > 0) && borrar || botonAceptar.isEnabled();
 	}
 	
 	/**Resetea los textos de todos los JTextFields de la ventana
@@ -498,6 +496,13 @@ public abstract class VentanaSesion extends JFrame{
 	public MensajeCarga getMensajeDeCarga() {
 		return mensajeDeCarga;
 	}
+	
+	/** Devuelve el booleano "borrar", necesario para el borrado del mensaje de información
+	 * @return variable "borrar"
+	 */
+	public boolean getBorrar() {
+		return borrar;
+	}
 
 	/** Devuelve el usuario con el que se inicia el juego
 	 * @return el usuario a devolver
@@ -522,4 +527,17 @@ public abstract class VentanaSesion extends JFrame{
 			VentanaSesion.usuario = usuario;
 		}
 	}	
+	
+	/**Cierra una aplicación definitivamente
+	 */
+	public static void cerrar(JFrame ventana) {
+		ventana.setVisible(false);
+		String[] s = {"Si", "No"}; //Opciones del JOptionPane
+		if (JOptionPane.showOptionDialog(ventana, "¿Realmente desea salir de la aplicación?", "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, imagenReescalada("/imgs/Icono.png", 30, 30), s, 0) == 0) {
+			//Quiero cerrar el programa entero, no cerrar solo la ventana -> dispose() no me sirve
+			System.exit(0);
+		}else {
+			ventana.setVisible(true);
+		}
+	}
 }

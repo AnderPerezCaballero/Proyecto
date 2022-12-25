@@ -73,6 +73,9 @@ public class VentanaJugar1 extends VentanaJugar {
 		this.setVisible(true);		
 	}
 
+	/** Cambia el fondo de la ventana de borroso a no borroso y viceversa
+	 * @param borroso true si el estado de la ventana es el default y se quiere aplicar el blur
+	 */
 	public void cambiarFondo(boolean borroso) {
 		if(borroso) {
 			jLayer.setUI(new BlurLayerUI());
