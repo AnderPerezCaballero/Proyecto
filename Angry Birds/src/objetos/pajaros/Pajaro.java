@@ -1,16 +1,17 @@
 package objetos.pajaros;
 
-import java.awt.Color;
-import java.awt.Point;
+import java.awt.Color;import java.awt.Point;
+import java.util.List;
 
 import gui.juego.VentanaJuego;
-import objetos.Enemigo;
-import objetos.Estructura;
-import objetos.GrupoOP;
+import objetos.Cerdo;
+import objetos.ElementoDibujable;
+import objetos.ElementoNivel;
+import objetos.Viga;
 import objetos.Juego;
 import objetos.ObjetoPrimitivo;
 
-public class Pajaro extends ObjetoPrimitivo {
+public class Pajaro extends ObjetoPrimitivo implements ElementoDibujable{
 
 	private static final String IMAGEN = "/imgs/PajaroRojo.png";
 
@@ -29,12 +30,12 @@ public class Pajaro extends ObjetoPrimitivo {
 	/**Constructor de pajaro normal
 	 * @param x entero que indica la posicion en el eje x y ha de ser positivo o 0
 	 * @param y entero que indica la posicion en el eje y y ha de ser positivo o 0
-	 * @param radio entero que define el tamaño del pajaro
+	 * @param color color del pájaro
 	 */
 	public Pajaro(int x, int y,Color color) {
 		super(x, y);
 		vX = 0;// al principio los pajaros tiene que ser estaticos por lo que su velocidad es de 0 en ambas direcciones hasta que se realice el lanzamiento
-		vY =0;
+		vY = 0;
 		habilidad = Habilidad.SINHABILIDAD;
 		estaSeleccionado = false;
 		lanzado = false;
@@ -42,11 +43,6 @@ public class Pajaro extends ObjetoPrimitivo {
 
 	public Pajaro(Point p, Color color) {
 		this(p.x, p.y, color);
-	}
-
-	public void dibuja(VentanaJuego v) {
-		v.dibujaImagen(IMAGEN, x, y, radio * 2, radio * 2, 1, 0, 1.0f);
-
 	}
 
 	public void lanzar(Point posicionLanzado, Point posicionInicial) {
@@ -58,7 +54,7 @@ public class Pajaro extends ObjetoPrimitivo {
 
 		vX = v0 * Math.cos(angulo);
 		vY = v0 * Math.sin(angulo);
-		
+
 		if(posicionLanzado.x > posicionInicial.x) {
 			vX = -vX;
 		}
@@ -71,24 +67,53 @@ public class Pajaro extends ObjetoPrimitivo {
 		momentoLanzado = System.currentTimeMillis() / 1000.0;
 	}
 
-	
+
+	/** Dibuja un vector rojo que indica la trayectoria que va a seguir el pájaro al ser lanzado
+	 * @param v ventana en la que se dibuja el vector
+	 * @param posicionLanzado Posición desde la que se está lanzando el pájaro
+	 * @param posicionInicial Posición inicial desde la que se ha arrastrado el pájaro para ser lanzado
+	 */
 	public void dibujarVectorLanzamiento(VentanaJuego v, Point posicionLanzado, Point posicionInicial) {
 		v.dibujaFlecha(posicionLanzado.x, posicionLanzado.y, posicionInicial.x, posicionInicial.y, 2, Color.RED);
 	}
 
-	
-	public void move(int milisEntreFrames, double gravedad) {
-		segundosEnAire = System.currentTimeMillis() / 1000.0 - momentoLanzado + milisEntreFrames / 1000.0;
-		
-		vY = vY - gravedad * segundosEnAire;
-		
-		x = x + (int) Math.round(vX * segundosEnAire);
-		y = y - (int) Math.round(vY * segundosEnAire - 0.5 * gravedad * segundosEnAire * segundosEnAire);
-		
-	
+	/** Realiza el rebote con el elemento del nivel
+	 * @param elementoNivel elemento del nivel con el que se desea que el pájaro rebote
+	 */
+	public void rebotaCon(ElementoNivel elementoNivel) {
+		if(elementoNivel instanceof Cerdo) {
+			vX = -vX;
+			vY = -vY;
+		}else {
+			Viga viga = (Viga) elementoNivel;
+			if((viga.getX() - viga.getAnchura() / 2) < (x + radio) && (viga.getX() + viga.getAnchura() / 2) > (x - radio)) {
+				vX = -vX;
+			}
+			if((viga.getY() - viga.getAltura() / 2) < (y + radio) && (viga.getY() + viga.getAltura() / 2) > (y - radio)) {
+				vY = -vY;
+			}
+		}
 	}
 
-	
+
+	/** Mueve el pájaro en función de una espera entre fotogramas y una gravedad
+	 * @param milisEntreFrames espera entre fotogramas
+	 * @param gravedadX vector de gravedad en el eje X
+	 * @param gravedadY vector de gravedad en el eje Y
+	 */
+	public void move(int milisEntreFrames, double gravedadX, double gravedadY) {
+
+		segundosEnAire = System.currentTimeMillis() / 1000.0 - momentoLanzado + milisEntreFrames / 1000.0;
+
+		vY = vY - gravedadY * segundosEnAire;
+		vX = vX - gravedadX * segundosEnAire;
+
+		x = x + (int) Math.round(vX * segundosEnAire - 0.5 * gravedadX * segundosEnAire * segundosEnAire);
+		y = y - (int) Math.round(vY * segundosEnAire - 0.5 * gravedadY * segundosEnAire * segundosEnAire);
+		
+	}
+
+
 	/**Metodo para comprobar si el pajaro rebota con los bordes de la pantalla de manera horizontal. Solo se tiene en cuenta el borde izquierdo
 	 * @param v ventana cuyos bordes se comprobaran
 	 * @return booleano indicando si existe o no choque
@@ -104,57 +129,31 @@ public class Pajaro extends ObjetoPrimitivo {
 		return y + radio >= Juego.getYSuelo();
 	}
 
-	/**Metdod para comprobar el choque con estructuras
-	 * @param e Estructura (con la que se comprueba el choque)
-	 * @return Boolean
+	/** Aplica un rozamiento (disminución de la velocidad) al pájaro en el eje x
+	 * @param rozamiento rozamiento a aplicar (número de puntos a disminuir en v)
 	 */
-	public Estructura choqueConEstructura(GrupoOP op) {
-		for (ObjetoPrimitivo o: op.getGrupoOP()) {
-			if(o instanceof Estructura) {
-				Estructura e = (Estructura)o;
-				if ((x+radio <= e.getX()+e.getAnchura()/2&&x+radio>= e.getX()-e.getAnchura()/2)&&((y+getRadio()<= e.getY()+e.getAltura()/2)&&(y+getRadio()>= e.getY()-e.getAltura()/2))
-						|| (x+getRadio()<= e.getX()+e.getAnchura()/2&&x+getRadio()>= e.getX()-e.getAnchura()/2)&&(y-getRadio()<= e.getY()+e.getAltura()/2&&y-getRadio()>= e.getY()-e.getAltura()/2)
-						|| (x-getRadio()<= e.getX()+e.getAnchura()/2&&x-getRadio()>= e.getX()-e.getAnchura()/2)&&(y+getRadio()<= e.getY()+e.getAltura()/2&&y+getRadio()>= e.getY()-e.getAltura()/2)
-						|| (x-getRadio()<= e.getX()+e.getAnchura()/2&&x-getRadio()>= e.getX()-e.getAnchura()/2)&&(y-getRadio()<= e.getY()+e.getAltura()/2&&y-getRadio()>= e.getY()-e.getAltura()/2)){
-					return e;
+	public void aplicarRozamiento(int rozamiento) {
+		if(vX != 0) {
+			if(vX > 0) {
+				if(vX > rozamiento) {
+					vX -= rozamiento;
+				}else {
+					vX = 0;		
+				}
+			}else {
+				if(vX < rozamiento) {
+					
+				}else {
+					vX = 0;		
 				}
 			}
-		}return null;
+		}
 	}
 
-	/**Metodo booleano para comprobar el choque con Enemigos 
-	 * @param e Enemigo
-	 * @return boolean
-	 */
-	public Enemigo choqueConEnemigos(GrupoOP op) {
-		for (ObjetoPrimitivo o: op.getGrupoOP()) {
-			if (o instanceof Enemigo) {
-				Enemigo e= (Enemigo) o;
-				Point p= new Point(e.getX(), e.getY());
-				if(p.distance(x,y)<e.getRadio()+getRadio()){
-					return e;
-				}
-			}
-		}return null;
-		//ambos metodos posiblemente deban tener uno complementario comprobando la fuerza del impacto
+	public void dibuja(VentanaJuego v) {
+		v.dibujaImagen(IMAGEN, x, y, radio * 2, radio * 2, 1, 0, 1.0f);
+
 	}
-
-//	/**Metodo booleano que devuelve si el pajaro choca con algun objeto
-//	 * @param p el objeto con el que se realiza la prueba
-//	 * @return boolean
-//	 */
-//	public ObjetoPrimitivo choqueCon (ObjetoPrimitivo p) {
-//		if(p instanceof Estructura) {
-//			Estructura e= (Estructura) p;
-//			return choqueConEstructura(e);
-//		}if (p instanceof Enemigo) {
-//			Enemigo e = (Enemigo) p;
-//			return choqueConEnemigos(e);
-//		}else {
-//			return null;
-//		}
-//	}
-
 
 	public void setX(int x) {
 		this.x=x;
@@ -173,22 +172,6 @@ public class Pajaro extends ObjetoPrimitivo {
 		return radio;
 	}
 
-//	public double getvX() {
-//		return vX;
-//	}
-//
-//	public void setvX(double vX) {
-//		this.vX = vX; // Metodo que sera usuado para aplicarle el movimiento al pajaro en conunto de setvY
-//	}
-//
-//	public double getvY() {
-//		return vY;
-//	}
-//
-//	public void setvY(double vY) {
-//		this.vY = vY;
-//	}
-
 	public boolean contienePunto(Point punto) {
 		return punto.distance(radio, radio) < getRadio() * 2;
 	}
@@ -204,12 +187,50 @@ public class Pajaro extends ObjetoPrimitivo {
 	public boolean isLanzado() {
 		return lanzado;
 	}
-	
-	public void reverseVY() {
-		vY = -vY;
+
+	public void setLanzado(boolean lanzado) {
+		this.lanzado = lanzado;
 	}
-	
+
+	public double getV() {
+		return Math.sqrt(vX * vX + vY * vY);
+	}
+
+	public double getVX() {
+		return vX;
+	}
+
+	public double getVY() {
+		return vY;
+	}
+
+	public void reverseVY() {
+		vY = -vY - 5;
+	}
+
 	public void reversevX() {
 		vX = -vX;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("Pájaro(%d, %d)", x, y);
+	}
+	
+	
+	//	/**Metodo booleano que devuelve si el pajaro choca con algun objeto
+	//	 * @param p el objeto con el que se realiza la prueba
+	//	 * @return boolean
+	//	 */
+	//	public ObjetoPrimitivo choqueCon (ObjetoPrimitivo p) {
+	//		if(p instanceof Estructura) {
+	//			Estructura e= (Estructura) p;
+	//			return choqueConEstructura(e);
+	//		}if (p instanceof Enemigo) {
+	//			Enemigo e = (Enemigo) p;
+	//			return choqueConEnemigos(e);
+	//		}else {
+	//			return null;
+	//		}
+	//	}
 }

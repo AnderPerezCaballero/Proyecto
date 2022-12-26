@@ -19,7 +19,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import gui.componentes.MiPanel;
 import gui.inicio.VentanaJugar1;
@@ -31,7 +30,7 @@ import objetos.Juego;
 public class VentanaNiveles extends JFrame{
 
 	private static int radioIconoNiveles = 175;
-	private static int nivelesBloqueados = 8;		//Número de niveles bloqueados
+	private static int nivelesBloqueados = 6;		//Número de niveles bloqueados
 	
 	//JLabels
 	private JLabel labelTitulo;

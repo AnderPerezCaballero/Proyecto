@@ -3,10 +3,11 @@ import java.awt.Color;
 import java.awt.Point;
 
 import gui.juego.VentanaJuego;
+import objetos.pajaros.Pajaro;
 
 
 
-public class Viga extends ObjetoPrimitivo {
+public class Viga extends ObjetoPrimitivo implements ElementoNivel{
 	
 	private int anchura;
 	private int altura;
@@ -38,10 +39,26 @@ public class Viga extends ObjetoPrimitivo {
 		}
 	}	
 	
+	/** Método que comprueba si una viga está chocando con un pájaro
+	 * @param pajaro pájaro con el que la viga choca
+	 * @return true si el pájaro está dentro del perímetro de la viga, false si no
+	 */
+	public boolean chocaConPajaro(Pajaro pajaro) {
+		return (x - anchura / 2) < (pajaro.getX() + pajaro.getRadio()) && (x + anchura / 2) > (pajaro.getX() - pajaro.getRadio()) &&
+			   (y - altura / 2) < (pajaro.getY() + pajaro.getRadio()) && (y + altura / 2) > (pajaro.getY() - pajaro.getRadio());
+	}
+	
+	
+	/** Devuelve la anchura de la viga
+	 * @return Anchura de la viga en pixeles
+	 */
 	public double getAnchura() {
 		return anchura;
 	}
 	
+	/** Devuelve la altura de la viga
+	 * @return Altura de la viga en pixeles
+	 */
 	public double getAltura() {
 		return altura;
 	}

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -40,7 +41,7 @@ public class Juego {
 	private static final int YPOSICIONSUELO = 909;
 
 	public static void init(int lvl) {
-		ventanaJuego = new VentanaJuego();
+		ventanaJuego = new VentanaJuego(String.format("Nivel %d", lvl));
 		nivel = new Nivel(lvl);
 		pajaro = new Pajaro(POSICIONINICIALPAJARO, null);
 		buclePrincipal();
@@ -112,7 +113,17 @@ public class Juego {
 					pajaro.reversevX();
 					pajaro.aplicarRozamiento(10);
 				}
-
+				
+				//Para poder eliminar elementos mientras se itera sobre la lista y evitar ConcurrentModificationException -> Iterator				
+				Iterator<ElementoNivel> iterator = nivel.getElementos().iterator();
+				while (iterator.hasNext()) {
+					ElementoNivel siguienteElemento = iterator.next();
+					if(siguienteElemento.chocaConPajaro(pajaro)) {
+						pajaro.rebotaCon(siguienteElemento);
+						iterator.remove();
+					}
+				}
+				
 				//				grupoEnemigos.remover(pajaro.choqueConEnemigos(grupoEnemigos));
 			}
 
@@ -151,7 +162,7 @@ public class Juego {
 	}
 
 	public static void main(String[] args) {
-		init(1);
+		init(3);
 	}
 
 

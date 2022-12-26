@@ -1,7 +1,6 @@
 package objetos;
 
 import java.awt.Point;
-
 import gui.juego.VentanaJuego;
 
 public abstract class ObjetoPrimitivo {
@@ -22,16 +21,17 @@ public abstract class ObjetoPrimitivo {
 		return x;
 	}
 	
-	public abstract void setX(int x);
-	
 	public int getY() {
 		return y;
 	}
 	
-	public abstract void setY(int y);
-	
 	public abstract void dibuja(VentanaJuego v);
 	
-	public abstract boolean contienePunto(Point punto);
+//	public abstract boolean contienePunto(Point punto);
 	
+//	public abstract void setY(int y);
+	
+//	public abstract boolean chocaConPajaro(Pajaro pajaro);
+	
+//	public abstract void setX(int x);	
 }

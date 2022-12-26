@@ -1,14 +1,26 @@
 package objetos;
 
 import gui.juego.VentanaJuego;
+import objetos.pajaros.Pajaro;
 
-public class Cerdo extends ObjetoPrimitivo{
+public class Cerdo extends ObjetoPrimitivo implements ElementoNivel{
 	
 	private static final String IMAGEN = "/imgs/Cerdo.png"; 
 	private static final int radio = 20;
 	
+	/** Crea un nuevo cerdo
+	 * @param x Coordenada x del centro del cerdo
+	 * @param y Coordenada y del centro del cerdo
+	 */
 	public Cerdo(int x,int y) {
 		super(x,y);
+	}
+	
+	/** Indica si el cerdo choca con el pájaro
+	 * @return true si choca, false si no
+	 */
+	public boolean chocaConPajaro(Pajaro pajaro) {
+		return pajaro.getLocation().distance(getLocation()) < radio + pajaro.getRadio();
 	}
 	
 	public void dibuja(VentanaJuego v) {
@@ -20,9 +32,7 @@ public class Cerdo extends ObjetoPrimitivo{
 		return String.format("Cerdo(%d, %d)", x, y);
 	}
 	
-	
 
-	
 //	public boolean contienePunto(Point punto) {
 //	double dist= Math.sqrt(Math.pow(x-punto.getX(),2)+Math.pow(y-punto.getY(),2));
 //	return dist<= radio;
