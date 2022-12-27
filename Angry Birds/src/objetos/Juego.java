@@ -15,7 +15,7 @@ import objetos.pajaros.Pajaro;
 
 
 public class Juego {
-	private static final int MILISEGUNDOSENTREFRAMES = 0; // Msgs. de duración de cada fotograma (aprox. = espera entre fotograma y siguiente)
+	private static final int MILISEGUNDOSENTREFRAMES = 10; // Msgs. de duración de cada fotograma (aprox. = espera entre fotograma y siguiente)
 	//	private static final double DIST_MARGEN_CASILLA = 0.001;  // Margen de error en píxels de comparación de centro de casilla en movimientos finos (por debajo de esto se entiende que está en el mismo píxel)
 	//	private static final Color[] COLORESPOSIBLES =  { Color.RED, Color.GREEN, Color.BLUE };
 	//	private static final int TAMANYO_Estructura = 50;  // Tamaño estándar de la Estructura
@@ -43,7 +43,7 @@ public class Juego {
 	public static void init(int lvl) {
 		ventanaJuego = new VentanaJuego(String.format("Nivel %d", lvl));
 		nivel = new Nivel(lvl);
-		pajaro = new Pajaro(POSICIONINICIALPAJARO, null);
+		pajaro = new Pajaro(POSICIONINICIALPAJARO);
 		buclePrincipal();
 	}
 
@@ -73,7 +73,7 @@ public class Juego {
 					if(pajaro.choqueConSuelo()) {
 						pajaro.setY(YPOSICIONSUELO - pajaro.getRadio());
 					}
-					if(pajaro.choqueConLimitesVerticales()) {
+					if(pajaro.choqueConLimiteVertical()) {
 						pajaro.setX(pajaro.getRadio());
 					}
 
@@ -102,29 +102,21 @@ public class Juego {
 
 				//Movimiento del pájaro
 				pajaro.move(MILISEGUNDOSENTREFRAMES, GRAVEDADX, GRAVEDADY);
-
-				//Choques
-				if(pajaro.choqueConSuelo()) {
-					pajaro.reverseVY();
-					pajaro.setY(YPOSICIONSUELO - pajaro.getRadio());
-					pajaro.aplicarRozamiento(10);
-				}
-				if(pajaro.choqueConLimitesVerticales()) {
-					pajaro.reversevX();
-					pajaro.aplicarRozamiento(10);
-				}
 				
 				//Para poder eliminar elementos mientras se itera sobre la lista y evitar ConcurrentModificationException -> Iterator				
-				Iterator<ElementoNivel> iterator = nivel.getElementos().iterator();
+				Iterator<ObjetoNivel> iterator = nivel.getElementos().iterator();
 				while (iterator.hasNext()) {
-					ElementoNivel siguienteElemento = iterator.next();
+					ObjetoNivel siguienteElemento = iterator.next();
 					if(siguienteElemento.chocaConPajaro(pajaro)) {
 						pajaro.rebotaCon(siguienteElemento);
 						iterator.remove();
 					}
 				}
 				
-				//				grupoEnemigos.remover(pajaro.choqueConEnemigos(grupoEnemigos));
+				//Reiniciar el lanzamiento
+				if(ventanaJuego.isRatonPulsado() && posicionRaton.distance(pajaro.getLocation()) < pajaro.getRadio() || !ventana.contains(pajaro.getLocation())){
+					pajaro = new Pajaro(POSICIONINICIALPAJARO);			
+				}				
 			}
 
 			nivel.dibujaElementos(ventanaJuego);
@@ -162,7 +154,7 @@ public class Juego {
 	}
 
 	public static void main(String[] args) {
-		init(3);
+		init(4);
 	}
 
 

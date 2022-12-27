@@ -16,7 +16,7 @@ import objetos.pajaros.Pajaro;
 
 public class Nivel {
 	private int numPajaros;
-	private List<ElementoNivel> elementos;
+	private List<ObjetoNivel> elementos;
 
 	/** Crea un nuevo objeto nivel a partir de un fichero
 	 * @param id id del nivel a cargar
@@ -77,11 +77,11 @@ public class Nivel {
 		}
 	}
 
-	public void remove(ElementoNivel elemento) {
+	public void remove(ObjetoNivel elemento) {
 		elementos.remove(elemento);
 	}
 	
-	public List<ElementoNivel> getElementos() {
+	public List<ObjetoNivel> getElementos() {
 		return elementos;
 	}
 
@@ -89,7 +89,7 @@ public class Nivel {
 	 * @param v Ventana en la que se dibujan
 	 */
 	public void dibujaElementos(VentanaJuego v) {
-		for(ElementoDibujable elemento : elementos) {
+		for(Dibujable elemento : elementos) {
 			elemento.dibuja(v);
 		}
 	}

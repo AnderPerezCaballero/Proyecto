@@ -5,13 +5,13 @@ import java.util.List;
 
 import gui.juego.VentanaJuego;
 import objetos.Cerdo;
-import objetos.ElementoDibujable;
-import objetos.ElementoNivel;
+import objetos.Dibujable;
+import objetos.ObjetoNivel;
 import objetos.Viga;
 import objetos.Juego;
-import objetos.ObjetoPrimitivo;
+import objetos.Objeto;
 
-public class Pajaro extends ObjetoPrimitivo implements ElementoDibujable{
+public class Pajaro extends Objeto implements Dibujable{
 
 	private static final String IMAGEN = "/imgs/PajaroRojo.png";
 
@@ -23,28 +23,32 @@ public class Pajaro extends ObjetoPrimitivo implements ElementoDibujable{
 	private double segundosEnAire;
 	private double momentoLanzado;
 
-	private Habilidad habilidad;
 	private boolean estaSeleccionado;
 	private boolean lanzado;
 
-	/**Constructor de pajaro normal
-	 * @param x entero que indica la posicion en el eje x y ha de ser positivo o 0
-	 * @param y entero que indica la posicion en el eje y y ha de ser positivo o 0
-	 * @param color color del pájaro
+	/** Crea un nuevo pájaro
+	 * @param x Posición en el eje x del centro del pájaro
+	 * @param y Posición en el eje y del centro del pájaro
 	 */
-	public Pajaro(int x, int y,Color color) {
+	public Pajaro(int x, int y) {
 		super(x, y);
 		vX = 0;// al principio los pajaros tiene que ser estaticos por lo que su velocidad es de 0 en ambas direcciones hasta que se realice el lanzamiento
 		vY = 0;
-		habilidad = Habilidad.SINHABILIDAD;
 		estaSeleccionado = false;
 		lanzado = false;
 	}
 
-	public Pajaro(Point p, Color color) {
-		this(p.x, p.y, color);
+	/** Crea un nuevo pájaro
+	 * @param p Centro del pájaro
+	 */
+	public Pajaro(Point p) {
+		this(p.x, p.y);
 	}
 
+	/** Lanza el pájaro desde el tirapájaros
+	 * @param posicionLanzado Posición desde la que se lanza el pájaro
+	 * @param posicionInicial Posición desde la que se ha arrastrado al pájaro para ser lanzado
+	 */
 	public void lanzar(Point posicionLanzado, Point posicionInicial) {
 		double distanciaX = posicionLanzado.distance(posicionInicial.x, posicionLanzado.y); 
 		double distanciaY = posicionLanzado.distance(posicionLanzado.x, posicionInicial.y);
@@ -80,21 +84,26 @@ public class Pajaro extends ObjetoPrimitivo implements ElementoDibujable{
 	/** Realiza el rebote con el elemento del nivel
 	 * @param elementoNivel elemento del nivel con el que se desea que el pájaro rebote
 	 */
-	public void rebotaCon(ElementoNivel elementoNivel) {
+	public void rebotaCon(ObjetoNivel elementoNivel) {
 		if(elementoNivel instanceof Cerdo) {
-			vX = -vX;
-			vY = -vY;
+			Cerdo cerdo = (Cerdo) elementoNivel;
+			vX = cerdo.getX() - x;
+			vY = y - cerdo.getY();
 		}else {
 			Viga viga = (Viga) elementoNivel;
-			if((viga.getX() - viga.getAnchura() / 2) < (x + radio) && (viga.getX() + viga.getAnchura() / 2) > (x - radio)) {
+			//Rebota por la izquierda o por la derecha
+			if(viga.getY() - viga.getAltura() / 2 < y && viga.getY() + viga.getAltura() / 2 > y) {
 				vX = -vX;
-			}
-			if((viga.getY() - viga.getAltura() / 2) < (y + radio) && (viga.getY() + viga.getAltura() / 2) > (y - radio)) {
+			//Rebota por arriba o por abajo
+			}else if(viga.getX() - viga.getAnchura() / 2 > x && viga.getX() + viga.getAnchura() / 2 < x) {
+				vY = -vY;
+			//Rebota en una esquina
+			}else {
+				vX = -vX;
 				vY = -vY;
 			}
 		}
 	}
-
 
 	/** Mueve el pájaro en función de una espera entre fotogramas y una gravedad
 	 * @param milisEntreFrames espera entre fotogramas
@@ -111,14 +120,27 @@ public class Pajaro extends ObjetoPrimitivo implements ElementoDibujable{
 		x = x + (int) Math.round(vX * segundosEnAire - 0.5 * gravedadX * segundosEnAire * segundosEnAire);
 		y = y - (int) Math.round(vY * segundosEnAire - 0.5 * gravedadY * segundosEnAire * segundosEnAire);
 		
+		//Choques
+		if(choqueConSuelo()) {
+			vY = -vY;
+			y = Juego.getYSuelo()- radio;
+			aplicarRozamiento(10);
+		}
+		if(choqueConLimiteVertical()) {
+			vX = -vX;
+			aplicarRozamiento(10);
+		}
+		
+		if(x > 1400 && x < 1350) {
+			System.out.println(getLocation());
+		}
+		
 	}
 
-
-	/**Metodo para comprobar si el pajaro rebota con los bordes de la pantalla de manera horizontal. Solo se tiene en cuenta el borde izquierdo
-	 * @param v ventana cuyos bordes se comprobaran
+	/**Metodo para comprobar si el pajaro rebota con el borde horizontal izquierdo de la pantalla
 	 * @return booleano indicando si existe o no choque
 	 */
-	public boolean choqueConLimitesVerticales() {
+	public boolean choqueConLimiteVertical() {
 		return x-getRadio()<=0;
 	}
 
@@ -202,14 +224,6 @@ public class Pajaro extends ObjetoPrimitivo implements ElementoDibujable{
 
 	public double getVY() {
 		return vY;
-	}
-
-	public void reverseVY() {
-		vY = -vY - 5;
-	}
-
-	public void reversevX() {
-		vX = -vX;
 	}
 
 	@Override

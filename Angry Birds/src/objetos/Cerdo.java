@@ -3,7 +3,7 @@ package objetos;
 import gui.juego.VentanaJuego;
 import objetos.pajaros.Pajaro;
 
-public class Cerdo extends ObjetoPrimitivo implements ElementoNivel{
+public class Cerdo extends Objeto implements ObjetoNivel{
 	
 	private static final String IMAGEN = "/imgs/Cerdo.png"; 
 	private static final int radio = 20;

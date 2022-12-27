@@ -7,7 +7,7 @@ import objetos.pajaros.Pajaro;
 
 
 
-public class Viga extends ObjetoPrimitivo implements ElementoNivel{
+public class Viga extends Objeto implements ObjetoNivel{
 	
 	private int anchura;
 	private int altura;
@@ -18,13 +18,18 @@ public class Viga extends ObjetoPrimitivo implements ElementoNivel{
 	
 	/**	Construye una nueva viga
 	 * @param location centro de la viga
-	 * @param radsRotacion	rotacion de la viga en grados
+	 * @param radsRotacion	rotacion de la viga en grados (0 o 90)
 	 * @param material	material de la viga
 	 */
 	public Viga(Point location, int angulo, Material material) {
 		super(location.x, location.y);
-		this.anchura = 16;
-		this.altura = 120;
+		if(angulo == 0) {
+			this.anchura = 16;
+			this.altura = 120;
+		}else {
+			this.anchura = 120;
+			this.altura = 16;
+		}
 		this.material = material;
 		this.rotacion = angulo;
 		if(material == Material.CRISTAL) {
@@ -52,19 +57,23 @@ public class Viga extends ObjetoPrimitivo implements ElementoNivel{
 	/** Devuelve la anchura de la viga
 	 * @return Anchura de la viga en pixeles
 	 */
-	public double getAnchura() {
+	public int getAnchura() {
 		return anchura;
 	}
 	
 	/** Devuelve la altura de la viga
 	 * @return Altura de la viga en pixeles
 	 */
-	public double getAltura() {
+	public int getAltura() {
 		return altura;
 	}
 	
 	public void dibuja(VentanaJuego v) {
-		v.dibujaImagen(imagen, x, y, anchura, altura, 1, Math.toRadians(rotacion), 1.0f);
+		if(rotacion == 0) {
+			v.dibujaImagen(imagen, x, y, anchura, altura, 1, Math.toRadians(rotacion), 1.0f);
+		}else {
+			v.dibujaImagen(imagen, x, y, altura, anchura, 1, Math.toRadians(rotacion), 1.0f);
+		}
 	}
 	
 	@Override
