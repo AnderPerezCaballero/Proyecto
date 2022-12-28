@@ -89,6 +89,9 @@ public class Juego {
 					if(pajaro.isSeleccionado() && !ventanaJuego.isRatonPulsado()) {
 						if(pajaro.getLocation().distance(POSICIONINICIALPAJARO) > 30) {
 							pajaro.lanzar(pajaro.getLocation(), POSICIONINICIALPAJARO);
+
+							//Movimiento del pájaro
+							pajaro.move(MILISEGUNDOSENTREFRAMES, GRAVEDADX, GRAVEDADY, nivel);
 						}else {
 							//Volver a dejar el pájaro en su sitio
 							pajaro.setLocation(POSICIONINICIALPAJARO);
@@ -99,28 +102,17 @@ public class Juego {
 
 
 			}else {
-
-				//Movimiento del pájaro
-				pajaro.move(MILISEGUNDOSENTREFRAMES, GRAVEDADX, GRAVEDADY);
-				
-				//Para poder eliminar elementos mientras se itera sobre la lista y evitar ConcurrentModificationException -> Iterator				
-				Iterator<ObjetoNivel> iterator = nivel.getElementos().iterator();
-				while (iterator.hasNext()) {
-					ObjetoNivel siguienteElemento = iterator.next();
-					if(siguienteElemento.chocaConPajaro(pajaro)) {
-						pajaro.rebotaCon(siguienteElemento);
-						iterator.remove();
-					}
-				}
 				
 				//Reiniciar el lanzamiento
-				if(ventanaJuego.isRatonPulsado() && posicionRaton.distance(pajaro.getLocation()) < pajaro.getRadio() || !ventana.contains(pajaro.getLocation())){
+				if(ventanaJuego.isRatonPulsado() && posicionRaton.distance(pajaro.getLocation()) < pajaro.getRadio()){
+					pajaro.cancelarMovimiento();
 					pajaro = new Pajaro(POSICIONINICIALPAJARO);			
-				}				
+				}
 			}
 
 			nivel.dibujaElementos(ventanaJuego);
 			pajaro.dibuja(ventanaJuego);
+			ventanaJuego.dibujaImagen("/imgs/TiraPajarosDelante.png", 223, 840, 0.74, 0, 1);
 			//			grupoEnemigos.dibuja(ventanaJuego);
 
 
@@ -128,7 +120,6 @@ public class Juego {
 
 			//			grupoPajaros.dibuja(ventanaJuego);
 			//						if(pajaro.getLocation().distance(new Point(223, 785)) < 30) {
-			ventanaJuego.dibujaImagen("/imgs/TiraPajarosDelante.png", 223, 840, 0.74, 0, 1);
 			//						}
 
 
@@ -146,6 +137,7 @@ public class Juego {
 
 			ventanaJuego.repaint();
 		}
+		pajaro.cancelarMovimiento();
 		//		ventanaJuego.fin();
 	}
 
@@ -156,7 +148,6 @@ public class Juego {
 	public static void main(String[] args) {
 		init(4);
 	}
-
 
 
 

@@ -25,7 +25,6 @@ public class NivelTest {
 		listaPajaros.add(new Pajaro(15, 10, 15, null));
 
 		nv = new Nivel("RutaEjemplo", 1, 4, listaPajaros);	
-
 	}
 	
 	@Test
