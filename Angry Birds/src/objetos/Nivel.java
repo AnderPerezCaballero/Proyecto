@@ -1,28 +1,29 @@
 package objetos;
 import java.awt.Point;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import gui.juego.VentanaJuego;
 import objetos.pajaros.Pajaro;
 
 public class Nivel {
-	private int numPajaros;
+	private int pajarosDisponibles;
 	private List<ObjetoNivel> elementos;
 
 	/** Crea un nuevo objeto nivel a partir de un fichero
 	 * @param id id del nivel a cargar
 	 */
 	public Nivel(int id) {
-		elementos = new ArrayList<>();
+		elementos = Collections.synchronizedList(new ArrayList<>());
 		try(BufferedReader in = new BufferedReader(new InputStreamReader(Nivel.class.getResourceAsStream(String.format("/niveles/Nivel%d.txt", id))))) {
 			String linea;
 			while ((linea = in.readLine()) != null) {
@@ -59,7 +60,7 @@ public class Nivel {
 							StringTokenizer st = new StringTokenizer(linea, " ,\t");
 							if(st.nextToken().equals("pajaros") && st.nextToken().equals("=")) {
 								try {
-									numPajaros = Integer.parseInt(st.nextToken());
+									pajarosDisponibles = Integer.parseInt(st.nextToken());
 								}catch(NumberFormatException e) {
 									e.printStackTrace();
 								}
@@ -77,20 +78,45 @@ public class Nivel {
 		}
 	}
 
-	public void remove(ObjetoNivel elemento) {
-		elementos.remove(elemento);
+	public void remove(List<ObjetoNivel> objetos) {
+//		for(ObjetoNivel objeto : objetos) {
+//			elementos.remove(objeto);
+//		}
 	}
 	
 	public List<ObjetoNivel> getElementos() {
 		return elementos;
 	}
 
+	/** Reduce por uno el número de pájaros disponibles
+	 * @return True en caso de que el número de pájaros se pueda reducir, false si no
+	 */
+	public boolean reducirPajarosDisponibles() {
+		System.out.println(pajarosDisponibles);
+		if(pajarosDisponibles <= 0) {
+			return false;
+		}
+		pajarosDisponibles--;
+		return true;
+	}
 	/** Dibuja los elementos del nivel
 	 * @param v Ventana en la que se dibujan
 	 */
 	public void dibujaElementos(VentanaJuego v) {
 		for(Dibujable elemento : elementos) {
 			elemento.dibuja(v);
+		}
+	}
+	
+	/** Dibuja en la ventana los pájaros disponibles
+	 * @param v Ventana en la que los pájaros disponibles se dibujan
+	 */
+	public void dibujaPajarosDisponibles(VentanaJuego v) {
+		int radio = Pajaro.getRadio();
+		int ySuelo = Juego.getYSuelo();
+		int xTiraPajaros = Juego.getXTiraPajaros() - 30;
+		for(int i = 0; i < pajarosDisponibles - 1; i++) {
+			v.dibujaImagen(Pajaro.getRutaImagen(), xTiraPajaros - i*radio*3, ySuelo - radio, radio * 2, radio * 2, 1, 0, 1.0f);
 		}
 	}
 }

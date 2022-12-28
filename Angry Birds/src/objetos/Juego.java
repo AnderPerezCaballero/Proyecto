@@ -39,11 +39,15 @@ public class Juego {
 	private static final Point POSICIONINICIALPAJARO = new Point(225, 785);
 	private static final Color COLORTIRAPAJAROS = new Color(48, 22, 8);
 	private static final int YPOSICIONSUELO = 909;
+	private static final int XPOSICIONTIRAPAJAROS = 223;
+	private static final int YPOSICIONTIRAPAJAROS = 840;
+	
 
 	public static void init(int lvl) {
 		ventanaJuego = new VentanaJuego(String.format("Nivel %d", lvl));
 		nivel = new Nivel(lvl);
 		pajaro = new Pajaro(POSICIONINICIALPAJARO);
+		milisAbierta = System.currentTimeMillis();
 		buclePrincipal();
 	}
 
@@ -61,7 +65,7 @@ public class Juego {
 			if(!pajaro.isLanzado()) {
 
 				//Identificar si el pájaro está siendo seleccionado o no
-				if(ventanaJuego.isRatonPulsado() && posicionRaton.distance(pajaro.getLocation()) < pajaro.getRadio()){
+				if(ventanaJuego.isRatonPulsado() && posicionRaton.distance(pajaro.getLocation()) < Pajaro.getRadio()){
 					pajaro.setSeleccionado(true);				
 				}
 
@@ -71,10 +75,10 @@ public class Juego {
 
 					//Choques
 					if(pajaro.choqueConSuelo()) {
-						pajaro.setY(YPOSICIONSUELO - pajaro.getRadio());
+						pajaro.setY(YPOSICIONSUELO - Pajaro.getRadio());
 					}
 					if(pajaro.choqueConLimiteVertical()) {
-						pajaro.setX(pajaro.getRadio());
+						pajaro.setX(Pajaro.getRadio());
 					}
 
 					//Animación de catapulta
@@ -104,15 +108,20 @@ public class Juego {
 			}else {
 				
 				//Reiniciar el lanzamiento
-				if(ventanaJuego.isRatonPulsado() && posicionRaton.distance(pajaro.getLocation()) < pajaro.getRadio()){
+				if(ventanaJuego.isRatonPulsado() && posicionRaton.distance(pajaro.getLocation()) < Pajaro.getRadio()){
 					pajaro.cancelarMovimiento();
+					if(!nivel.reducirPajarosDisponibles()) {
+						milisAbierta = System.currentTimeMillis() - milisAbierta;
+						ventana.setVisible(false);
+					}
 					pajaro = new Pajaro(POSICIONINICIALPAJARO);			
 				}
 			}
 
 			nivel.dibujaElementos(ventanaJuego);
+			nivel.dibujaPajarosDisponibles(ventanaJuego);
 			pajaro.dibuja(ventanaJuego);
-			ventanaJuego.dibujaImagen("/imgs/TiraPajarosDelante.png", 223, 840, 0.74, 0, 1);
+			ventanaJuego.dibujaImagen("/imgs/TiraPajarosDelante.png", XPOSICIONTIRAPAJAROS, YPOSICIONTIRAPAJAROS, 0.74, 0, 1);
 			//			grupoEnemigos.dibuja(ventanaJuego);
 
 
@@ -145,6 +154,10 @@ public class Juego {
 		return YPOSICIONSUELO;
 	}
 
+	public static int getXTiraPajaros() {
+		return XPOSICIONTIRAPAJAROS;
+	}
+	
 	public static void main(String[] args) {
 		init(4);
 	}

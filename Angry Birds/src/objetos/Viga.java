@@ -49,8 +49,11 @@ public class Viga extends Objeto implements ObjetoNivel{
 	 * @return true si el pájaro está dentro del perímetro de la viga, false si no
 	 */
 	public boolean chocaConPajaro(Pajaro pajaro) {
-		return (x - anchura / 2) < (pajaro.getX() + pajaro.getRadio()) && (x + anchura / 2) > (pajaro.getX() - pajaro.getRadio()) &&
-			   (y - altura / 2) < (pajaro.getY() + pajaro.getRadio()) && (y + altura / 2) > (pajaro.getY() - pajaro.getRadio());
+		int radio = Pajaro.getRadio();
+		int xPajaro = pajaro.getX();
+		int yPajaro = pajaro.getY();
+		return (x - anchura / 2) < (xPajaro + radio) && (x + anchura / 2) > (xPajaro - radio) &&
+			   (y - altura / 2) < (yPajaro + radio) && (y + altura / 2) > (yPajaro - radio);
 	}
 	
 	
@@ -71,6 +74,7 @@ public class Viga extends Objeto implements ObjetoNivel{
 	public void dibuja(VentanaJuego v) {
 		if(rotacion == 0) {
 			v.dibujaImagen(imagen, x, y, anchura, altura, 1, Math.toRadians(rotacion), 1.0f);
+			
 		}else {
 			v.dibujaImagen(imagen, x, y, altura, anchura, 1, Math.toRadians(rotacion), 1.0f);
 		}
