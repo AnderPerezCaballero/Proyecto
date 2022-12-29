@@ -8,7 +8,7 @@ public class Cerdo extends Objeto implements ObjetoNivel{
 	private static final String IMAGEN = "/imgs/Cerdo.png"; 
 	private static final int radio = 20;
 	
-	/** Crea un nuevo cerdo
+	/** Crea un nuevo cerdo con 100 puntos de vida
 	 * @param x Coordenada x del centro del cerdo
 	 * @param y Coordenada y del centro del cerdo
 	 */
@@ -20,7 +20,14 @@ public class Cerdo extends Objeto implements ObjetoNivel{
 	 * @return true si choca, false si no
 	 */
 	public boolean chocaConPajaro(Pajaro pajaro) {
-		return pajaro.getLocation().distance(getLocation()) < radio + pajaro.getRadio();
+		return pajaro.getLocation().distance(getLocation()) < radio + Pajaro.getRadio();
+	}
+	
+	/** Indica si el cerdo es eliminado después de colisionar.
+	 *
+	 */
+	public boolean eliminado() {
+		return true;
 	}
 	
 	public void dibuja(VentanaJuego v) {

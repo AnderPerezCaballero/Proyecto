@@ -56,6 +56,27 @@ public class Viga extends Objeto implements ObjetoNivel{
 			   (y - altura / 2) < (yPajaro + radio) && (y + altura / 2) > (yPajaro - radio);
 	}
 	
+	/** Indica si la viga es eliminada después de colisionar, y cambia el aspecto que tiene
+	 *
+	 */
+	public boolean eliminado() {
+		vida =- 100;
+		if(vida <= 0) {
+			return true;
+		}else {
+			if(vida == 200) {
+				imagen = "/imgs/VigaPiedraDañada.png";
+			}else{
+				if(material == Material.PIEDRA) {
+					imagen = "/imgs/VigaPiedraMuyDañada.png";
+				}else {
+					imagen = "/imgs/VigaMaderaDañada.png";
+				}
+			}
+			return false;
+		}
+	}
+	
 	
 	/** Devuelve la anchura de la viga
 	 * @return Anchura de la viga en pixeles

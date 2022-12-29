@@ -3,8 +3,10 @@ package objetos.pajaros;
 import java.awt.Color;import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
+import java.util.ConcurrentModificationException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import gui.juego.VentanaJuego;
@@ -29,10 +31,13 @@ public class Pajaro extends Objeto implements Dibujable{
 	private double momentoLanzado;
 
 	private List<Point> posiciones;
+	private Point posicionPintado;
 	
 	private boolean estaSeleccionado;
 	private boolean lanzado;
 	private boolean mover;
+	
+	private Map<Point, List<ObjetoNivel>> mapaObjetosAEliminar;
 
 	/** Crea un nuevo pájaro
 	 * @param x Posición en el eje x del centro del pájaro
@@ -46,6 +51,7 @@ public class Pajaro extends Objeto implements Dibujable{
 		lanzado = false;
 		mover = false;
 		posiciones = Collections.synchronizedList(new CopyOnWriteArrayList<>());
+		mapaObjetosAEliminar = new HashMap<>();
 	}
 
 	/** Crea un nuevo pájaro
@@ -118,7 +124,8 @@ public class Pajaro extends Objeto implements Dibujable{
 				vX = -vX;
 
 			//Rebota por arriba o por abajo
-			}else if(viga.getX() - viga.getAnchura() / 2 > x && viga.getX() + viga.getAnchura() / 2 < x) {
+			}
+			if(viga.getX() - viga.getAnchura() / 2 > x && viga.getX() + viga.getAnchura() / 2 < x) {
 			
 				//Rebota por arriba
 				if(vY > 0) {
@@ -133,10 +140,11 @@ public class Pajaro extends Objeto implements Dibujable{
 				vY = -vY;
 				
 			//Rebota con una esquina
-			}else {
-				vX = -vX;
-				vY = -vY;
 			}
+//			else {
+//				vX = -vX;
+//				vY = -vY;
+//			}
 		}
 	}
 
@@ -145,9 +153,16 @@ public class Pajaro extends Objeto implements Dibujable{
 	 * @param gravedadX vector de gravedad en el eje X
 	 * @param gravedadY vector de gravedad en el eje Y
 	 */
+	/**
+	 * @param milisEntreFrames
+	 * @param gravedadX
+	 * @param gravedadY
+	 * @param nivel
+	 */
 	public void move(int milisEntreFrames, double gravedadX, double gravedadY, Nivel nivel) {
 		mover = true;
 		new Thread(() -> {
+			List<ObjetoNivel> elementos = nivel.getElementos();
 				while(mover) {
 					segundosEnAire = System.currentTimeMillis() / 1000.0 - momentoLanzado + milisEntreFrames / 1000.0;
 
@@ -159,7 +174,7 @@ public class Pajaro extends Objeto implements Dibujable{
 
 					//Choques
 					if(choqueConSuelo()) {
-						vY = -vY - 5;
+						vY = -vY - 10;
 						y = Juego.getYSuelo()- radio;
 						aplicarRozamiento(10);
 					}
@@ -169,14 +184,16 @@ public class Pajaro extends Objeto implements Dibujable{
 						aplicarRozamiento(10);
 					}
 					
-					List<ObjetoNivel> objetosAEliminar = new ArrayList<>();
-					for(ObjetoNivel objetoNivel : nivel.getElementos()) {
+					for(ObjetoNivel objetoNivel : elementos) {
 						if(objetoNivel.chocaConPajaro(Pajaro.this)) {
 							rebotaCon(objetoNivel);
-							objetosAEliminar.add(objetoNivel);
+							mapaObjetosAEliminar.putIfAbsent(new Point(x, y), new ArrayList<>());
+							mapaObjetosAEliminar.get(new Point(x, y)).add(objetoNivel);
 						}
 					}
-					nivel.remove(objetosAEliminar);
+					try {
+						elementos.removeAll(mapaObjetosAEliminar.get(new Point(x, y)));
+					}catch (NullPointerException | ConcurrentModificationException e) {}
 					posiciones.add(new Point(x, y));
 					
 					try {
@@ -184,7 +201,6 @@ public class Pajaro extends Objeto implements Dibujable{
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-
 				}
 		}).start();		
 		
@@ -225,16 +241,42 @@ public class Pajaro extends Objeto implements Dibujable{
 		}
 	}
 
+	
+	/** Dibuja el pájaro en la ventana
+	 *@param v Ventana en la que se dibuja el pájaro
+	 */
 	public void dibuja(VentanaJuego v) {
 		if(mover) {
-			Point posicion = posiciones.get(0);
+			posicionPintado = posiciones.get(0);
 			posiciones.remove(0);
-			v.dibujaImagen(IMAGEN, posicion.x, posicion.y, radio * 2, radio * 2, 1, 0, 1.0f);
+			try {
+				for(int j = 0; j < 3; j++) {
+					int i = 0;
+					while(mapaObjetosAEliminar.containsKey(posiciones.get(i))) {
+						i++;
+					}
+					posiciones.remove(i);
+				}
+			}catch (IndexOutOfBoundsException e) {}
+			v.dibujaImagen(IMAGEN, posicionPintado.x, posicionPintado.y, radio * 2, radio * 2, 1, 0, 1.0f);
 		}else {
 			v.dibujaImagen(IMAGEN, x, y, radio * 2, radio * 2, 1, 0, 1.0f);	
 		}
 	}
 	
+	/** Manda a eliminar los objetos del nivel que requieran de ser eliminados en ese momento en función de la posición de pintado
+	 * @param nivel Nivel cuyos objetos han de ser eliminados
+	 */
+	public void eliminarObjetos(Nivel nivel) {
+		List<ObjetoNivel> objetosAEliminar = mapaObjetosAEliminar.get(posicionPintado);
+		if(objetosAEliminar != null) {
+			nivel.remove(objetosAEliminar);	
+		}
+	}
+	
+	/** Detiene el hilo a través del cual se calculan las posiciones del pájaro
+	 * 
+	 */
 	public void cancelarMovimiento() {
 		mover = false;
 	}
@@ -282,6 +324,30 @@ public class Pajaro extends Objeto implements Dibujable{
 
 	public double getVY() {
 		return vY;
+	}
+	
+	/** Indica si el pájaro está actualmente quieto
+	 * @return true si sus siguientes 5 posiciones son iguales, falase si nos
+	 */
+	public boolean isQuieto() {
+		try {
+			for(int i = 1; i < 5; i++) {
+				if(!posicionPintado.equals(posiciones.get(i))) {
+					return false;
+				}
+			}
+			return true;
+		}catch(NullPointerException | ArrayIndexOutOfBoundsException e) {
+			return false;
+		}
+	}
+	
+	public Point getPosicionPintado(Point posicionInicial) {
+		if(posicionPintado == null) {
+			return posicionInicial;
+		}else {
+			return posicionPintado;
+		}
 	}
 
 	@Override

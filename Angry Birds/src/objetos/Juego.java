@@ -103,25 +103,28 @@ public class Juego {
 					}
 					pajaro.setSeleccionado(false);
 				}
-
+				dibujado();
 
 			}else {
+				dibujado();
+				pajaro.eliminarObjetos(nivel);
 				
 				//Reiniciar el lanzamiento
-				if(ventanaJuego.isRatonPulsado() && posicionRaton.distance(pajaro.getLocation()) < Pajaro.getRadio()){
+				if(pajaro.isQuieto() || !ventana.contains(pajaro.getPosicionPintado(POSICIONINICIALPAJARO))){
 					pajaro.cancelarMovimiento();
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 					if(!nivel.reducirPajarosDisponibles()) {
 						milisAbierta = System.currentTimeMillis() - milisAbierta;
+						System.out.println(milisAbierta / 1000.0);
 						ventana.setVisible(false);
 					}
 					pajaro = new Pajaro(POSICIONINICIALPAJARO);			
 				}
 			}
-
-			nivel.dibujaElementos(ventanaJuego);
-			nivel.dibujaPajarosDisponibles(ventanaJuego);
-			pajaro.dibuja(ventanaJuego);
-			ventanaJuego.dibujaImagen("/imgs/TiraPajarosDelante.png", XPOSICIONTIRAPAJAROS, YPOSICIONTIRAPAJAROS, 0.74, 0, 1);
 			//			grupoEnemigos.dibuja(ventanaJuego);
 
 
@@ -149,11 +152,27 @@ public class Juego {
 		pajaro.cancelarMovimiento();
 		//		ventanaJuego.fin();
 	}
+	
+	/**Dibuja los elementos del juego
+	 * 
+	 */
+	private static void dibujado() {
+		nivel.dibujaElementos(ventanaJuego);
+		nivel.dibujaPajarosDisponibles(ventanaJuego);
+		pajaro.dibuja(ventanaJuego);
+		ventanaJuego.dibujaImagen("/imgs/TiraPajarosDelante.png", XPOSICIONTIRAPAJAROS, YPOSICIONTIRAPAJAROS, 0.74, 0, 1);
+	}
 
+	/** Devuelve la coordenada Y del suelo del juego (En pantalla completa)
+	 * @return Int que representa el pixel de la coordenada Y del suelo del juego
+	 */
 	public static int getYSuelo() {
 		return YPOSICIONSUELO;
 	}
 
+	/** Devuelve la coordenada X del centro del tirapajaros/catapulta
+	 * @return Int que representa el pixel de la coordenada X del tirapajaros
+	 */
 	public static int getXTiraPajaros() {
 		return XPOSICIONTIRAPAJAROS;
 	}

@@ -24,6 +24,8 @@ public class Nivel {
 	 */
 	public Nivel(int id) {
 		elementos = Collections.synchronizedList(new ArrayList<>());
+		
+		//Carga del nivel
 		try(BufferedReader in = new BufferedReader(new InputStreamReader(Nivel.class.getResourceAsStream(String.format("/niveles/Nivel%d.txt", id))))) {
 			String linea;
 			while ((linea = in.readLine()) != null) {
@@ -79,9 +81,11 @@ public class Nivel {
 	}
 
 	public void remove(List<ObjetoNivel> objetos) {
-//		for(ObjetoNivel objeto : objetos) {
-//			elementos.remove(objeto);
-//		}
+		for(ObjetoNivel objeto : objetos) {
+			if(objeto.eliminado()) {
+				elementos.remove(objeto);
+			}
+		}
 	}
 	
 	public List<ObjetoNivel> getElementos() {
@@ -92,8 +96,7 @@ public class Nivel {
 	 * @return True en caso de que el número de pájaros se pueda reducir, false si no
 	 */
 	public boolean reducirPajarosDisponibles() {
-		System.out.println(pajarosDisponibles);
-		if(pajarosDisponibles <= 0) {
+		if(pajarosDisponibles <= 1) {
 			return false;
 		}
 		pajarosDisponibles--;
