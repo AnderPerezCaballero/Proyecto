@@ -2,9 +2,11 @@ package objetos.pajaros;
 
 import java.awt.Color;import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -162,7 +164,9 @@ public class Pajaro extends Objeto implements Dibujable{
 	public void move(int milisEntreFrames, double gravedadX, double gravedadY, Nivel nivel) {
 		mover = true;
 		new Thread(() -> {
-			List<ObjetoNivel> elementos = nivel.getElementos();
+			// Creo una copia profunda de los elementos de la lista de objetos del nivel, para poder modificarlos sin interferir en el dibujado
+			List<ObjetoNivel> objetosNivel = new ArrayList<ObjetoNivel>(Arrays.asList(Arrays.copyOf(nivel.getObjetos().toArray(new ObjetoNivel[0]), nivel.getObjetos().size())));
+					
 				while(mover) {
 					segundosEnAire = System.currentTimeMillis() / 1000.0 - momentoLanzado + milisEntreFrames / 1000.0;
 
@@ -184,16 +188,20 @@ public class Pajaro extends Objeto implements Dibujable{
 						aplicarRozamiento(10);
 					}
 					
-					for(ObjetoNivel objetoNivel : elementos) {
+					Iterator<ObjetoNivel> iterator = objetosNivel.iterator();
+					while(iterator.hasNext()) {
+						ObjetoNivel objetoNivel = iterator.next();
 						if(objetoNivel.chocaConPajaro(Pajaro.this)) {
 							rebotaCon(objetoNivel);
-							mapaObjetosAEliminar.putIfAbsent(new Point(x, y), new ArrayList<>());
-							mapaObjetosAEliminar.get(new Point(x, y)).add(objetoNivel);
+							Point posicion = new Point(x, y);
+							mapaObjetosAEliminar.putIfAbsent(posicion, new ArrayList<>());
+							mapaObjetosAEliminar.get(posicion).add(objetoNivel);
+							if(objetoNivel.eliminado()) {
+								iterator.remove();
+							}
 						}
 					}
-					try {
-						elementos.removeAll(mapaObjetosAEliminar.get(new Point(x, y)));
-					}catch (NullPointerException | ConcurrentModificationException e) {}
+					
 					posiciones.add(new Point(x, y));
 					
 					try {
@@ -240,7 +248,6 @@ public class Pajaro extends Objeto implements Dibujable{
 			}
 		}
 	}
-
 	
 	/** Dibuja el pájaro en la ventana
 	 *@param v Ventana en la que se dibuja el pájaro
@@ -250,7 +257,7 @@ public class Pajaro extends Objeto implements Dibujable{
 			posicionPintado = posiciones.get(0);
 			posiciones.remove(0);
 			try {
-				for(int j = 0; j < 3; j++) {
+				for(int j = 0; j < 2; j++) {
 					int i = 0;
 					while(mapaObjetosAEliminar.containsKey(posiciones.get(i))) {
 						i++;

@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
@@ -17,13 +18,13 @@ import objetos.pajaros.Pajaro;
 
 public class Nivel {
 	private int pajarosDisponibles;
-	private List<ObjetoNivel> elementos;
+	private List<ObjetoNivel> objetosNivel;
 
 	/** Crea un nuevo objeto nivel a partir de un fichero
 	 * @param id id del nivel a cargar
 	 */
 	public Nivel(int id) {
-		elementos = Collections.synchronizedList(new ArrayList<>());
+		objetosNivel = Collections.synchronizedList(new ArrayList<>());
 		
 		//Carga del nivel
 		try(BufferedReader in = new BufferedReader(new InputStreamReader(Nivel.class.getResourceAsStream(String.format("/niveles/Nivel%d.txt", id))))) {
@@ -38,7 +39,7 @@ public class Nivel {
 									if(!linea.contains("#")) { //Comentarios dentro de las llaves
 										StringTokenizer st = new StringTokenizer(linea, " ,\t");
 										try {
-											elementos.add(new Cerdo(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
+											objetosNivel.add(new Cerdo(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
 										}catch (NoSuchElementException | NumberFormatException e) {
 											e.printStackTrace();
 										}
@@ -51,7 +52,7 @@ public class Nivel {
 									if(!linea.contains("#")) { //Comentarios dentro de las llaves
 										StringTokenizer st = new StringTokenizer(linea, " ,\t");
 										try {
-											elementos.add(new Viga(new Point(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())), Integer.parseInt(st.nextToken()), Material.getMaterial(st.nextToken())));
+											objetosNivel.add(new Viga(new Point(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())), Integer.parseInt(st.nextToken()), Material.getMaterial(st.nextToken())));
 										}catch (NoSuchElementException | IllegalArgumentException e) {
 											e.printStackTrace();
 										}
@@ -80,16 +81,19 @@ public class Nivel {
 		}
 	}
 
+	/** Elimina o cambia de estado los objetos especificados
+	 * @param objetos Objetos que hay que eliminar o cambiar
+	 */
 	public void remove(List<ObjetoNivel> objetos) {
 		for(ObjetoNivel objeto : objetos) {
 			if(objeto.eliminado()) {
-				elementos.remove(objeto);
+				objetosNivel.remove(objeto);
 			}
 		}
 	}
 	
-	public List<ObjetoNivel> getElementos() {
-		return elementos;
+	public List<ObjetoNivel> getObjetos() {
+		return objetosNivel;
 	}
 
 	/** Reduce por uno el número de pájaros disponibles
@@ -106,9 +110,11 @@ public class Nivel {
 	 * @param v Ventana en la que se dibujan
 	 */
 	public void dibujaElementos(VentanaJuego v) {
-		for(Dibujable elemento : elementos) {
-			elemento.dibuja(v);
-		}
+		try {
+			for(Dibujable elemento : objetosNivel) {
+				elemento.dibuja(v);
+			}
+		}catch(ConcurrentModificationException e) {}
 	}
 	
 	/** Dibuja en la ventana los pájaros disponibles

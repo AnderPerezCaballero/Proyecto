@@ -39,7 +39,7 @@ public class Juego {
 	private static final Point POSICIONINICIALPAJARO = new Point(225, 785);
 	private static final Color COLORTIRAPAJAROS = new Color(48, 22, 8);
 	private static final int YPOSICIONSUELO = 909;
-	private static final int XPOSICIONTIRAPAJAROS = 223;
+	private static final int XPOSICIONTIRAPAJAROS = 221;
 	private static final int YPOSICIONTIRAPAJAROS = 840;
 	
 
@@ -132,7 +132,7 @@ public class Juego {
 
 			//			grupoPajaros.dibuja(ventanaJuego);
 			//						if(pajaro.getLocation().distance(new Point(223, 785)) < 30) {
-			//						}
+			//					sy	}
 
 
 

@@ -394,7 +394,7 @@ public class VentanaJuego {
 	 * 
 	 */
 	public void repaint() {
-		graphics.drawImage(Imagenes.getImageIcon("/imgs/FondoNivel.jpg").getImage(), 0, 0, ventana.getWidth(), ventana.getHeight(), panel);
+		graphics.drawImage(Imagenes.getImageIcon("/imgs/FondoNivel.jpg").getImage(), 0, 0, 1920, 1056, panel);
 		panel.repaint();
 	}
 

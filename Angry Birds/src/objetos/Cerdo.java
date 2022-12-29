@@ -23,7 +23,7 @@ public class Cerdo extends Objeto implements ObjetoNivel{
 		return pajaro.getLocation().distance(getLocation()) < radio + Pajaro.getRadio();
 	}
 	
-	/** Indica si el cerdo es eliminado después de colisionar.
+	/** Indica si el cerdo es eliminado después de colisionar. Devuelve true por defecto, pues el cerdo está diseñado para ser eliminado siempre
 	 *
 	 */
 	public boolean eliminado() {
