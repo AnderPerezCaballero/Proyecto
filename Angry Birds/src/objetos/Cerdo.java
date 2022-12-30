@@ -24,7 +24,7 @@ public class Cerdo extends Objeto implements ObjetoNivel{
 	}
 	
 	/** Indica si el cerdo es eliminado después de colisionar. Devuelve true por defecto, pues el cerdo está diseñado para ser eliminado siempre
-	 *
+	 *@return true por defecto
 	 */
 	public boolean eliminado() {
 		return true;
@@ -33,11 +33,28 @@ public class Cerdo extends Objeto implements ObjetoNivel{
 	public void dibuja(VentanaJuego v) {
 		v.dibujaImagen(IMAGEN, (double) x, (double) y, radio * 2, radio * 2, v.getEscalaDibujo(),0,1.0f);
 	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return new Cerdo(x, y);
+	}
 
 	@Override
 	public String toString() {
 		return String.format("Cerdo(%d, %d)", x, y);
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Cerdo) {
+			Cerdo cerdo = (Cerdo) obj;
+			return cerdo.x == x && cerdo.y == y;
+		}
+		return false;
+	}
+	
+	
+	
 	
 
 //	public boolean contienePunto(Point punto) {

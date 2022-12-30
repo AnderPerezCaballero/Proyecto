@@ -23,7 +23,7 @@ public class VentanaInicioSesion extends VentanaSesion{
 		colorPaneles(getFondooscuro());
 
 		// Color de los componentes
-		colorComponentes(getFondooscuro());
+		colorComponentes();
 
 		getPanelDatos().add(getPanelMensaje());
 		getPanelDatos().add(getPanelGuardarDispositivo());

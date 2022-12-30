@@ -12,7 +12,7 @@ public class Viga extends Objeto implements ObjetoNivel{
 	private int anchura;
 	private int altura;
 	private Material material;
-	private double rotacion;
+	private int angsRotacion;
 	private int vida;
 	private String imagen;
 
@@ -31,7 +31,7 @@ public class Viga extends Objeto implements ObjetoNivel{
 			this.altura = 16;
 		}
 		this.material = material;
-		this.rotacion = angulo;
+		this.angsRotacion = angulo;
 		if(material == Material.CRISTAL) {
 			vida = 100;
 			imagen = "/imgs/VigaCristal.png";
@@ -93,18 +93,33 @@ public class Viga extends Objeto implements ObjetoNivel{
 	}
 
 	public void dibuja(VentanaJuego v) {
-		if(rotacion == 0) {
-			v.dibujaImagen(imagen, x, y, anchura, altura, 1, Math.toRadians(rotacion), 1.0f);
-
+		if(angsRotacion == 0) {
+			v.dibujaImagen(imagen, x, y, anchura, altura, 1, Math.toRadians(angsRotacion), 1.0f);
 		}else {
-			v.dibujaImagen(imagen, x, y, altura, anchura, 1, Math.toRadians(rotacion), 1.0f);
+			v.dibujaImagen(imagen, x, y, altura, anchura, 1, Math.toRadians(angsRotacion), 1.0f);
 		}
+	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return new Viga(getLocation(), angsRotacion, material);
 	}
 
 	@Override
 	public String toString() {
 		return String.format("Viga de %s(%d, %d)[%dx%d]", material.toString().toLowerCase(), x, y, altura, anchura);
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Viga) {
+			Viga viga = (Viga) obj;
+			return viga.x == x && viga.y == y;
+		}
+		return false;
+	}
+	
+	
 
 	//	public boolean tieneSoporte(Viga e) {
 	//	if (x-altura/2-1==0) {

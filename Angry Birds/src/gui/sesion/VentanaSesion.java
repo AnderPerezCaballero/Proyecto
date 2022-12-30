@@ -389,7 +389,7 @@ public abstract class VentanaSesion extends JFrame{
 	/** Establece un color a los componentes de la ventana
 	 * @param color	Color a establecer
 	 */
-	protected void colorComponentes(Color color) {
+	protected void colorComponentes() {
 		labelMensaje.setForeground(Color.RED);
 		labelUsuario.setForeground(Color.WHITE);
 		labelContraseña.setForeground(Color.WHITE);

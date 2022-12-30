@@ -102,7 +102,7 @@ public class Pajaro extends Objeto implements Dibujable{
 	/** Realiza el rebote con el elemento del nivel
 	 * @param elementoNivel elemento del nivel con el que se desea que el pájaro rebote
 	 */
-	public void rebotaCon(ObjetoNivel elementoNivel) {
+	private void rebotaCon(ObjetoNivel elementoNivel) {
 		if(elementoNivel instanceof Cerdo) {
 			Cerdo cerdo = (Cerdo) elementoNivel;
 //			vX = cerdo.getX() - x;
@@ -116,12 +116,12 @@ public class Pajaro extends Objeto implements Dibujable{
 				//Rebota por la izquierda
 				if(vX > 0) {
 					x = viga.getX() - viga.getAnchura() / 2 - radio;
-					System.out.println("izquierda");
+//					System.out.println("izquierda");
 				
 				//Rebota por la derecha
 				}else {
 					x = viga.getX() + viga.getAnchura() / 2 + radio;
-					System.out.println("derecha");
+//					System.out.println("derecha");
 				}
 				vX = -vX;
 
@@ -132,12 +132,12 @@ public class Pajaro extends Objeto implements Dibujable{
 				//Rebota por arriba
 				if(vY > 0) {
 					y =  viga.getY() - viga.getAltura() / 2 + radio;
-					System.out.println("arriba");
+//					System.out.println("arriba");
 				
 				//Rebota por abajo
 				}else {
 					y = viga.getY() + viga.getAltura() / 2 - radio;
-					System.out.println("abajo");
+//					System.out.println("abajo");
 				}
 				vY = -vY;
 				
@@ -165,9 +165,10 @@ public class Pajaro extends Objeto implements Dibujable{
 		mover = true;
 		new Thread(() -> {
 			// Creo una copia profunda de los elementos de la lista de objetos del nivel, para poder modificarlos sin interferir en el dibujado
-			List<ObjetoNivel> objetosNivel = new ArrayList<ObjetoNivel>(Arrays.asList(Arrays.copyOf(nivel.getObjetos().toArray(new ObjetoNivel[0]), nivel.getObjetos().size())));
-					
+			List<ObjetoNivel> objetosNivel = nivel.getCopiaObjetos();
+			int i = 0;
 				while(mover) {
+					i++;
 					segundosEnAire = System.currentTimeMillis() / 1000.0 - momentoLanzado + milisEntreFrames / 1000.0;
 
 					vY = vY - gravedadY * segundosEnAire;
@@ -188,20 +189,21 @@ public class Pajaro extends Objeto implements Dibujable{
 						aplicarRozamiento(10);
 					}
 					
-					Iterator<ObjetoNivel> iterator = objetosNivel.iterator();
-					while(iterator.hasNext()) {
-						ObjetoNivel objetoNivel = iterator.next();
+					List<ObjetoNivel> eliminados = new ArrayList<>();
+					for(ObjetoNivel objetoNivel : objetosNivel) {
 						if(objetoNivel.chocaConPajaro(Pajaro.this)) {
 							rebotaCon(objetoNivel);
 							Point posicion = new Point(x, y);
 							mapaObjetosAEliminar.putIfAbsent(posicion, new ArrayList<>());
 							mapaObjetosAEliminar.get(posicion).add(objetoNivel);
 							if(objetoNivel.eliminado()) {
-								iterator.remove();
+								eliminados.add(objetoNivel);
 							}
 						}
 					}
-					
+					if(eliminados.size() > 0) {
+						objetosNivel.removeAll(eliminados);
+					}
 					posiciones.add(new Point(x, y));
 					
 					try {
@@ -274,10 +276,12 @@ public class Pajaro extends Objeto implements Dibujable{
 	/** Manda a eliminar los objetos del nivel que requieran de ser eliminados en ese momento en función de la posición de pintado
 	 * @param nivel Nivel cuyos objetos han de ser eliminados
 	 */
-	public void eliminarObjetos(Nivel nivel) {
+	public void eliminarObjetos(Nivel nivel) {		
 		List<ObjetoNivel> objetosAEliminar = mapaObjetosAEliminar.get(posicionPintado);
 		if(objetosAEliminar != null) {
-			nivel.remove(objetosAEliminar);	
+			for(ObjetoNivel objeto : objetosAEliminar) {
+				nivel.remove(nivel.getReferenciaCopia(objeto));
+			}
 		}
 	}
 	

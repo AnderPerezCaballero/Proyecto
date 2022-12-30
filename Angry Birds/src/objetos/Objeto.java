@@ -38,13 +38,8 @@ public abstract class Objeto implements Dibujable{
 		return y;
 	}
 	
-	public abstract void dibuja(VentanaJuego v);
-	
-//	public abstract boolean contienePunto(Point punto);
-	
-//	public abstract void setY(int y);
-	
-//	public abstract boolean chocaConPajaro(Pajaro pajaro);
-	
-//	public abstract void setX(int x);	
+	/** Dibuja el objeto en la ventana especificada
+	 *@param v Ventana en la que se dibuja el objeto
+	 */
+	public abstract void dibuja(VentanaJuego v);	
 }

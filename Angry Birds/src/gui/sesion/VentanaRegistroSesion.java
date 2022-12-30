@@ -55,7 +55,7 @@ public class VentanaRegistroSesion extends VentanaSesion{
 		colorPaneles(getFondooscuro());
 
 		// Color de los componentes
-		colorComponentes(getFondooscuro());
+		colorComponentes();
 
 		getInputContraseña().addActionListener(e -> {
 			if (getInputContraseña().getPassword() != null) {
@@ -107,8 +107,8 @@ public class VentanaRegistroSesion extends VentanaSesion{
 	}
 
 	@Override
-	protected void colorComponentes(Color color) {
-		super.colorComponentes(color);
+	protected void colorComponentes() {
+		super.colorComponentes();
 		labelConfirmarContraseña.setForeground(Color.WHITE);
 		inputConfirmarContraseña.setForeground(Color.WHITE);
 		inputConfirmarContraseña.setBackground(Color.BLACK);
