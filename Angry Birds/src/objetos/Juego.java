@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
 
 import gui.componentes.Imagenes;
 import gui.juego.VentanaJuego;
+import gui.juego.VentanaOpcionesJuego;
 import objetos.pajaros.Pajaro;
 
 
@@ -48,10 +49,10 @@ public class Juego {
 		nivel = new Nivel(lvl);
 		pajaro = new Pajaro(POSICIONINICIALPAJARO);
 		milisAbierta = System.currentTimeMillis();
-		buclePrincipal();
+		buclePrincipal(lvl);
 	}
 
-	public static void buclePrincipal() {
+	public static void buclePrincipal(int lvl) {
 		while (!ventanaJuego.estaCerrada()) {
 			//Se actualiza la situación de la ventana
 			ventana = ventanaJuego.getJFrame();
@@ -117,12 +118,15 @@ public class Juego {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					if(!nivel.reducirPajarosDisponibles()) {
+					if(!nivel.reducirPajarosDisponibles() || !nivel.hayCerdos()) {
 						milisAbierta = System.currentTimeMillis() - milisAbierta;
-						System.out.println(milisAbierta / 1000.0);
-						ventana.setVisible(false);
+						new VentanaOpcionesJuego(nivel.getPajarosDeInicio() - nivel.getPajarosDisponibles() + 1, milisAbierta, !nivel.hayCerdos(), lvl);
+						ventana.setEnabled(false);
+						break;
 					}
-					pajaro = new Pajaro(POSICIONINICIALPAJARO);			
+				
+					pajaro = new Pajaro(POSICIONINICIALPAJARO);	
+								
 				}
 			}
 			//			grupoEnemigos.dibuja(ventanaJuego);
@@ -150,7 +154,7 @@ public class Juego {
 			ventanaJuego.repaint();
 		}
 		pajaro.cancelarMovimiento();
-		//		ventanaJuego.fin();
+		System.err.println("JUEGO TERMINADO");
 	}
 	
 	/**Dibuja los elementos del juego
@@ -178,7 +182,7 @@ public class Juego {
 	}
 	
 	public static void main(String[] args) {
-		init(4);
+		init(1);
 	}
 
 

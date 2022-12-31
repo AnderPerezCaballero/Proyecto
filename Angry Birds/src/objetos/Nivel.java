@@ -20,6 +20,8 @@ import objetos.pajaros.Pajaro;
 
 public class Nivel {
 	private int pajarosDisponibles;
+	private int pajarosInicio;
+	private int cerdosDisponibles;
 	private List<ObjetoNivel> objetosNivel;
 	private Map<Point, ObjetoNivel> mapaObjetos;	//Para poder acceder a los objetos originales a través de las copias
 
@@ -29,6 +31,7 @@ public class Nivel {
 	public Nivel(int id) {
 		objetosNivel = Collections.synchronizedList(new ArrayList<>());
 		mapaObjetos = new HashMap<>();
+		cerdosDisponibles = 0;
 		
 		//Carga del nivel
 		try(BufferedReader in = new BufferedReader(new InputStreamReader(Nivel.class.getResourceAsStream(String.format("/niveles/Nivel%d.txt", id))))) {
@@ -44,6 +47,7 @@ public class Nivel {
 										StringTokenizer st = new StringTokenizer(linea, " ,\t");
 										try {
 											objetosNivel.add(new Cerdo(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
+											cerdosDisponibles ++;
 										}catch (NoSuchElementException | NumberFormatException e) {
 											e.printStackTrace();
 										}
@@ -87,6 +91,8 @@ public class Nivel {
 		for(ObjetoNivel objeto : objetosNivel) {
 			mapaObjetos.put(objeto.getLocation(), objeto);
 		}
+		
+		pajarosInicio = pajarosDisponibles;
 	}
 	
 	
@@ -104,6 +110,9 @@ public class Nivel {
 	public void remove(ObjetoNivel objeto) {
 		if(objeto.eliminado()) {
 			objetosNivel.remove(objeto);
+			if(objeto instanceof Cerdo) {
+				cerdosDisponibles --;
+			}
 		}
 	}
 
@@ -116,10 +125,16 @@ public class Nivel {
 		}
 	}
 	
+	/** Devuelve la lista de objetos del nivel
+	 * @return La lista de los objetos del nivel
+	 */
 	public List<ObjetoNivel> getObjetos() {
 		return objetosNivel;
 	}
 	
+	/** Devuelve una copia profunda de la lista de los objetos del nivel
+	 * @return copia de la lista de los objetos del nivel
+	 */
 	public List<ObjetoNivel> getCopiaObjetos() {
 		List<ObjetoNivel> copia = new ArrayList<>();
 		for(ObjetoNivel objeto : objetosNivel) {
@@ -142,6 +157,28 @@ public class Nivel {
 		pajarosDisponibles--;
 		return true;
 	}
+	
+	/** Indica si quedan cerdos en el nivel
+	 * @return true si hay uno o más cerdos activos en el nivel, false si no
+	 */
+	public boolean hayCerdos() {
+		return cerdosDisponibles > 0;
+	}
+	
+	/** Devuelve el número de pájaros disponibles al empezar el nivel
+	 * @return int que representa el número de pajaros que se pueden utilizar en el nivel
+	 */
+	public int getPajarosDeInicio(){
+		return pajarosInicio;
+	}
+	
+	/** Devuelve el número de pájaros disponibles en ese momento
+	 * @return in que representan el número de pájaros disponibles en ese momento concreto
+	 */
+	public int getPajarosDisponibles() {
+		return pajarosDisponibles;
+	}
+	
 	/** Dibuja los elementos del nivel
 	 * @param v Ventana en la que se dibujan
 	 */

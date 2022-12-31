@@ -54,7 +54,7 @@ public class VentanaJuego {
 	private BufferedImage buffer;   // Buffer gráfico de la ventana
 	private Graphics2D graphics;    // Objeto gráfico sobre el que dibujar (del buffer)
 	private boolean ratonPresionado;  // Información sobre si el ratón está siendo actualmente pulsado
-	private double escalaDibujo = 1.0;               // Escala de dibujado (1=1 píxeles por defecto)
+	private double escalaDibujo = 1.0;               // Escala de dibujado (1:1 píxeles por defecto)
 
 	private Object lock = new Object();  // Tema de sincronización de hilos para que el programador usuario no necesite usarlos
 

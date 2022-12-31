@@ -4,12 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -73,7 +75,11 @@ public class VentanaNiveles extends JFrame{
 		panelSuperior.add(labelTitulo);
 		panelSuperior.setOpaque(false);
 
-		labelTitulo.setFont(new Font(Font.SERIF, Font.BOLD, 75));
+		try {
+			labelTitulo.setFont(Font.createFont(Font.TRUETYPE_FONT, VentanaNiveles.class.getResourceAsStream("/fonts/LowBudget.ttf")).deriveFont(100.0f));
+		} catch (FontFormatException | IOException e1) {
+			e1.printStackTrace();
+		}
 		labelTitulo.setForeground(Color.WHITE);
 
 		for (int i = 0; i < 9; i++) {
