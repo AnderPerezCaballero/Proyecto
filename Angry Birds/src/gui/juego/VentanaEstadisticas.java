@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 public class VentanaEstadisticas extends JFrame{
 	
 	public VentanaEstadisticas() {
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setBackground(Color.WHITE);
 		setExtendedState(MAXIMIZED_BOTH);
 		setVisible(true);

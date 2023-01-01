@@ -1,49 +1,42 @@
-package objetos;
+package juego;
 
 import java.awt.Color;
 import java.awt.MouseInfo;
 import java.awt.Point;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Iterator;
 
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-
-import gui.componentes.Imagenes;
 import gui.juego.VentanaJuego;
 import gui.juego.VentanaOpcionesJuego;
-import objetos.pajaros.Pajaro;
+import juego.objetos.Pajaro;
+import juego.objetos.nivel.Nivel;
 
 
 public class Juego {
 	private static final int MILISEGUNDOSENTREFRAMES = 10; // Msgs. de duración de cada fotograma (aprox. = espera entre fotograma y siguiente)
-	//	private static final double DIST_MARGEN_CASILLA = 0.001;  // Margen de error en píxels de comparación de centro de casilla en movimientos finos (por debajo de esto se entiende que está en el mismo píxel)
-	//	private static final Color[] COLORESPOSIBLES =  { Color.RED, Color.GREEN, Color.BLUE };
-	//	private static final int TAMANYO_Estructura = 50;  // Tamaño estándar de la Estructura
 	private static final double GRAVEDADY = 9.81;
 	private static final double GRAVEDADX = 0;
-	private static VentanaJuego ventanaJuego;
-	private static JFrame ventana;
-	//	private static GrupoOP grupoPajaros;
-	//	private static GrupoOP grupoEstructuras;
-	//	private static GrupoOP grupoEnemigos;
-	//	private static GrupoOP grupoOP;
-
-	private static long milisAbierta;
-
-	private static Nivel nivel;
-
-	private static Point posicionRaton;
-
-	private static Pajaro pajaro;
-
+	
 	private static final Point POSICIONINICIALPAJARO = new Point(225, 785);
 	private static final Color COLORTIRAPAJAROS = new Color(48, 22, 8);
 	private static final int YPOSICIONSUELO = 909;
 	private static final int XPOSICIONTIRAPAJAROS = 221;
 	private static final int YPOSICIONTIRAPAJAROS = 840;
 	
+	private static VentanaJuego ventanaJuego;
+	private static JFrame ventana;
 
+	private static long milisAbierta;
+	private static Nivel nivel;
+	
+	private static Point posicionRaton;
+	
+	private static Pajaro pajaro;
+
+	
+
+	/** Inicia el juego
+	 * @param lvl Nivel a iniciar
+	 */
 	public static void init(int lvl) {
 		ventanaJuego = new VentanaJuego(String.format("Nivel %d", lvl));
 		nivel = new Nivel(lvl);
@@ -52,8 +45,9 @@ public class Juego {
 		buclePrincipal(lvl);
 	}
 
-	public static void buclePrincipal(int lvl) {
+	private static void buclePrincipal(int lvl) {
 		while (!ventanaJuego.estaCerrada()) {
+			
 			//Se actualiza la situación de la ventana
 			ventana = ventanaJuego.getJFrame();
 
@@ -120,7 +114,7 @@ public class Juego {
 					}
 					if(!nivel.reducirPajarosDisponibles() || !nivel.hayCerdos()) {
 						milisAbierta = System.currentTimeMillis() - milisAbierta;
-						new VentanaOpcionesJuego(nivel.getPajarosDeInicio() - nivel.getPajarosDisponibles() + 1, milisAbierta, !nivel.hayCerdos(), lvl);
+						new VentanaOpcionesJuego(nivel.getPajarosDeInicio(),  nivel.getPajarosDisponibles() + 1, milisAbierta, !nivel.hayCerdos(), lvl, ventana);
 						ventana.setEnabled(false);
 						break;
 					}
@@ -129,32 +123,14 @@ public class Juego {
 								
 				}
 			}
-			//			grupoEnemigos.dibuja(ventanaJuego);
-
-
-
-
-			//			grupoPajaros.dibuja(ventanaJuego);
-			//						if(pajaro.getLocation().distance(new Point(223, 785)) < 30) {
-			//					sy	}
-
-
-
-			//			System.out.println(pajaro.getLocation().equals(posicionRaton));
-
-			//			grupoEnemigos.dibuja(ventanaJuego);
-			//			grupoEstructuras.dibuja(ventanaJuego);
-
-
+			
 			try {
 				Thread.sleep(MILISEGUNDOSENTREFRAMES);
 			}catch(InterruptedException e) {}
 
-
 			ventanaJuego.repaint();
 		}
 		pajaro.cancelarMovimiento();
-		System.err.println("JUEGO TERMINADO");
 	}
 	
 	/**Dibuja los elementos del juego
@@ -181,9 +157,6 @@ public class Juego {
 		return XPOSICIONTIRAPAJAROS;
 	}
 	
-	public static void main(String[] args) {
-		init(1);
-	}
 
 
 

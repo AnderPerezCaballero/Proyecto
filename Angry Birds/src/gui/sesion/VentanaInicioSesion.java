@@ -3,9 +3,7 @@ package gui.sesion;
 import java.sql.SQLException;
 
 import gestionUsuarios.GestionUsuarios;
-import gestionUsuarios.Usuario;
 import gui.componentes.MensajeCarga;
-import gui.inicio.VentanaJugar;
 import gui.inicio.VentanaJugar1;
 
 @SuppressWarnings("serial")
@@ -50,7 +48,7 @@ public class VentanaInicioSesion extends VentanaSesion{
 			}else {
 				setMensajeDeCarga(new MensajeCarga("Iniciando Sesión", "Sesión iniciada", this));
 				getMensajeDeCarga().start();
-				setUsuario(new Usuario(getInputUsuario().getText(), String.valueOf(getInputContraseña().getPassword())));
+				setUsuario(GestionUsuarios.getUsuario(getInputUsuario().getText().hashCode()));
 				if(getGuardarDispositivo().isSelected()) {
 					if(!GestionUsuarios.recordarUsuario(getUsuario())) {
 						getLabelMensaje().setText("No ha sido posible recordar el usuario en este dispositivo");

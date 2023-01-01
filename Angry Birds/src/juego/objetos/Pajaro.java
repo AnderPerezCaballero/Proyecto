@@ -1,24 +1,18 @@
-package objetos.pajaros;
+package juego.objetos;
 
-import java.awt.Color;import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.awt.Color;import java.awt.Point;import java.util.ArrayList;
 import java.util.Collections;
-import java.util.ConcurrentModificationException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import gui.juego.VentanaJuego;
-import objetos.Cerdo;
-import objetos.Dibujable;
-import objetos.ObjetoNivel;
-import objetos.Viga;
-import objetos.Juego;
-import objetos.Nivel;
-import objetos.Objeto;
+import juego.Juego;
+import juego.objetos.nivel.Cerdo;
+import juego.objetos.nivel.Nivel;
+import juego.objetos.nivel.ObjetoNivel;
+import juego.objetos.nivel.Viga;
 
 public class Pajaro extends Objeto implements Dibujable{
 
@@ -105,8 +99,8 @@ public class Pajaro extends Objeto implements Dibujable{
 	private void rebotaCon(ObjetoNivel elementoNivel) {
 		if(elementoNivel instanceof Cerdo) {
 			Cerdo cerdo = (Cerdo) elementoNivel;
-//			vX = cerdo.getX() - x;
-//			vY = y - cerdo.getY();
+			vX = cerdo.getX() - x;
+			vY = y - cerdo.getY();
 		}else {
 			Viga viga = (Viga) elementoNivel;
 			
@@ -166,9 +160,7 @@ public class Pajaro extends Objeto implements Dibujable{
 		new Thread(() -> {
 			// Creo una copia profunda de los elementos de la lista de objetos del nivel, para poder modificarlos sin interferir en el dibujado
 			List<ObjetoNivel> objetosNivel = nivel.getCopiaObjetos();
-			int i = 0;
 				while(mover) {
-					i++;
 					segundosEnAire = System.currentTimeMillis() / 1000.0 - momentoLanzado + milisEntreFrames / 1000.0;
 
 					vY = vY - gravedadY * segundosEnAire;
@@ -243,7 +235,7 @@ public class Pajaro extends Objeto implements Dibujable{
 				}
 			}else {
 				if(vX < rozamiento) {
-
+					vX += rozamiento;
 				}else {
 					vX = 0;		
 				}
@@ -292,49 +284,47 @@ public class Pajaro extends Objeto implements Dibujable{
 		mover = false;
 	}
 
-	public void setX(int x) {
-		this.x=x;
-	}
-
-	public void setY(int y) {	
-		this.y=y;
-	}
-
+	/** Establece una nueva posición para el pájaro
+	 * @param p Coordenadas de posición nuevas para el pájaro
+	 */
 	public void setLocation(Point p) {
-		setX(p.x);
-		setY(p.y);		
+		x = p.x;
+		y = p.y;		
+	}
+	
+	/** Establece una nueva posición en el eje x para el pájaro
+	 * @param x Nueva coordenada del eje x para el pájaro
+	 */
+	public void setX(int x) {
+		this.x = x;
+	}
+	
+	/** Establece una nueva posición en el eje y para el pájaro
+	 * @param y Nueva coordenada del eje y para el pájaro
+	 */
+	public void setY(int y) {
+		this.y = y;
 	}
 
-	public boolean contienePunto(Point punto) {
-		return punto.distance(radio, radio) < radio * 2;
-	}
-
+	/** Indica si el pájaro se encuentra actualmente seleccionado por el usuario
+	 * @return true si está seleccionado, false si no
+	 */
 	public boolean isSeleccionado() {
 		return estaSeleccionado;
 	}
 
+	/** Establece un nuevo valor para el estado de selección del pájaro
+	 * @param seleccionado nuevo valor booleano de selección a establecer
+	 */
 	public void setSeleccionado(boolean seleccionado) {
 		estaSeleccionado = seleccionado;
 	}
 
+	/** Devuelve si el pájaro ha sido lanzado, es decir, si está en el aire o no
+	 * @return true si ya ha sido lanzado, false si no
+	 */
 	public boolean isLanzado() {
 		return lanzado;
-	}
-
-	public void setLanzado(boolean lanzado) {
-		this.lanzado = lanzado;
-	}
-
-	public double getV() {
-		return Math.sqrt(vX * vX + vY * vY);
-	}
-
-	public double getVX() {
-		return vX;
-	}
-
-	public double getVY() {
-		return vY;
 	}
 	
 	/** Indica si el pájaro está actualmente quieto
@@ -360,33 +350,23 @@ public class Pajaro extends Objeto implements Dibujable{
 			return posicionPintado;
 		}
 	}
-
+	
+	/** Devuelve la ruta de la imagen común para todos los pájaros
+	 * @return Cadena que representa la ruta de la imagen
+	 */
+	public static String getRutaImagen() {
+		return IMAGEN;
+	}
+	
+	/** Devuelve el radio común para todos los pájaros
+	 * @return Int que representa el radio de los pájaros en píxeles
+	 */
+	public static int getRadio() { 
+		return radio;
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("Pájaro(%d, %d)", x, y);
 	}
-	
-	public static String getRutaImagen() {
-		return IMAGEN;
-	}
-
-	public static int getRadio() { 
-		return radio;
-	}
-
-	//	/**Metodo booleano que devuelve si el pajaro choca con algun objeto
-	//	 * @param p el objeto con el que se realiza la prueba
-	//	 * @return boolean
-	//	 */
-	//	public ObjetoPrimitivo choqueCon (ObjetoPrimitivo p) {
-	//		if(p instanceof Estructura) {
-	//			Estructura e= (Estructura) p;
-	//			return choqueConEstructura(e);
-	//		}if (p instanceof Enemigo) {
-	//			Enemigo e = (Enemigo) p;
-	//			return choqueConEnemigos(e);
-	//		}else {
-	//			return null;
-	//		}
-	//	}
 }

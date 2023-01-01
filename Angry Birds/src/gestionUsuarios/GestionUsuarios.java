@@ -9,16 +9,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.logging.*;
 
-import objetos.Nivel;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -82,9 +77,9 @@ public class GestionUsuarios {
 		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
 
 			//Para Utilizar la conexión
-			//Se construye la plantilla de la SQL. Atencion a los huecos para los valores marcados con "?"
+			//Se construye la plantilla de la SQL. 
 			try(PreparedStatement insertSQL = conn.prepareStatement(String.format("UPDATE usuarios SET ID = ?, nombre = ?, contraseña = ?, tiempoJugado = ?, token = ?, caducidadToken = ? WHERE ID = %d", usuario.hashCode()))){
-				
+
 				//Rellenar plantilla
 				insertSQL.setInt(1, usuario.getNombre().hashCode());
 				insertSQL.setString(2, usuario.getNombre());
@@ -96,16 +91,15 @@ public class GestionUsuarios {
 				//Ejecutar sentencia
 				insertSQL.executeUpdate();
 			}	
-			
+
 			for(Puntuacion puntuacion : usuario.getPuntuaciones()) {
-				try(PreparedStatement insertSQL = conn.prepareStatement(String.format("UPDATE puntuaciones SET IDusuario = ?, estrellas = ?, nivel = ?, fecha = ?, token = ?, caducidadToken = ? WHERE IDusuario = %d", usuario.hashCode()))){
+				try(PreparedStatement insertSQL = conn.prepareStatement(String.format("UPDATE puntuaciones SET IDusuario = ?, estrellas = ?, nivel = ?, fecha = ? = ? WHERE IDusuario = %d", usuario.hashCode()))){
+
 					//Rellenar la plantilla
 					insertSQL.setInt(1, usuario.getNombre().hashCode());
 					insertSQL.setInt(2, puntuacion.getEstrellas());
 					insertSQL.setInt(3, puntuacion.getNivel());
 					insertSQL.setString(4, puntuacion.getFecha());
-					insertSQL.setString(5, usuario.getToken().getToken());
-					insertSQL.setString(6, usuario.getToken().getCaducidad().toString());
 
 					//Ejecutar sentencia
 					insertSQL.executeUpdate();
@@ -163,7 +157,7 @@ public class GestionUsuarios {
 			try(PreparedStatement stmt = conn.prepareStatement(String.format("SELECT token, caducidadToken FROM usuarios WHERE ID = %d;", usuario.hashCode()))){
 				stoken = stmt.executeQuery().getString("token");
 				caducidad = stmt.executeQuery().getString("caducidadToken");
-				
+
 				//Un mismo usuario puede iniciar la sesion en varias terminales distintas
 				if(stoken == null || caducidad == null) {
 					token = new Token(usuario);
@@ -182,6 +176,46 @@ public class GestionUsuarios {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	/** Devuelve un usuario de la base de datos a partir de un ID
+	 * @param ID ID del usuario
+	 * @return Objeto usuario asociado a ese ID
+	 */
+	public static Usuario getUsuario(int ID) {
+		Set<Puntuacion> puntuaciones = new TreeSet<>();
+		String nombre;
+		String contraseña;
+		long tiempoJugado;
+		String sToken;
+		String caducidadToken;
+		
+		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
+		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
+			
+			try(PreparedStatement stmt = conn.prepareStatement(String.format("SELECT nombre, contraseña, tiempoJugado, token, caducidadToken FROM usuarios WHERE ID = %d;", ID))){
+				ResultSet rs = stmt.executeQuery();
+				nombre = rs.getString("nombre");
+				contraseña = rs.getString("contraseña");
+				tiempoJugado = rs.getInt("tiempoJugado");
+				sToken = rs.getString("token");
+				caducidadToken = rs.getString("caducidadToken");				
+			}	
+			
+			try(PreparedStatement stmt = conn.prepareStatement(String.format("SELECT estrellas, nivel, fecha FROM puntuaciones WHERE IDusuario = %d;", ID))){
+				ResultSet rs = stmt.executeQuery();
+				while(rs.next()) {
+					
+					//Mientras hayan filas cogemos cada columna contenida en la fila
+					puntuaciones.add(new Puntuacion(rs.getString("fecha"), rs.getInt("estrellas"), rs.getInt("nivel")));
+				}
+			}
+		} catch (SQLException e) {
+			return null;
+		}
+		Usuario usuario = new Usuario(nombre, contraseña, tiempoJugado, puntuaciones, null);
+		usuario.setToken(new Token(sToken, caducidadToken, usuario));
+		return usuario;
 	}
 
 	/**Método que especifica si el dispositivo desde el que se esta ejecutando el programa tiene algún usuario asociado el cual ha pedido que se recuerde
@@ -260,67 +294,9 @@ public class GestionUsuarios {
 			System.err.format("Error en la conversión de datos en %s", FICHEROTOKEN);
 			return null;
 		}
-	}
-	
-//	private void crearTablas() throws SQLException{
-//		
-//		try {
-//			
-//			Connection conexion = DriverManager.getConnection(LIBRERIA);
-//			Statement stmnt = conexion.createStatement();
-//			stmnt.executeUpdate("CREATE TABLE if not exists Nivel(rutaMapa String, id Integer, numCerdos Integer)");
-//			log(Level.INFO, "Creada la tabla Nivel en la BD users", null );
-//			
-//		} catch (Exception e) {
-//			log(Level.SEVERE, "La tabla Nivel no se ha podido crear en la BD users", e);
-//			e.printStackTrace();
-//		}
-//	}
-//	
-//	private void anyadirNivel(Nivel nvl) {
-//		
-//		try {
-//			
-//			Connection conexion = DriverManager.getConnection(LIBRERIA);
-//			Statement stmnt = conexion.createStatement();
-//			stmnt.executeUpdate(String.format("INSERT INTO Nivel VALUES( %s, %d, %d)", nvl.getRutaMapa(), nvl.getId(), nvl.getNumCerdos()));
-//			log(Level.INFO, "Nivel anyadido correctamente", null);
-//			
-//		}catch (Exception e) {
-//			log(Level.SEVERE, "No se ha podido anyadir el nivel correctamente", e);
-//			e.printStackTrace();
-//			
-//		}
-//	}
-//	
-//	private List<Nivel> cargarNivel() {
-//		
-//		try {
-//			Connection conexion = DriverManager.getConnection(LIBRERIA);
-//			Statement stmnt = conexion.createStatement();
-//			String stringSQL = "SELECT * FROM Nivel";
-//			ResultSet rs = stmnt.executeQuery(stringSQL);
-//			
-//			List<Nivel> listaNiveles = new ArrayList<Nivel>();
-//			
-//			while(rs.next()) {
-//				Nivel nvl = new Nivel(rs.getString("rutaMapa"), rs.getInt("numCerdos"), rs.getInt("id"), null);
-//				listaNiveles.add(nvl);			
-//			}
-//			rs.close();
-//			log(Level.INFO, "Todos los niveles de la BD users han sido seleccionados con exito", null);
-//			return listaNiveles;
-//			
-//		}catch (Exception e) {
-//			log(Level.SEVERE, "No se han podido seleccionar todos los niveles de la BD users", e);
-//			e.printStackTrace();
-//			return null;	
-//		}		
-//		
-//	}
-	
-	
-	
+	}	
+
+	@SuppressWarnings("unused")
 	private void log(Level level, String mensage, Throwable excepcion) {
 		if (logger==null) { 
 			logger=Logger.getLogger("BD users");  
@@ -338,4 +314,62 @@ public class GestionUsuarios {
 			logger.log(level, mensage, excepcion);
 		}
 	}
+
+	//	private void crearTablas() throws SQLException{
+	//	
+	//	try {
+	//		
+	//		Connection conexion = DriverManager.getConnection(LIBRERIA);
+	//		Statement stmnt = conexion.createStatement();
+	//		stmnt.executeUpdate("CREATE TABLE if not exists Nivel(rutaMapa String, id Integer, numCerdos Integer)");
+	//		log(Level.INFO, "Creada la tabla Nivel en la BD users", null );
+	//		
+	//	} catch (Exception e) {
+	//		log(Level.SEVERE, "La tabla Nivel no se ha podido crear en la BD users", e);
+	//		e.printStackTrace();
+	//	}
+	//}
+	//
+	//private void anyadirNivel(Nivel nvl) {
+	//	
+	//	try {
+	//		
+	//		Connection conexion = DriverManager.getConnection(LIBRERIA);
+	//		Statement stmnt = conexion.createStatement();
+	//		stmnt.executeUpdate(String.format("INSERT INTO Nivel VALUES( %s, %d, %d)", nvl.getRutaMapa(), nvl.getId(), nvl.getNumCerdos()));
+	//		log(Level.INFO, "Nivel anyadido correctamente", null);
+	//		
+	//	}catch (Exception e) {
+	//		log(Level.SEVERE, "No se ha podido anyadir el nivel correctamente", e);
+	//		e.printStackTrace();
+	//		
+	//	}
+	//}
+	//
+	//private List<Nivel> cargarNivel() {
+	//	
+	//	try {
+	//		Connection conexion = DriverManager.getConnection(LIBRERIA);
+	//		Statement stmnt = conexion.createStatement();
+	//		String stringSQL = "SELECT * FROM Nivel";
+	//		ResultSet rs = stmnt.executeQuery(stringSQL);
+	//		
+	//		List<Nivel> listaNiveles = new ArrayList<Nivel>();
+	//		
+	//		while(rs.next()) {
+	//			Nivel nvl = new Nivel(rs.getString("rutaMapa"), rs.getInt("numCerdos"), rs.getInt("id"), null);
+	//			listaNiveles.add(nvl);			
+	//		}
+	//		rs.close();
+	//		log(Level.INFO, "Todos los niveles de la BD users han sido seleccionados con exito", null);
+	//		return listaNiveles;
+	//		
+	//	}catch (Exception e) {
+	//		log(Level.SEVERE, "No se han podido seleccionar todos los niveles de la BD users", e);
+	//		e.printStackTrace();
+	//		return null;	
+	//	}		
+	//	
+	//}
+
 }
