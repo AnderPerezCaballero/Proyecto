@@ -1,4 +1,4 @@
-package objetos;
+package juego.objetos.nivel;
 import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -13,10 +13,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import gui.juego.VentanaJuego;
-import objetos.pajaros.Pajaro;
+import juego.Juego;
+import juego.objetos.Dibujable;
+import juego.objetos.Pajaro;
 
 public class Nivel {
 	private int pajarosDisponibles;

@@ -4,43 +4,26 @@ import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
-import java.util.HashMap;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JColorChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import gui.componentes.Imagenes;
@@ -48,15 +31,15 @@ import gui.sesion.VentanaSesion;
 
 public class VentanaJuego {
 
-	private JFrame ventana;         // Ventana que se visualiza
-	private boolean cerrada;        // Indica el estado de la ventana
-	private JPanel panel;           // Panel principal
-	private BufferedImage buffer;   // Buffer gráfico de la ventana
-	private Graphics2D graphics;    // Objeto gráfico sobre el que dibujar (del buffer)
-	private boolean ratonPresionado;  // Información sobre si el ratón está siendo actualmente pulsado
-	private double escalaDibujo = 1.0;               // Escala de dibujado (1:1 píxeles por defecto)
+	private JFrame ventana;        					// Ventana que se visualiza
+	private boolean cerrada;        				// Indica el estado de la ventana
+	private JPanel panel;           				// Panel principal
+	private BufferedImage buffer;  					// Buffer gráfico de la ventana
+	private Graphics2D graphics;    				// Objeto gráfico sobre el que dibujar (del buffer)
+	private boolean ratonPresionado;  				// Información sobre si el ratón está siendo actualmente pulsado
+	private double escalaDibujo = 1.0;              // Escala de dibujado (1:1 píxeles por defecto)
 
-	private Object lock = new Object();  // Tema de sincronización de hilos para que el programador usuario no necesite usarlos
+	private Object lock = new Object();  			// Sincronización de hilos para no bloquear swing al acceder a ciertas caracteristicas de la ventana
 
 	/** Construye una nueva ventana de juego que se inicia en pantalla completa
 	 */

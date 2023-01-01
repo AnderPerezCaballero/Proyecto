@@ -1,4 +1,4 @@
-package objetos;
+package juego.objetos;
 
 import java.awt.Point;
 

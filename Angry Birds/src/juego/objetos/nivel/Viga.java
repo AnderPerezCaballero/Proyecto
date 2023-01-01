@@ -1,9 +1,10 @@
-package objetos;
-import java.awt.Color;
+package juego.objetos.nivel;
+
 import java.awt.Point;
 
 import gui.juego.VentanaJuego;
-import objetos.pajaros.Pajaro;
+import juego.objetos.Objeto;
+import juego.objetos.Pajaro;
 
 
 

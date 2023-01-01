@@ -1,6 +1,4 @@
-package objetos;
-
-import java.awt.Point;
+package juego.objetos;
 
 import gui.juego.VentanaJuego;
 

@@ -11,7 +11,6 @@ import javax.swing.JPasswordField;
 import gestionUsuarios.GestionUsuarios;
 import gestionUsuarios.Usuario;
 import gui.componentes.MensajeCarga;
-import gui.inicio.VentanaJugar;
 import gui.inicio.VentanaJugar1;
 
 @SuppressWarnings("serial")
@@ -84,10 +83,11 @@ public class VentanaRegistroSesion extends VentanaSesion{
 			}else {
 				setMensajeDeCarga(new MensajeCarga("Registrando nuevo usuario", "Usuario creado", this));
 				getMensajeDeCarga().start();
-				setUsuario(new Usuario(getInputUsuario().getText(), String.valueOf(getInputContraseña().getPassword())));
-				GestionUsuarios.add(getUsuario());
+				Usuario usuario = new Usuario(getInputUsuario().getText(), String.valueOf(getInputContraseña().getPassword()), null);
+				setUsuario(usuario);
+				GestionUsuarios.add(usuario);
 				if(getGuardarDispositivo().isSelected()) {
-					if(!GestionUsuarios.recordarUsuario(getUsuario())) {
+					if(!GestionUsuarios.recordarUsuario(usuario)) {
 						getLabelMensaje().setText("No ha sido posible recordar el usuario en este dispositivo");
 					}
 				}

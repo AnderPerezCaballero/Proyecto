@@ -1,7 +1,8 @@
-package objetos;
+package juego.objetos.nivel;
 
 import gui.juego.VentanaJuego;
-import objetos.pajaros.Pajaro;
+import juego.objetos.Objeto;
+import juego.objetos.Pajaro;
 
 public class Cerdo extends Objeto implements ObjetoNivel{
 	

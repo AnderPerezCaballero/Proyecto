@@ -11,7 +11,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,10 +22,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import gui.componentes.MiPanel;
-import gui.inicio.VentanaJugar1;
-import gui.sesion.VentanaInicioSesion;
 import gui.sesion.VentanaSesion;
-import objetos.Juego;
+import juego.Juego;
 
 @SuppressWarnings("serial")
 public class VentanaNiveles extends JFrame{
@@ -140,9 +137,5 @@ public class VentanaNiveles extends JFrame{
 				}
 			}
 		});
-	}
-
-	public static void main(String[] args) {
-		new VentanaNiveles().setVisible(true);
 	}
 }

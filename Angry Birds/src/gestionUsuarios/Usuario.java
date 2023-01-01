@@ -15,16 +15,13 @@ public class Usuario implements Serializable{
 	private Token token;						//token asociado al usuario
 	
 
-	/**Crea un nuevo usuario con el nombre y la contraseña especificada, pero con 0 tiempo jugado, el mapa de puntuaciones vacío y ningún token asociado
+	/**Crea un nuevo usuario con el nombre, la contraseña  y el token especificado, pero con 0 tiempo jugado y el mapa de puntuaciones vacío
 	 * @param nombre nombre del usuario
 	 * @param contraseña contraseña del usuario
+	 * @param token token del usuario
 	 */
-	public Usuario(String nombre, String contraseña) {
-		this.nombre = nombre;
-		this.contraseña = contraseña;
-		this.tiempoJugado = 0;
-		this.puntuaciones = new TreeSet<>();
-		this.token = null;
+	public Usuario(String nombre, String contraseña, Token token) {
+		this(nombre, contraseña, 0, new TreeSet<>(), token);
 	}
 	
 	
@@ -77,6 +74,13 @@ public class Usuario implements Serializable{
 	public Set<Puntuacion> getPuntuaciones(){
 		return puntuaciones;
 	}	
+	
+	/** Añade una nueva puntuacion al set de puntuaciones del usuario
+	 * @param puntuacion Nueva puntuacion a añadir
+	 */
+	public void addPuntuacion(Puntuacion puntuacion) {
+		puntuaciones.add(puntuacion);
+	}
 	
 	/** Devuelve el token asociado al usuario
 	 * @return token del usuario
