@@ -3,6 +3,7 @@ package gestionUsuarios;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -172,7 +173,7 @@ public class GestionUsuarios {
 				actualizarUsuario(usuario);
 			}
 			return true;
-		} catch (SQLException | IOException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -277,10 +278,16 @@ public class GestionUsuarios {
 	 * @param usuario Usuario que contiene el token a guardar
 	 * @throws IOException Excepcion lanzada en caso de no encontrar el fichero
 	 */
-	private static void guardarTokenEnFichero(Usuario usuario) throws IOException{
+	private static void guardarTokenEnFichero(Usuario usuario){
 		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(FICHEROTOKEN)))){
 			oos.writeObject(usuario.getToken());
-		}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 	}
 
 	/** Carga el token asociado a un usuario desde el fichero de tokens
@@ -288,17 +295,21 @@ public class GestionUsuarios {
 	 */
 	private static Token cargarTokenDeFichero() {
 		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(FICHEROTOKEN)))){
+			log(Level.INFO, "La carga ha sido completada con exito", null);
 			return (Token) ois.readObject();
 		}catch(IOException e) {
+			log(Level.SEVERE, "No se ha podido leer el fichero llamado: token.dat", e);
+			e.printStackTrace();
 			return null;			
 		}catch(ClassNotFoundException e) {
-			System.err.format("Error en la conversión de datos en %s", FICHEROTOKEN);
+			log(Level.SEVERE, "Ha habído un error en la conversion de datos en el fichero token.dat", e );
+			e.printStackTrace();
 			return null;
 		}
 	}	
 
 	@SuppressWarnings("unused")
-	private void log(Level level, String mensage, Throwable excepcion) {
+	private static void log(Level level, String mensage, Throwable excepcion) {
 		if (logger==null) { 
 			logger=Logger.getLogger("BD users");  
 			logger.setLevel(Level.ALL);
