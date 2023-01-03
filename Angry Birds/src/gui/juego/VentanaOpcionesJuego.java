@@ -98,7 +98,7 @@ public class VentanaOpcionesJuego extends JFrame{
 
 		propiedades = new Properties();
 
-		boolean undecorated = false;
+		boolean undecorated = false;	//Por defecto undecorated
 		try (InputStream input = new FileInputStream("lib/propiedades.properties")) {
 			propiedades.load(input);
 			undecorated = Boolean.parseBoolean(propiedades.getProperty("Undecorated"));
@@ -115,7 +115,7 @@ public class VentanaOpcionesJuego extends JFrame{
 			mensaje = new JLabel(String.format("Bien hecho %s! Puedes volver a jugar al nivel, volver al menu de seleccion de niveles o ver tus estadisticas", usuario.getNombre()));
 		} else {
 			titulo = new JLabel("Intento Fallido");
-			mensaje = new JLabel(String.format("No pasa nada %s, puedes intentarlo de nuevo, o sino puedes volver al menu de selección de niveles o ver tus estadisticas", usuario.getNombre()));
+			mensaje = new JLabel(String.format("No pasa nada %s, puedes intentarlo de nuevo o sino puedes volver al menu de seleccion de niveles o ver tus estadisticas", usuario.getNombre()));
 		}
 
 		tiempoJugado = new JLabel(String.format("TIEMPO: %.2f segundos", milis / 1000.0));
@@ -149,7 +149,7 @@ public class VentanaOpcionesJuego extends JFrame{
 
 		add(panelInferior, "South");
 
-		//Por si el usuario decide que se pueda redimensionar la ventana
+		//Por si el usuario decide que se pueda redimensionar la ventana (undecorated = false)
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {

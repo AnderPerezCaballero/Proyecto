@@ -114,7 +114,7 @@ public class Juego {
 					}
 					if(!nivel.reducirPajarosDisponibles() || !nivel.hayCerdos()) {
 						milisAbierta = System.currentTimeMillis() - milisAbierta;
-						new VentanaOpcionesJuego(nivel.getPajarosDeInicio(),  nivel.getPajarosDisponibles() + 1, milisAbierta, !nivel.hayCerdos(), lvl, ventana);
+						new VentanaOpcionesJuego(nivel.getPajarosDeInicio(),  nivel.getPajarosDisponibles() - 1, milisAbierta, !nivel.hayCerdos(), lvl, ventana);
 						ventana.setEnabled(false);
 						break;
 					}

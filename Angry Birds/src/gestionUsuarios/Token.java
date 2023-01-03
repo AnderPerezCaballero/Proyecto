@@ -81,4 +81,10 @@ public class Token implements Serializable{
 		}
 		return false;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("Token [%s] de %s con caducidad el %s", token, usuario.toString(), caducidad.toString());
+	}
+	
 }

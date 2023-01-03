@@ -223,6 +223,7 @@ public class GestionUsuarios {
 	 */
 	public static Usuario usuarioAsociado(){
 		Token token = cargarTokenDeFichero();
+		System.out.println(token);
 
 		//Token caducado o inexistente
 		try {
