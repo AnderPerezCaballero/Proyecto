@@ -194,7 +194,6 @@ public class GestionUsuarios {
 			return true;
 		} catch (SQLException e) {
 			log(Level.SEVERE, "No se ha podido establecer una conexion con la base de datos", e);
-			e.printStackTrace();
 			return false;
 		}
 	}
@@ -234,7 +233,6 @@ public class GestionUsuarios {
 
 		} catch (SQLException e) {
 			log(Level.SEVERE, "No se ha podido establecer una conexion con la base de datos", e);
-			e.printStackTrace();
 			return null;
 		}
 		Usuario usuario = new Usuario(nombre, contraseña, tiempoJugado, puntuaciones, null);
@@ -288,11 +286,9 @@ public class GestionUsuarios {
 
 		} catch (SQLException e) {
 			log(Level.SEVERE, "No se ha podido establecer una conexion con la base de datos", e);
-			e.printStackTrace();
 			return null;
 		} catch(NullPointerException e) {
 			log(Level.INFO, "No se ha encontrado ningun usuario asociado", e);
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -306,7 +302,6 @@ public class GestionUsuarios {
 			log(Level.INFO, "Libreria cargada con exito", null);
 		}catch(ClassNotFoundException e) {
 			log(Level.SEVERE, "No se ha podido cargar la libreria", e);
-			e.printStackTrace();
 		}
 	}
 
@@ -319,10 +314,8 @@ public class GestionUsuarios {
 			oos.writeObject(usuario.getToken());
 		} catch (FileNotFoundException e) {
 			log(Level.SEVERE, "No se ha encontrado ningun fichero llamado: token.dat", e);
-			e.printStackTrace();
 		} catch (IOException e) {
 			log(Level.SEVERE, "No se ha podido leer el fichero llamado: token.dat", e);
-			e.printStackTrace();
 		} 
 	}
 
@@ -334,11 +327,9 @@ public class GestionUsuarios {
 			return (Token) ois.readObject();
 		}catch(IOException e) {
 			log(Level.SEVERE, "No se ha podido leer el fichero llamado: token.dat", e);
-			e.printStackTrace();
 			return null;			
 		}catch(ClassNotFoundException e) {
 			log(Level.SEVERE, "Ha habído un error en la conversion de datos en el fichero token.dat", e );
-			e.printStackTrace();
 			return null;
 		}
 	}	
