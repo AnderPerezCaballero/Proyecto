@@ -31,6 +31,7 @@ public class GestionUsuarios {
 	public static void add(Usuario usuario) throws SQLException {
 		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
 		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
+			log(Level.INFO, "Conexion establecida con la base de datos", null);
 
 			//Para Utilizar la conexión, se construye la plantilla de la SQL
 			try(PreparedStatement insertSQL = conn.prepareStatement("INSERT INTO usuarios (ID, nombre, contraseña, tiempoJugado, token) VALUES (?, ?, ?, ?, ?)")){
@@ -49,6 +50,7 @@ public class GestionUsuarios {
 
 				//Ejecutar sentencia
 				insertSQL.executeUpdate();
+				log(Level.INFO, "Usuario insertado con exito", null);
 			}	
 
 			for(Puntuacion puntuacion : usuario.getPuntuaciones()) {
@@ -64,6 +66,7 @@ public class GestionUsuarios {
 
 					//Ejecutar sentencia
 					insertSQL.executeUpdate();
+					log(Level.INFO, "Puntuaciones insertadas con exito", null);
 				}
 			}
 		}
@@ -76,6 +79,7 @@ public class GestionUsuarios {
 	public static void actualizarUsuario(Usuario usuario) throws SQLException {
 		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
 		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
+			log(Level.INFO, "Conexion establecida con la base de datos", null);
 
 			//Para Utilizar la conexión
 			//Se construye la plantilla de la SQL. 
@@ -91,6 +95,7 @@ public class GestionUsuarios {
 
 				//Ejecutar sentencia
 				insertSQL.executeUpdate();
+				log(Level.INFO, "Usuario actualizado con exito", null);
 			}	
 
 			for(Puntuacion puntuacion : usuario.getPuntuaciones()) {
@@ -104,6 +109,7 @@ public class GestionUsuarios {
 
 					//Ejecutar sentencia
 					insertSQL.executeUpdate();
+					log(Level.INFO, "Puntuaciones actualizadas con exito", null);
 				}
 			}
 		}
@@ -118,6 +124,7 @@ public class GestionUsuarios {
 	public static boolean comprobarContraseña(String nombre, String contraseña) throws SQLException{
 		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
 		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
+			log(Level.INFO, "Conexion establecida con la base de datos", null);
 
 			//Utilizar la conexión
 			try(PreparedStatement stmt = conn.prepareStatement(String.format("SELECT contraseña FROM usuarios WHERE ID = %s;", nombre.hashCode()))){
@@ -134,12 +141,20 @@ public class GestionUsuarios {
 	public static boolean comprobarUsuario(String nombre) throws SQLException{
 		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
 		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
+			log(Level.INFO, "Conexion establecida con la base de datos", null);
 
 			//Utilizar la conexión
 			try(PreparedStatement stmt = conn.prepareStatement(String.format("SELECT nombre FROM usuarios WHERE ID = %s;", nombre.hashCode()))){
 				try {
-					return stmt.executeQuery().getString("nombre").equals(nombre);
+					if (stmt.executeQuery().getString("nombre").equals(nombre)) {
+						log(Level.INFO, "El usuario existe", null);
+						return true;
+					}else {
+						log(Level.INFO, "El usuario no existe", null);
+						return false;
+					}
 				}catch(NullPointerException e) {
+					log(Level.WARNING, "No se ha reconocido el usuario", null);
 					return false;
 				}
 			}
@@ -155,6 +170,8 @@ public class GestionUsuarios {
 		String stoken;
 		String caducidad;
 		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
+			log(Level.INFO, "Conexion establecida con la base de datos", null);
+			
 			try(PreparedStatement stmt = conn.prepareStatement(String.format("SELECT token, caducidadToken FROM usuarios WHERE ID = %d;", usuario.hashCode()))){
 				stoken = stmt.executeQuery().getString("token");
 				caducidad = stmt.executeQuery().getString("caducidadToken");
@@ -166,14 +183,17 @@ public class GestionUsuarios {
 					token = new Token(stoken, caducidad, usuario);	
 				}
 			}
+
 			usuario.setToken(token);
 			guardarTokenEnFichero(usuario);
 			if(token.isCaducado()) {
 				token = new Token(usuario);
 				actualizarUsuario(usuario);
 			}
+			log(Level.INFO, "Guardado realizado correctamente", null);
 			return true;
 		} catch (SQLException e) {
+			log(Level.SEVERE, "No se ha podido establecer una conexion con la base de datos", e);
 			e.printStackTrace();
 			return false;
 		}
@@ -193,6 +213,7 @@ public class GestionUsuarios {
 		
 		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
 		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
+			log(Level.INFO, "Conexion establecida con la base de datos", null);
 			
 			try(PreparedStatement stmt = conn.prepareStatement(String.format("SELECT nombre, contraseña, tiempoJugado, token, caducidadToken FROM usuarios WHERE ID = %d;", ID))){
 				ResultSet rs = stmt.executeQuery();
@@ -201,17 +222,19 @@ public class GestionUsuarios {
 				tiempoJugado = rs.getInt("tiempoJugado");
 				sToken = rs.getString("token");
 				caducidadToken = rs.getString("caducidadToken");				
-			}	
+			}
 			
 			try(PreparedStatement stmt = conn.prepareStatement(String.format("SELECT estrellas, nivel, fecha FROM puntuaciones WHERE IDusuario = %d;", ID))){
 				ResultSet rs = stmt.executeQuery();
 				while(rs.next()) {
-					
 					//Mientras hayan filas cogemos cada columna contenida en la fila
 					puntuaciones.add(new Puntuacion(rs.getString("fecha"), rs.getInt("estrellas"), rs.getInt("nivel")));
 				}
 			}
+
 		} catch (SQLException e) {
+			log(Level.SEVERE, "No se ha podido establecer una conexion con la base de datos", e);
+			e.printStackTrace();
 			return null;
 		}
 		Usuario usuario = new Usuario(nombre, contraseña, tiempoJugado, puntuaciones, null);
@@ -224,7 +247,6 @@ public class GestionUsuarios {
 	 */
 	public static Usuario usuarioAsociado(){
 		Token token = cargarTokenDeFichero();
-		System.out.println(token);
 
 		//Token caducado o inexistente
 		try {
@@ -232,6 +254,7 @@ public class GestionUsuarios {
 				return null;
 			}
 		}catch(NullPointerException e) {
+			log(Level.WARNING, "No se ha encontrado ningun token en el fichero", e);
 			return null;
 		}
 
@@ -240,6 +263,7 @@ public class GestionUsuarios {
 
 		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
 		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
+			log(Level.INFO, "Conexion establecida con la base de datos", null);
 
 			//Utilizar la conexión
 			try(PreparedStatement stmt = conn.prepareStatement(String.format("SELECT estrellas, nivel, fecha FROM puntuaciones WHERE IDusuario = %s;", token.getUsuario().getNombre().hashCode()))){
@@ -250,14 +274,24 @@ public class GestionUsuarios {
 				}
 			}
 			try(PreparedStatement stmt = conn.prepareStatement(String.format("SELECT nombre, contraseña, tiempoJugado, token FROM usuarios WHERE ID = %s;", token.getUsuario().getNombre().hashCode()))){
-				return stmt.executeQuery().getString("token").equals(token.getToken())? new Usuario(stmt.executeQuery().getString("nombre"), stmt.executeQuery().getString("contraseña"), stmt.executeQuery().getInt("tiempoJugado"), puntuaciones, token): null;
+				Usuario us = stmt.executeQuery().getString("token").equals(token.getToken())? new Usuario(stmt.executeQuery().getString("nombre"), stmt.executeQuery().getString("contraseña"), stmt.executeQuery().getInt("tiempoJugado"), puntuaciones, token): null;
+				if (us != null) {
+					log(Level.INFO, "Asociacion de usuario correcta", null);
+					return us;
+				}else {
+					return null;
+				}
 			}catch(NullPointerException e) {
+				log(Level.WARNING, "Fallo en la asociacion de usuarios", e);
 				return null;
 			}
+
 		} catch (SQLException e) {
+			log(Level.SEVERE, "No se ha podido establecer una conexion con la base de datos", e);
 			e.printStackTrace();
 			return null;
 		} catch(NullPointerException e) {
+			log(Level.INFO, "No se ha encontrado ningun usuario asociado", e);
 			e.printStackTrace();
 			return null;
 		}
@@ -269,8 +303,10 @@ public class GestionUsuarios {
 	public static void cargarLibreria() {
 		try {
 			Class.forName("org.sqlite.JDBC");
+			log(Level.INFO, "Libreria cargada con exito", null);
 		}catch(ClassNotFoundException e) {
-			System.err.println("No se ha podido cargar el driver de la base de datos");
+			log(Level.SEVERE, "No se ha podido cargar la libreria", e);
+			e.printStackTrace();
 		}
 	}
 
@@ -282,10 +318,10 @@ public class GestionUsuarios {
 		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(FICHEROTOKEN)))){
 			oos.writeObject(usuario.getToken());
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			log(Level.SEVERE, "No se ha encontrado ningun fichero llamado: token.dat", e);
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			log(Level.SEVERE, "No se ha podido leer el fichero llamado: token.dat", e);
 			e.printStackTrace();
 		} 
 	}
@@ -295,7 +331,6 @@ public class GestionUsuarios {
 	 */
 	private static Token cargarTokenDeFichero() {
 		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(FICHEROTOKEN)))){
-			log(Level.INFO, "La carga ha sido completada con exito", null);
 			return (Token) ois.readObject();
 		}catch(IOException e) {
 			log(Level.SEVERE, "No se ha podido leer el fichero llamado: token.dat", e);
