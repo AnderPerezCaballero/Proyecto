@@ -23,14 +23,14 @@ public class VentanaInicioSesion extends VentanaSesion{
 		// Color de los componentes
 		colorComponentes();
 
-		getPanelDatos().add(getPanelMensaje());
-		getPanelDatos().add(getPanelGuardarDispositivo());
+		panelDatos.add(panelMensaje);
+		panelDatos.add(panelGuardarDispositivo);
 
-		getBotonAceptar().setText("Iniciar Sesión");
+		botonAceptar.setText("Iniciar Sesión");
 
-		getInputContraseña().addActionListener(e -> {
-			if (getInputContraseña().getPassword() != null) {
-				getBotonAceptar().requestFocus();
+		inputContraseña.addActionListener(e -> {
+			if (inputContraseña.getPassword() != null) {
+				botonAceptar.requestFocus();
 			}
 		});
 	}
@@ -38,27 +38,27 @@ public class VentanaInicioSesion extends VentanaSesion{
 	@Override
 	protected void siguienteVentana() {
 		try {
-			if(!GestionUsuarios.comprobarUsuario(getInputUsuario().getText())) {
+			if(!GestionUsuarios.comprobarUsuario(inputUsuario.getText())) {
 				resetTextos(true);
-				getLabelMensaje().setText("El usuario introducido no existe");
-			}else if(!GestionUsuarios.comprobarContraseña(getInputUsuario().getText(), String.valueOf(getInputContraseña().getPassword()))) {
+				labelMensaje.setText("El usuario introducido no existe");
+			}else if(!GestionUsuarios.comprobarContraseña(inputUsuario.getText(), String.valueOf(inputContraseña.getPassword()))) {
 				resetTextos(false);
-				getLabelMensaje().setText("La contraseña introducida es incorrecta");
-				getInputContraseña().requestFocus();
+				labelMensaje.setText("La contraseña introducida es incorrecta");
+				inputContraseña.requestFocus();
 			}else {
-				setMensajeDeCarga(new MensajeCarga("Iniciando Sesión", "Sesión iniciada", this));
-				getMensajeDeCarga().start();
-				setUsuario(GestionUsuarios.getUsuario(getInputUsuario().getText().hashCode()));
-				if(getGuardarDispositivo().isSelected()) {
+				mensajeDeCarga = new MensajeCarga("Iniciando Sesión", "Sesión iniciada", this, botonAceptar);
+				mensajeDeCarga.start();
+				setUsuario(GestionUsuarios.getUsuario(inputUsuario.getText().hashCode()));
+				if(guardarDispositivo.isSelected()) {
 					if(!GestionUsuarios.recordarUsuario(getUsuario())) {
-						getLabelMensaje().setText("No ha sido posible recordar el usuario en este dispositivo");
+						labelMensaje.setText("No ha sido posible recordar el usuario en este dispositivo");
 					}
 				}
-				getMensajeDeCarga().interrupt();
+				mensajeDeCarga.interrupt();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			getLabelMensaje().setText("No ha sido posible iniciar sesión");
+			labelMensaje.setText("No ha sido posible iniciar sesión");
 		}
 	}	
 }

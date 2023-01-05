@@ -20,7 +20,6 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -44,7 +43,7 @@ public abstract class VentanaSesion extends JFrame{
 	private static int anchuraVentana = 400;
 	private static int alturaVentana = 700;
 	private static Color fondo = new Color(35, 39, 42);
-	private static int numColumnas = 30;
+	protected static int numColumnas = 30;
 
 	//Referencia de la ventana anterior
 	private static VentanaJugar1 ventanaAnterior;
@@ -52,46 +51,46 @@ public abstract class VentanaSesion extends JFrame{
 	//Contenedores
 	private JPanel panelSuperior;
 	private JPanel panelCentral;
-	private JPanel panelDatos;
+	protected JPanel panelDatos;
 	private JPanel panelInferior;
 
 	private JPanel panelUsuario;
 	private JPanel panelInputUsuario;
 	private JPanel panelContraseña;
 	private JPanel panelInputContraseña;
-	private JPanel panelMensaje;
+	protected JPanel panelMensaje;
 	private JPanel panelAceptar;
-	private JPanel panelGuardarDispositivo;
+	protected JPanel panelGuardarDispositivo;
 
 	//JLabels
 	private JLabel labelUsuario;
 	private JLabel labelContraseña;
-	private JLabel labelMensaje;	
+	protected JLabel labelMensaje;	
 	private JLabel volver;
 	private JLabel imagenPrincipal;
-	private JCheckBox guardarDispositivo;
+	protected JCheckBox guardarDispositivo;
 
 	//Botones
-	private MiBoton botonAceptar;
+	protected MiBoton botonAceptar;
 
 	//Campos de texto
-	private JTextField inputUsuario;
-	private JPasswordField inputContraseña;
+	protected JTextField inputUsuario;
+	protected JPasswordField inputContraseña;
 
 	//Eventos que se usarán en herencia
-	private KeyListener cierraConEsc;
+	protected KeyListener cierraConEsc;
 
 	//Variable que indica el estado de la ventana
 	private boolean estaCerrada;
 
 	//Hilo ejecutado al cargar los datos del usuario
-	private MensajeCarga mensajeDeCarga;
+	protected MensajeCarga mensajeDeCarga;
 
 	//Usuario que va a hacer uso de la aplicación
 	private static Usuario usuario;
 	
 	//Variable que indica el borrado del mensaje que sale por pantalla
-	private boolean borrar;
+	protected boolean borrar;
 	
 	//Propiedades de la ventana
 	private Properties propiedades;
@@ -417,103 +416,12 @@ public abstract class VentanaSesion extends JFrame{
 	public static Color getFondooscuro() {
 		return fondo;
 	}
-
-	/** Devuelve el panelDatos
-	 * @return el panelDatos a devolver
-	 */
-	public JPanel getPanelDatos() {
-		return panelDatos;
-	}
-
-	/** Devuelve el panelMensaje
-	 * @return el panelMensaje a devolver
-	 */
-	public JPanel getPanelMensaje() {
-		return panelMensaje;
-	}
-
-	/** Devuelve el panelGuardarDispositivo
-	 * @return el panelGuardarDispositivo a devolver
-	 */
-	public JPanel getPanelGuardarDispositivo() {
-		return panelGuardarDispositivo;
-	}
-
-	/** Devuelve el labelMensaje
-	 * @return el labelMensaje a devolver
-	 */
-	public JLabel getLabelMensaje() {
-		return labelMensaje;
-	}
-
-	/** Devuelve el guardarDispositivo
-	 * @return el guardarDispositivo a devolver
-	 */
-	public JCheckBox getGuardarDispositivo() {
-		return guardarDispositivo;
-	}
-
-	/** Devuelve el número de columnas de los JTextfield
-	 * @return el número de columnas a devolver
-	 */
-	public static int getColumnas() {
-		return numColumnas;
-	}
-
-	/** Devuelve el botonAceptar
-	 * @return el botonAceptar a devolver
-	 */
-	public JButton getBotonAceptar() {
-		return botonAceptar;
-	}
-
-	/** Devuelve el inputUsuario
-	 * @return el inputUsuario a devolver
-	 */
-	public JTextField getInputUsuario() {
-		return inputUsuario;
-	}
-
-	/** Devuelve el inputContraseña
-	 * @return el inputContraseña a devolver
-	 */
-	public JPasswordField getInputContraseña() {
-		return inputContraseña;
-	}
-
-	/** Devuelve el cierraConEsc
-	 * @return el cierraConEsc a devolver
-	 */
-	public KeyListener getCierraConEsc() {
-		return cierraConEsc;
-	}
-
-	/** Devuelve el hilo que se encarga de establecer el mensaje de carga en los botones
-	 * @return el mensajeDeCarga a devolver
-	 */
-	public MensajeCarga getMensajeDeCarga() {
-		return mensajeDeCarga;
-	}
 	
-	/** Devuelve el booleano "borrar", necesario para el borrado del mensaje de información
-	 * @return variable "borrar"
-	 */
-	public boolean getBorrar() {
-		return borrar;
-	}
-
 	/** Devuelve el usuario con el que se inicia el juego
 	 * @return el usuario a devolver
 	 */
 	public static Usuario getUsuario() {
 		return usuario;
-	}	
-
-	/** Modifica el hilo mensajeDeCarga
-	 * @param mensajeDeCarga nuevo valor para el hilo
-	 */
-	protected void setMensajeDeCarga(MensajeCarga mensajeDeCarga) {
-		this.mensajeDeCarga = mensajeDeCarga;
 	}
 
 	/** Modifica el usuario con el que se inicia sesion

@@ -36,19 +36,19 @@ public class VentanaRegistroSesion extends VentanaSesion{
 		panelConfirmarContraseña2 = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
 		labelConfirmarContraseña = new JLabel("Confirmar Contraseña:");
-		inputConfirmarContraseña = new JPasswordField(getColumnas());
+		inputConfirmarContraseña = new JPasswordField(numColumnas);
 
 		panelConfirmarContraseña.add(labelConfirmarContraseña);
 		panelConfirmarContraseña2.add(inputConfirmarContraseña);
 
-		inputConfirmarContraseña.addKeyListener(getCierraConEsc());
+		inputConfirmarContraseña.addKeyListener(cierraConEsc);
 
-		getPanelDatos().add(panelConfirmarContraseña);
-		getPanelDatos().add(panelConfirmarContraseña2);
-		getPanelDatos().add(getPanelMensaje());
-		getPanelDatos().add(getPanelGuardarDispositivo());
+		panelDatos.add(panelConfirmarContraseña);
+		panelDatos.add(panelConfirmarContraseña2);
+		panelDatos.add(panelMensaje);
+		panelDatos.add(panelGuardarDispositivo);
 
-		getBotonAceptar().setText("Registrarme");
+		botonAceptar.setText("Registrarme");
 
 		// Color de los paneles
 		colorPaneles(getFondooscuro());
@@ -56,16 +56,16 @@ public class VentanaRegistroSesion extends VentanaSesion{
 		// Color de los componentes
 		colorComponentes();
 
-		getInputContraseña().addActionListener(e -> {
-			if (getInputContraseña().getPassword() != null) {
+		inputContraseña.addActionListener(e -> {
+			if (inputContraseña.getPassword() != null) {
 				inputConfirmarContraseña.requestFocus();
 			}
 
 		});
 
 		inputConfirmarContraseña.addActionListener(e -> {
-			if (getInputContraseña().getPassword() != null) {
-				getBotonAceptar().requestFocus();
+			if (inputContraseña.getPassword() != null) {
+				botonAceptar.requestFocus();
 			}
 		});
 	}
@@ -73,29 +73,29 @@ public class VentanaRegistroSesion extends VentanaSesion{
 	@Override
 	protected void siguienteVentana() {
 		try {
-			if(GestionUsuarios.comprobarUsuario(getInputUsuario().getText())) {
+			if(GestionUsuarios.comprobarUsuario(inputUsuario.getText())) {
 				resetTextos(true);
-				getLabelMensaje().setText("El usuario que has introducido ya está registrado");
-			}else if(!String.valueOf(getInputContraseña().getPassword()).equals(String.valueOf(inputConfirmarContraseña.getPassword()))) {
+				labelMensaje.setText("El usuario que has introducido ya está registrado");
+			}else if(!String.valueOf(inputContraseña.getPassword()).equals(String.valueOf(inputConfirmarContraseña.getPassword()))) {
 				resetTextos(false);
-				getLabelMensaje().setText("Las contraseñas introducidas deben coincidir");
-				getInputContraseña().requestFocus();
+				labelMensaje.setText("Las contraseñas introducidas deben coincidir");
+				inputContraseña.requestFocus();
 			}else {
-				setMensajeDeCarga(new MensajeCarga("Registrando nuevo usuario", "Usuario creado", this));
-				getMensajeDeCarga().start();
-				Usuario usuario = new Usuario(getInputUsuario().getText(), String.valueOf(getInputContraseña().getPassword()), null);
+				mensajeDeCarga = new MensajeCarga("Registrando nuevo usuario", "Usuario creado", this, botonAceptar);
+				mensajeDeCarga.start();
+				Usuario usuario = new Usuario(inputUsuario.getText(), String.valueOf(inputContraseña.getPassword()), null);
 				setUsuario(usuario);
 				GestionUsuarios.add(usuario);
-				if(getGuardarDispositivo().isSelected()) {
+				if(guardarDispositivo.isSelected()) {
 					if(!GestionUsuarios.recordarUsuario(usuario)) {
-						getLabelMensaje().setText("No ha sido posible recordar el usuario en este dispositivo");
+						labelMensaje.setText("No ha sido posible recordar el usuario en este dispositivo");
 					}
 				}
-				getMensajeDeCarga().interrupt();
+				mensajeDeCarga.interrupt();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			getLabelMensaje().setText("No ha sido posible registrar el usuario");
+			labelMensaje.setText("No ha sido posible registrar el usuario");
 		}
 	}	
 
@@ -121,7 +121,7 @@ public class VentanaRegistroSesion extends VentanaSesion{
 
 	@Override
 	protected boolean condicionesBorrarMensaje() throws NullPointerException {
-		return ((getInputUsuario().getText().length() > 0 || getInputContraseña().getPassword().length > 0 || inputConfirmarContraseña.getPassword().length > 0) && getBorrar()) || getInputContraseña().getPassword().length > 0 || inputConfirmarContraseña.getPassword().length > 0;
+		return ((inputUsuario.getText().length() > 0 || inputContraseña.getPassword().length > 0 || inputConfirmarContraseña.getPassword().length > 0) && borrar) || inputContraseña.getPassword().length > 0 || inputConfirmarContraseña.getPassword().length > 0;
 	}
 
 	@Override

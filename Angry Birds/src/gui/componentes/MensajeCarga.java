@@ -17,13 +17,14 @@ public class MensajeCarga extends Thread{
 	 * @param mensajeCarga	Mensaje de carga
 	 * @param mensajeFinal Mensaje que expresa que la carga ha finalizado
 	 * @param ventanaSesion ventana de inicio sesion o registro en la que se quiere sacar el mensaje
+	 * @param boton boton en el que sacar el mensaje de carga
 	 */
-	public MensajeCarga(String mensajeCarga, String mensajeFinal, VentanaSesion ventanaSesion) {
+	public MensajeCarga(String mensajeCarga, String mensajeFinal, VentanaSesion ventanaSesion, JButton boton) {
 		super();
 		this.mensajeCarga = mensajeCarga;
 		this.mensajeFinal = mensajeFinal;
 		this.ventanaSesion = ventanaSesion;
-		this.boton = ventanaSesion.getBotonAceptar();
+		this.boton = boton;
 		this.interrumpido = false;
 	}
 	

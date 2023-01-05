@@ -104,7 +104,9 @@ public abstract class VentanaJugar extends JFrame {
 				clip.close();
 				if(!cerrado) {
 					VentanaSesion.cerrar(VentanaJugar.this);
+					ReproducirMusica("res/audio/Cancion.wav");
 				}
+				
 			}
 		};
 

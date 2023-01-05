@@ -60,6 +60,7 @@ public class VentanaNiveles extends JFrame{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaSesion.class.getResource("/imgs/Icono.png")));
 		setContentPane(new MiPanel("/imgs/FondoNiveles.jpg", new BorderLayout()));
+		setTitle("Menú");
 		siguienteNivel = false;
 		
 		labelTitulo = new JLabel("SELECCIONA UN NIVEL");

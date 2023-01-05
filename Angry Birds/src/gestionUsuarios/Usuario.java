@@ -110,6 +110,6 @@ public class Usuario implements Serializable{
 	
 	@Override
 	public String toString() {
-		return String.format("Nombre: %s \t Contraseña: %s", nombre, contraseña);
+		return nombre;
 	}	
 }
