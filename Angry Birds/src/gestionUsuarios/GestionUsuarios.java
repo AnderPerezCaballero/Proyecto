@@ -362,6 +362,11 @@ public class GestionUsuarios {
 		}
 	}
 	
+	/** Método recursivo que se encarga de berificar que dos Strings son iguales
+	 * @param s1 String uno a comparar
+	 * @param s2 String dos a comparar
+	 * @return true si son iguales, false si no
+	 */
 	private static boolean sonIguales(String s1, String s2) {
 		
 	    if (s1 == null || s2 == null) {

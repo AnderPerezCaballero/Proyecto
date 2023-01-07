@@ -17,8 +17,11 @@ public class MiPanel extends JPanel {
 
 	private Image imagen;
 
-	/**Crea un JPanel con una imagen de fondo
+
+
+	/**Crea un JPanel con una imagen de fondo con el layout especificado
 	 * @param nombreImagen ruta de la imagen
+	 * @param layout layout del panel
 	 */
 	public MiPanel(String nombreImagen, LayoutManager layout) {
 		if (nombreImagen != null) {

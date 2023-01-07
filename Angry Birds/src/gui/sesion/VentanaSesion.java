@@ -260,6 +260,7 @@ public abstract class VentanaSesion extends JFrame{
 					ventanaAnterior.setVisible(false);
 					String[] s = {"Si", "No"}; //Opciones del JOptionPane
 					if (JOptionPane.showOptionDialog(VentanaSesion.this, "¿Realmente desea salir de la aplicación?", "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, imagenReescalada("/imgs/Icono.png", 30, 30), s, 0) == 0) {
+						
 						//Quiero cerrar el programa entero, no cerrar solo la ventana -> dispose() no me sirve
 						System.exit(0);
 					}else {
@@ -425,9 +426,10 @@ public abstract class VentanaSesion extends JFrame{
 	}
 
 	/** Modifica el usuario con el que se inicia sesion
-	 * @param usuario nuevo valor del usuario
+	 * @param usuario nuevo valor del usuario, el cual no puede ser nulo
 	 */
 	public static void setUsuario(Usuario usuario) {
+		
 		//No se le puede asignar un valor nulo
 		if(usuario != null) {
 			VentanaSesion.usuario = usuario;

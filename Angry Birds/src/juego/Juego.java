@@ -35,7 +35,7 @@ public class Juego {
 
 
 
-	/** Inicia el juego
+	/** Inicia el juego en el nivel especificado
 	 * @param lvl Nivel a iniciar
 	 */
 	public static void init(int lvl) {
@@ -43,7 +43,11 @@ public class Juego {
 		nivel = new Nivel(lvl);
 		pajaro = new Pajaro(POSICIONINICIALPAJARO);
 		milisAbierta = System.currentTimeMillis();
-		buclePrincipal(lvl);
+		
+		// Hago que el bucle se inicie desde un hilo para no bloquear el main
+		new Thread(() -> {
+			buclePrincipal(lvl);
+		}).start();
 	}
 
 

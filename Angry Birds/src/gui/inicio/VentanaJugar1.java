@@ -28,6 +28,9 @@ public class VentanaJugar1 extends VentanaJugar {
 	private JButton iniciarSesion;
 	private JButton registro;
 
+	/** Crea una nueva ventana de juego con las opciones para iniciar sesión y registrarse
+	 *  Esta ventana está pensada para ser lanzada en caso de que no exista ningún usuario asociado al dispositivo en el que se está ejecutando el programa
+	 */
 	public VentanaJugar1() {
 		super();
 		jLayer = new JLayer<MiPanel>(panelPrincipal);
@@ -84,9 +87,5 @@ public class VentanaJugar1 extends VentanaJugar {
 			jLayer.setUI(new LayerUI<>());
 			setEnabled(true);
 		}
-	}
-
-	public JLayer<MiPanel> getJLayer() {
-		return jLayer;
 	}
 }

@@ -25,8 +25,9 @@ public class VentanaRegistroSesion extends VentanaSesion{
 	private JPasswordField inputConfirmarContraseña;
 
 
-	/**Crea una nueva ventana para registrar un usuario
-	 * 
+
+	/** Crea una nueva ventana para registrar un usuario
+	 * @param ventanaAnterior referencia de la ventana desde la que se crea esta ventana
 	 */
 	public VentanaRegistroSesion(VentanaJugar1 ventanaAnterior) {
 		super(8, ventanaAnterior);

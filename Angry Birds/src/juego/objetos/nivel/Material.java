@@ -1,5 +1,9 @@
 package juego.objetos.nivel;
 
+/** Enum para identificar el material de las vigas
+ * @author diego
+ *
+ */
 public enum Material {
 	CRISTAL, MADERA, PIEDRA;
 	

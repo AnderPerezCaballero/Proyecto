@@ -14,7 +14,7 @@ import gui.juego.VentanaJuego;
  */
 public class Imagenes {
 
-	private static Map<String,ImageIcon> imagenes = new HashMap<>();	// Variable local para guardar las imágenes y no recargarlas cada vez
+	private static Map<String,ImageIcon> imagenes = new HashMap<>();	// Variable local para guardar las imágenes para no recargarlas cada vez
  
 	/** Intenta cargar la imagen del mapa interno de la clase, sino, la carga desde el disco. Devuelve null si no se ha podido conseguir la imagen
 	 * @param rutaImagen ruta de la imagen a cargar

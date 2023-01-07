@@ -52,6 +52,9 @@ public abstract class VentanaJugar extends JFrame {
 	// Siempre igual
 	private static final String NOMBREVENTANA = "Angry Birds";
 
+	/** Crea una nueva ventana de juego
+	 * 
+	 */
 	public VentanaJugar() {
 
 		this.setExtendedState(MAXIMIZED_BOTH);
@@ -129,7 +132,10 @@ public abstract class VentanaJugar extends JFrame {
 
 	}
 
-	// Para reproducir sonido
+
+	/** Reproduce el sonido especificado
+ 	 * @param ruta Ruta al archivo de audio
+	 */
 	public void ReproducirMusica(String ruta) {
 		try {
 			AudioInputStream is = AudioSystem.getAudioInputStream(new File(ruta));

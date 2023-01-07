@@ -93,6 +93,9 @@ public class Viga extends Objeto implements ObjetoNivel{
 		return altura;
 	}
 
+	/** Dibuja la viga en la pantalla dependiendo de la rotación de la misma
+	 *@param v Ventana en la que dibujar la viga
+	 */
 	public void dibuja(VentanaJuego v) {
 		if(angsRotacion == 0) {
 			v.dibujaImagen(imagen, x, y, anchura, altura, 1, Math.toRadians(angsRotacion), 1.0f);

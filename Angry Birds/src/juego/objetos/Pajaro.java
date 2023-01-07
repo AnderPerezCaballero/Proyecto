@@ -149,12 +149,6 @@ public class Pajaro extends Objeto implements Dibujable{
 	 * @param gravedadX vector de gravedad en el eje X
 	 * @param gravedadY vector de gravedad en el eje Y
 	 */
-	/**
-	 * @param milisEntreFrames
-	 * @param gravedadX
-	 * @param gravedadY
-	 * @param nivel
-	 */
 	public void move(int milisEntreFrames, double gravedadX, double gravedadY, Nivel nivel) {
 		mover = true;
 		new Thread(() -> {
@@ -250,8 +244,8 @@ public class Pajaro extends Objeto implements Dibujable{
 		if(mover) {
 			if(posiciones.size() > 0) {
 				posicionPintado = posiciones.get(0);
+				posiciones.remove(0);
 			}
-			posiciones.remove(0);
 			try {
 				for(int j = 0; j < 2; j++) {
 					int i = 0;

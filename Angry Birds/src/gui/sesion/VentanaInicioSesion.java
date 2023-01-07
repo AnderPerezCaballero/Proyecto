@@ -10,8 +10,9 @@ import gui.inicio.VentanaJugar1;
 @SuppressWarnings("serial")
 public class VentanaInicioSesion extends VentanaSesion{
 
+
 	/** Crea una nueva ventana para iniciar sesion con un usuario
-	 * 
+	 * @param ventanaAnterior referencia de la ventana desde la que se crea esta ventana
 	 */
 	public VentanaInicioSesion(VentanaJugar1 ventanaAnterior) {
 		super(6, ventanaAnterior);

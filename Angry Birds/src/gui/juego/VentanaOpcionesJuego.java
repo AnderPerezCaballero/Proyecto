@@ -27,7 +27,6 @@ import javax.swing.border.LineBorder;
 
 import gestionUsuarios.GestionUsuarios;
 import gestionUsuarios.Puntuacion;
-import gestionUsuarios.Token;
 import gestionUsuarios.Usuario;
 import gui.sesion.VentanaSesion;
 import juego.Juego;
@@ -159,13 +158,7 @@ public class VentanaOpcionesJuego extends JFrame{
 		});
 
 		reiniciarNivel.addActionListener(e -> {
-			//Para no bloquear Swing
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					Juego.init(nivel);		
-				}
-			}).start();
+			Juego.init(nivel);		
 			cerrar();
 		});
 
@@ -302,12 +295,5 @@ public class VentanaOpcionesJuego extends JFrame{
 	private void cerrar() {
 		dispose();
 		anteriorVentana.dispose();
-	}
-	
-	public static void main(String[] args) {
-		Usuario usuario = new Usuario("Diego", "contraseña", null);
-		usuario.setToken(new Token(usuario));
-		VentanaSesion.setUsuario(usuario);
-		new VentanaOpcionesJuego(3, 2, 1000000, true, 2, new JFrame());
 	}
 }

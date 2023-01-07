@@ -41,6 +41,10 @@ public class VentanaNiveles extends JFrame{
 	private Properties propiedades;
 	private boolean siguienteNivel;
 
+	
+	/** Crea una nueva ventana para que el usuario seleccione el nivel al que desea jugar
+	 * 
+	 */
 	public VentanaNiveles() {
 		
 		propiedades = new Properties();
@@ -109,15 +113,8 @@ public class VentanaNiveles extends JFrame{
 					if(e.getPoint().distance(jl.getSize().getWidth() / 2, jl.getSize().getHeight() / 2) < jl.getIcon().getIconHeight() / 2) {
 						if(NIVEL <= 9 - nivelesBloqueados) {
 							siguienteNivel = true;
+							Juego.init(NIVEL);	
 							dispose();
-
-							//Para no bloquear Swing
-							new Thread(new Runnable() {
-								@Override
-								public void run() {
-									Juego.init(NIVEL);		
-								}
-							}).start();
 						}else {
 							jl.setIcon(VentanaSesion.imagenReescalada(String.format("/imgs/Nivel%d.png", NIVEL), radioIconoNiveles, radioIconoNiveles));
 							JOptionPane.showMessageDialog(VentanaNiveles.this, "Nivel bloqueado", "Aviso", JOptionPane.WARNING_MESSAGE);
