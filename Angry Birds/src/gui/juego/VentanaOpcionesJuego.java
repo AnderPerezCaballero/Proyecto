@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -201,7 +202,7 @@ public class VentanaOpcionesJuego extends JFrame{
 			remove(panelCentral);
 			panelCentral = nuevoPanelCentral;
 			add(panelCentral);
-			e.printStackTrace();
+			GestionUsuarios.log(Level.SEVERE, String.format("Los datos del usuario %s despues de jugar el nivel %d no han podido actualizarse", usuario.toString(), nivel), e);
 		}
 		
 		establecerAspecto();

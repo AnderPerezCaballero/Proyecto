@@ -3,6 +3,7 @@ package gui.sesion;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.sql.SQLException;
+import java.util.logging.Level;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -94,7 +95,7 @@ public class VentanaRegistroSesion extends VentanaSesion{
 				mensajeDeCarga.interrupt();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			GestionUsuarios.log(Level.SEVERE, "No ha sido posible registrar el usuario", e);
 			labelMensaje.setText("No ha sido posible registrar el usuario");
 		}
 	}	

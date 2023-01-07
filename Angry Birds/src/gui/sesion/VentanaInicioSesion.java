@@ -1,6 +1,7 @@
 package gui.sesion;
 
 import java.sql.SQLException;
+import java.util.logging.Level;
 
 import gestionUsuarios.GestionUsuarios;
 import gui.componentes.MensajeCarga;
@@ -57,7 +58,7 @@ public class VentanaInicioSesion extends VentanaSesion{
 				mensajeDeCarga.interrupt();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			GestionUsuarios.log(Level.SEVERE, "No ha sido posible iniciar sesión", e);
 			labelMensaje.setText("No ha sido posible iniciar sesión");
 		}
 	}	
