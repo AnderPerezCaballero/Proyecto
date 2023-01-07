@@ -1502,3 +1502,102 @@
   <message>El dispositivo no cuenta con ningún usuario asociado</message>
 </record>
 </log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2023-01-07T14:16:02.274775700Z</date>
+  <millis>1673100962274</millis>
+  <nanos>775700</nanos>
+  <sequence>0</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>El usuario no cuenta con ningún token, pues el fichero archivos/token.dat no existe</message>
+</record>
+<record>
+  <date>2023-01-07T14:16:02.318046400Z</date>
+  <millis>1673100962318</millis>
+  <nanos>46400</nanos>
+  <sequence>1</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>El dispositivo no cuenta con ningún usuario asociado</message>
+</record>
+<record>
+  <date>2023-01-07T14:16:04.030701700Z</date>
+  <millis>1673100964030</millis>
+  <nanos>701700</nanos>
+  <sequence>2</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>Libreria de la base de datos cargada con exito</message>
+</record>
+<record>
+  <date>2023-01-07T14:16:07.085034500Z</date>
+  <millis>1673100967085</millis>
+  <nanos>34500</nanos>
+  <sequence>3</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>El usuario Diego existe</message>
+</record>
+<record>
+  <date>2023-01-07T14:16:07.088490700Z</date>
+  <millis>1673100967088</millis>
+  <nanos>490700</nanos>
+  <sequence>4</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>La contraseña introducida para el usuario Diego es incorrecta</message>
+</record>
+<record>
+  <date>2023-01-07T14:16:08.774027300Z</date>
+  <millis>1673100968774</millis>
+  <nanos>27300</nanos>
+  <sequence>5</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>El usuario Diego existe</message>
+</record>
+<record>
+  <date>2023-01-07T14:16:08.776020600Z</date>
+  <millis>1673100968776</millis>
+  <nanos>20600</nanos>
+  <sequence>6</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>La contraseña introducida para el usuario Diego es correcta</message>
+</record>
+<record>
+  <date>2023-01-07T14:16:08.786983600Z</date>
+  <millis>1673100968786</millis>
+  <nanos>983600</nanos>
+  <sequence>7</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>Usuario asociado al ID 66027848 encontrado y retornado correctamente</message>
+</record>
