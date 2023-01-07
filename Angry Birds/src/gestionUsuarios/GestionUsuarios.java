@@ -135,7 +135,7 @@ public class GestionUsuarios {
 
 			//Utilizar la conexión
 			try(PreparedStatement stmt = conn.prepareStatement(String.format("SELECT contraseña FROM usuarios WHERE ID = %s;", nombre.hashCode()))){
-				boolean contraseñaCorrecta = stmt.executeQuery().getString("contraseña").equals(contraseña);
+				boolean contraseñaCorrecta = sonIguales(stmt.executeQuery().getString("contraseña"), contraseña);
 				if(contraseñaCorrecta) {
 					log(Level.INFO, String.format("La contraseña introducida para el usuario %s es correcta", nombre), null);
 				}else {
@@ -158,7 +158,7 @@ public class GestionUsuarios {
 			//Utilizar la conexión
 			try(PreparedStatement stmt = conn.prepareStatement(String.format("SELECT nombre FROM usuarios WHERE ID = %s;", nombre.hashCode()))){
 				try {
-					boolean usuarioCorrecto = stmt.executeQuery().getString("nombre").equals(nombre);
+					boolean usuarioCorrecto = sonIguales(stmt.executeQuery().getString("nombre"), nombre);
 					if (usuarioCorrecto) {
 						log(Level.INFO, String.format("El usuario %s existe", nombre), null);
 					}else {
@@ -344,7 +344,7 @@ public class GestionUsuarios {
 	 * @param mensage El mensaje de cadena (o una clave en el catálogo de mensajes)
 	 * @param excepcion Throwable asociado con el mensaje de registro. Null si no existe ningún Throwable asociado
 	 */
-	private static void log(Level level, String mensage, Throwable excepcion) {
+	public static void log(Level level, String mensage, Throwable excepcion) {
 		if (logger == null) { 
 			logger = Logger.getLogger("BD users");  
 			logger.setLevel(Level.ALL);
@@ -361,6 +361,24 @@ public class GestionUsuarios {
 			logger.log(level, mensage, excepcion);
 		}
 	}
+	
+	private static boolean sonIguales(String s1, String s2) {
+		
+	    if (s1 == null || s2 == null) {
+	        return false;
+	    }
+	    
+	    if (s1.isEmpty() && s2.isEmpty()) {
+	        return true;
+	    }
+	    
+	    if (s1.charAt(0) == s2.charAt(0)) {
+	        return sonIguales(s1.substring(1), s2.substring(1));
+	    }
+	    
+	    return false;
+	}
+
 
 	//	private void crearTablas() throws SQLException{
 	//	
