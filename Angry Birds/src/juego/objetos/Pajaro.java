@@ -51,7 +51,7 @@ public class Pajaro extends Objeto implements Dibujable{
 	}
 
 	/** Crea un nuevo pájaro
-	 * @param p Centro del pájaro
+	 * @param p Coordenadas del centro del pájaro
 	 */
 	public Pajaro(Point p) {
 		this(p.x, p.y);
@@ -216,7 +216,7 @@ public class Pajaro extends Objeto implements Dibujable{
 	}
 
 	/**Metodo para comprobar que el pájaro rebota con el suelo
-	 * @return booleano indicando si existe o no choque
+	 * @return true si choca, false si no
 	 */
 	public boolean choqueConSuelo() {
 		return y + radio >= Juego.getYSuelo();
@@ -248,7 +248,9 @@ public class Pajaro extends Objeto implements Dibujable{
 	 */
 	public void dibuja(VentanaJuego v) {
 		if(mover) {
-			posicionPintado = posiciones.get(0);
+			if(posiciones.size() > 0) {
+				posicionPintado = posiciones.get(0);
+			}
 			posiciones.remove(0);
 			try {
 				for(int j = 0; j < 2; j++) {

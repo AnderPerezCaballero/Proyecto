@@ -183,17 +183,6 @@ public class VentanaJuego {
 	}
 
 
-	/** Dibuja un rectángulo azul en la ventana
-	 * @param x	Coordenada x de la esquina superior izquierda del rectángulo
-	 * @param y	Coordenada y de la esquina superior izquierda del rectángulo
-	 * @param anchura	Anchura del rectángulo (en píxels) 
-	 * @param altura	Altura del rectángulo (en píxels)
-	 * @param grosor	Grueso del rectángulo (en píxels)
-	 */
-	public void dibujaRect(double x, double y, double anchura, double altura, float grosor) {
-		dibujaRect(x, y, anchura, altura, grosor, Color.blue);
-	}
-
 	/** Dibuja un círculo relleno en la ventana
 	 * @param x	Coordenada x del centro del círculo
 	 * @param y	Coordenada y del centro del círculo
@@ -223,16 +212,6 @@ public class VentanaJuego {
 		graphics.drawOval((int)Math.round(calcX(x)-radio*escalaDibujo), (int)Math.round(calcY(y)-radio*escalaDibujo), (int)Math.round(radio*2*escalaDibujo), (int)Math.round(radio*2*escalaDibujo));
 	}
 
-	/** Dibuja un círculo azul en la ventana
-	 * @param x	Coordenada x del centro del círculo
-	 * @param y	Coordenada y del centro del círculo
-	 * @param radio	Radio del círculo (en píxels) 
-	 * @param grosor	Grueso del círculo (en píxels)
-	 */
-	public void dibujaCirculo(double x, double y, double radio, float grosor) {
-		dibujaCirculo(x, y, radio, grosor, Color.blue);
-	}
-
 	/** Dibuja una línea en la ventana
 	 * @param linea	a dibujar
 	 * @param grosor	Grueso de la línea (en píxels)
@@ -255,18 +234,7 @@ public class VentanaJuego {
 		graphics.setStroke(new BasicStroke(grosor));
 		graphics.drawLine((int)Math.round(calcX(x)), (int)Math.round(calcY(y)), (int)Math.round(calcX(x2)), (int)Math.round(calcY(y2)));
 	}
-
-	/** Dibuja una línea azul en la ventana
-	 * @param x	Coordenada x de un punto de la línea 
-	 * @param y	Coordenada y de un punto de la línea
-	 * @param x2	Coordenada x del segundo punto de la línea 
-	 * @param y2	Coordenada y del segundo punto de la línea
-	 * @param grosor	Grueso de la línea (en píxels)
-	 */
-	public void dibujaLinea(double x, double y, double x2, double y2, float grosor) {
-		dibujaLinea(x, y, x2, y2, grosor, Color.blue);
-	}
-
+	
 	/** Dibuja una flecha en la ventana
 	 * @param linea	a dibujar (el segundo punto es la punta de la flecha)
 	 * @param grosor	Grueso de la línea (en píxels)

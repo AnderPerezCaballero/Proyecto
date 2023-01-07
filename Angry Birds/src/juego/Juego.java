@@ -15,24 +15,25 @@ public class Juego {
 	private static final int MILISEGUNDOSENTREFRAMES = 10; // Msgs. de duración de cada fotograma (aprox. = espera entre fotograma y siguiente)
 	private static final double GRAVEDADY = 9.81;
 	private static final double GRAVEDADX = 0;
-	
+
 	private static final Point POSICIONINICIALPAJARO = new Point(225, 785);
 	private static final Color COLORTIRAPAJAROS = new Color(48, 22, 8);
 	private static final int YPOSICIONSUELO = 909;
 	private static final int XPOSICIONTIRAPAJAROS = 221;
 	private static final int YPOSICIONTIRAPAJAROS = 840;
-	
+	private static final int DISTANCIAMAXIMALANZAMIENTO = 225;
+
 	private static VentanaJuego ventanaJuego;
 	private static JFrame ventana;
 
 	private static long milisAbierta;
 	private static Nivel nivel;
-	
+
 	private static Point posicionRaton;
-	
+
 	private static Pajaro pajaro;
 
-	
+
 
 	/** Inicia el juego
 	 * @param lvl Nivel a iniciar
@@ -45,9 +46,10 @@ public class Juego {
 		buclePrincipal(lvl);
 	}
 
+
 	private static void buclePrincipal(int lvl) {
 		while (!ventanaJuego.estaCerrada()) {
-			
+
 			//Se actualiza la situación de la ventana
 			ventana = ventanaJuego.getJFrame();
 
@@ -56,7 +58,7 @@ public class Juego {
 
 			//Los 25 pixels de el encabezado
 			posicionRaton.translate(0, -25);
-			
+
 			if(!pajaro.isLanzado()) {
 
 				//Identificar si el pájaro está siendo seleccionado o no
@@ -66,22 +68,45 @@ public class Juego {
 
 				//Mover el pájaro si esta seleccionado a corde con la posición del ratón
 				if(ventanaJuego.isRatonPulsado() && pajaro.isSeleccionado()) {
-					pajaro.setLocation(posicionRaton);
-
-					//Choques
+					ventanaJuego.dibujaCirculo(POSICIONINICIALPAJARO.x, POSICIONINICIALPAJARO.y, POSICIONINICIALPAJARO.x, 1, Color.BLACK);
+					
+					//Dentro de la distancia máxima de lanzamiento
+					if(posicionRaton.distance(POSICIONINICIALPAJARO) < DISTANCIAMAXIMALANZAMIENTO) {
+						pajaro.setLocation(posicionRaton);
+						
+					//Fuera de la distancia máxima
+					}else {
+						
+						Point centroCirculo = new Point(POSICIONINICIALPAJARO.x, POSICIONINICIALPAJARO.y);
+						ventanaJuego.dibujaCirculo(centroCirculo.x, centroCirculo.y, DISTANCIAMAXIMALANZAMIENTO, 1, Color.RED);
+						double distancia = POSICIONINICIALPAJARO.distance(posicionRaton);
+						
+						/**EXPLICACIÓN DEL CALCULO:
+						 * Partimos de la base de que se tiene un círculo, con un radio y coordenadas sabidas, y un punto (la posicion del ratón), 
+						 * que se encuentra fuera de este. Entonces, se necesita encontrar un punto, que este en el borde del círculo, y que este contenido
+						 * en la línea que une el centro del círculo y el punto que está fuera.
+						 * De esta manera, basándome en el teorema de pitágoras y en el hecho de que la distancia entre el punto en el borde del círculo 
+						 * y el centro del círculo debe ser igual al radio del círculo, después de simplificar calculos llegamos a la formula que se ve en
+						 * la declaración de puntoEnBorde
+						 */
+						
+						Point puntoEnBorde = new Point(
+								  (int) Math.round(centroCirculo.x + DISTANCIAMAXIMALANZAMIENTO * (posicionRaton.x - centroCirculo.x) / distancia),
+								  (int) Math.round(centroCirculo.y + DISTANCIAMAXIMALANZAMIENTO * (posicionRaton.y - centroCirculo.y) / distancia)
+								);
+						
+						pajaro.setLocation(puntoEnBorde);
+					}
+					
 					if(pajaro.choqueConSuelo()) {
 						pajaro.setY(YPOSICIONSUELO - Pajaro.getRadio());
-					}
-					if(pajaro.choqueConLimiteVertical()) {
-						pajaro.setX(Pajaro.getRadio());
 					}
 
 					//Animación de catapulta
 					ventanaJuego.dibujaLinea(215, 795, pajaro.getX(), pajaro.getY(), 4, COLORTIRAPAJAROS);
 					pajaro.dibuja(ventanaJuego);
 					ventanaJuego.dibujaLinea(240, 790, pajaro.getX(), pajaro.getY(), 4, COLORTIRAPAJAROS);
-
-					pajaro.dibujarVectorLanzamiento(ventanaJuego, pajaro.getLocation(), POSICIONINICIALPAJARO);
+					
 				}else {
 
 					//Lanzamiento del pájaro
@@ -103,7 +128,7 @@ public class Juego {
 			}else {
 				dibujado();
 				pajaro.eliminarObjetos(nivel);
-				
+
 				//Reiniciar el lanzamiento
 				if(pajaro.isQuieto() || !ventana.contains(pajaro.getPosicionPintado(POSICIONINICIALPAJARO))){
 					pajaro.cancelarMovimiento();
@@ -118,12 +143,12 @@ public class Juego {
 						ventana.setEnabled(false);
 						break;
 					}
-				
+
 					pajaro = new Pajaro(POSICIONINICIALPAJARO);	
-								
+
 				}
 			}
-			
+
 			try {
 				Thread.sleep(MILISEGUNDOSENTREFRAMES);
 			}catch(InterruptedException e) {}
@@ -132,7 +157,7 @@ public class Juego {
 		}
 		pajaro.cancelarMovimiento();
 	}
-	
+
 	/**Dibuja los elementos del juego
 	 * 
 	 */
@@ -156,7 +181,7 @@ public class Juego {
 	public static int getXTiraPajaros() {
 		return XPOSICIONTIRAPAJAROS;
 	}
-	
+
 
 
 
