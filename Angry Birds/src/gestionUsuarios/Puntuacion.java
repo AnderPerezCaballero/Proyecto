@@ -1,7 +1,6 @@
 package gestionUsuarios;
 
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class Puntuacion implements Comparable<Puntuacion>{
@@ -37,8 +36,7 @@ public class Puntuacion implements Comparable<Puntuacion>{
 	 * @return	fecha en formato <día/mes/año>
 	 */
 	public String getFecha() {
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		return dtf.format(fecha);
+		return fecha.toString();
 	}
 	
 	/**Devuelve las estrellas conseguidas por el usuario

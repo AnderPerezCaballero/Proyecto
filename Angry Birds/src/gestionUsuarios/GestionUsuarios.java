@@ -27,7 +27,7 @@ public class GestionUsuarios {
 	 * @param usuario objeto de tipo usuario a añadir
 	 * @throws SQLException En caso de que ocurra algún tipo de error relacionado con la gestión de la base de datos y no se pueda añadir el usuario
 	 */
-	public static void add(Usuario usuario) throws SQLException {
+	public static void addUsuario(Usuario usuario) throws SQLException {
 		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
 		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
 
@@ -72,7 +72,7 @@ public class GestionUsuarios {
 
 	/** Actualiza los datos de un usuario en la base de datos
 	 * @param usuario Objeto usuario YA ACTUALIZADO
-	 * @throws SQLException Si no se consigue actualizar el usuario
+	 * @throws SQLException Excepcion lanzada si no se consigue actualizar el usuario
 	 */
 	public static void actualizarUsuario(Usuario usuario) throws SQLException {
 		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
@@ -92,24 +92,35 @@ public class GestionUsuarios {
 
 				//Ejecutar sentencia
 				insertSQL.executeUpdate();
-				log(Level.INFO, String.format("Usuario %s actualizado con exito", usuario.toString()), null);
+				log(Level.INFO, String.format("Datos del usuario %s actualizado con exito", usuario.toString()), null);
 			}	
-
-			for(Puntuacion puntuacion : usuario.getPuntuaciones()) {
-				try(PreparedStatement insertSQL = conn.prepareStatement(String.format("UPDATE puntuaciones SET IDusuario = ?, estrellas = ?, nivel = ?, fecha = ? = ? WHERE IDusuario = %d", usuario.hashCode()))){
-
-					//Rellenar la plantilla
-					insertSQL.setInt(1, usuario.getNombre().hashCode());
-					insertSQL.setInt(2, puntuacion.getEstrellas());
-					insertSQL.setInt(3, puntuacion.getNivel());
-					insertSQL.setString(4, puntuacion.getFecha());
-
-					//Ejecutar sentencia
-					insertSQL.executeUpdate();
-				}
-			}
-			log(Level.INFO, String.format("Puntuaciones del usuario %s actualizadas con exito", usuario.toString()), null);
 		}
+	}
+
+
+	/** Añade una nueva puntuación a las puntuaciones del usuario en la base de datos
+	 * @param usuario Usuario al que añadir la puntuacion
+	 * @param puntuacion Puntuacion a añadir
+	 * @throws SQLException Excepcion lanzada en caso de haber algun error relacionado con la base de datos a la hora de añadir la puntuacion
+	 */
+	public static void addPuntuacion(Usuario usuario, Puntuacion puntuacion) throws SQLException {
+
+		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
+		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
+			
+			try(PreparedStatement insertSQL = conn.prepareStatement("INSERT INTO puntuaciones (IDusuario, estrellas, nivel, fecha) VALUES (?, ?, ?, ?)")){
+
+				//Rellenar la plantilla
+				insertSQL.setInt(1, usuario.getNombre().hashCode());
+				insertSQL.setInt(2, puntuacion.getEstrellas());
+				insertSQL.setInt(3, puntuacion.getNivel());
+				insertSQL.setString(4, puntuacion.getFecha());
+
+				//Ejecutar sentencia
+				insertSQL.executeUpdate();
+			}
+		}
+		log(Level.INFO, String.format("Puntuaciones del usuario %s actualizadas con exito", usuario.toString()), null);
 	}
 
 	/** Método que comprueba si la contraseña introducida para un usuario es correcta
@@ -121,7 +132,7 @@ public class GestionUsuarios {
 	public static boolean comprobarContraseña(String nombre, String contraseña) throws SQLException{
 		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
 		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
-			
+
 			//Utilizar la conexión
 			try(PreparedStatement stmt = conn.prepareStatement(String.format("SELECT contraseña FROM usuarios WHERE ID = %s;", nombre.hashCode()))){
 				boolean contraseñaCorrecta = stmt.executeQuery().getString("contraseña").equals(contraseña);
@@ -338,7 +349,7 @@ public class GestionUsuarios {
 			logger = Logger.getLogger("BD users");  
 			logger.setLevel(Level.ALL);
 			try {
-				logger.addHandler(new FileHandler("users.log.xml", true));
+				logger.addHandler(new FileHandler("lib/users.log.xml", true));
 			}catch (Exception e) {
 				logger.log(Level.SEVERE, "No se pudo crear el fichero de log", e);
 			}

@@ -184,12 +184,14 @@ public class VentanaOpcionesJuego extends JFrame{
 
 		//Actualizar el usuario
 		usuario.addTiempo(milis);
-		usuario.addPuntuacion(new Puntuacion(estrellas, nivel));
+		Puntuacion puntuacion = new Puntuacion(estrellas, nivel);
+		usuario.addPuntuacion(puntuacion);
 
 		try {
 			GestionUsuarios.actualizarUsuario(usuario);
+			GestionUsuarios.addPuntuacion(usuario, puntuacion);
 		} catch (SQLException e) {
-			JLabel mensajeError = new JLabel("TU TIEMPO DE JUEGO NO HA PODIDO ACTUALIZARSE");
+			JLabel mensajeError = new JLabel("TUS DATOS NO HAN PODIDO ACTUALIZARSE");
 			mensajeError.setFont(fuenteSecundaria.deriveFont(30.0f));
 			JPanel nuevoPanelCentral = new JPanel(new GridLayout(panelCentral.getComponentCount() + 1, 1));
 			nuevoPanelCentral.add(mensajeError);

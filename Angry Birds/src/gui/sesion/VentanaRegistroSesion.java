@@ -85,7 +85,7 @@ public class VentanaRegistroSesion extends VentanaSesion{
 				mensajeDeCarga.start();
 				Usuario usuario = new Usuario(inputUsuario.getText(), String.valueOf(inputContraseña.getPassword()), null);
 				setUsuario(usuario);
-				GestionUsuarios.add(usuario);
+				GestionUsuarios.addUsuario(usuario);
 				if(guardarDispositivo.isSelected()) {
 					if(!GestionUsuarios.recordarUsuario(usuario)) {
 						labelMensaje.setText("No ha sido posible recordar el usuario en este dispositivo");
