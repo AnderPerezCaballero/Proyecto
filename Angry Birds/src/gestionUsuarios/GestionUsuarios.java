@@ -14,6 +14,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -253,6 +255,59 @@ public class GestionUsuarios {
 		log(Level.INFO, String.format("Usuario asociado al ID %d encontrado y retornado correctamente", ID), null);
 		return usuario;
 	}
+	
+	/** Devuelve todos los usuarios de la base de datos
+	 * @return Lista de usuarios
+	 */
+	public static List<Usuario> getUsuarios() {
+		List<Usuario> usuarios = new ArrayList<>();
+		Set<Puntuacion> puntuaciones = new TreeSet<>();
+		String nombre;
+		String contraseña;
+		long tiempoJugado;
+		String sToken;
+		String caducidadToken;
+
+		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
+		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
+
+			try(PreparedStatement stmt = conn.prepareStatement("SELECT nombre, contraseña, tiempoJugado, token, caducidadToken FROM usuarios")){
+				ResultSet rs = stmt.executeQuery();
+				while(rs.next()) {
+					
+					nombre = rs.getString("nombre");
+					contraseña = rs.getString("contraseña");
+					tiempoJugado = rs.getInt("tiempoJugado");
+					sToken = rs.getString("token");
+					caducidadToken = rs.getString("caducidadToken");		
+					
+					try(PreparedStatement stmt2 = conn.prepareStatement(String.format("SELECT estrellas, nivel, fecha FROM puntuaciones WHERE IDusuario = %d;", nombre.hashCode()))){
+						ResultSet rs2 = stmt.executeQuery();
+						while(rs2.next()) {
+							
+							//Mientras hayan filas cogemos cada columna contenida en la fila
+							puntuaciones.add(new Puntuacion(rs2.getString("fecha"), rs2.getInt("estrellas"), rs2.getInt("nivel")));
+						}
+					}
+					
+					Usuario usuario = new Usuario(nombre, contraseña, tiempoJugado, puntuaciones, null);
+					if(sToken != null) {
+						usuario.setToken(new Token(sToken, caducidadToken, usuario));
+					}
+					usuarios.add(usuario);
+				}
+			}
+
+		} catch (SQLException e) {
+			log(Level.SEVERE, "Error en el retorno de la lista de los usuarios de la base de datos", e);
+			return null;
+		}
+
+		log(Level.INFO, "Lista de usuarios creada y retornada correctamente", null);
+		return usuarios;
+	}
+	
+	
 
 	/** Método que especifica si el dispositivo desde el que se esta ejecutando el programa tiene algún usuario asociado el cual ha pedido que se recuerde
 	 * @return objeto usuario del usuario asociado, null si no hay ningún usuario asociado  
