@@ -99,8 +99,14 @@ public class Pajaro extends Objeto implements Dibujable{
 	private void rebotaCon(ObjetoNivel elementoNivel) {
 		if(elementoNivel instanceof Cerdo) {
 			Cerdo cerdo = (Cerdo) elementoNivel;
-			vX = cerdo.getX() - x;
-			vY = y - cerdo.getY();
+			double distanciax = x - cerdo.getX();
+			double distanciay = y - cerdo.getY();
+			double angulo = Math.atan2(distanciay, distanciax);
+			double destinox = x + (double) ((20 + getRadio()) * Math.cos(angulo));
+			double destinoy = y + (double) ((20 + getRadio()) * Math.sin(angulo));
+			vX = -(destinox - x) * 1.7;
+			vY = -(destinoy - y) * 1.7;
+			System.out.println("eliminado");
 		}else {
 			Viga viga = (Viga) elementoNivel;
 			
