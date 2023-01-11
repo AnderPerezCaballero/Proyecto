@@ -51,30 +51,39 @@ public class VentanaEstadisticas extends JFrame{
 		titulo.setFont(new Font(Font.SERIF, Font.BOLD, 30));
 		panelArriba.add(titulo);
 		
-		
 		DefaultTableModel dft = new DefaultTableModel();
 		
-		dft.addColumn("FECHA");
-		dft.addColumn("NIVEL");
-		dft.addColumn("ESTRELLAS");
+		dft.addColumn("FECHA ");
+		dft.addColumn("NIVEL ");
+		dft.addColumn("ESTRELLAS ");
 		
 		for (Puntuacion puntuacion : punt) {
 			Object[] array = {puntuacion.getFecha(), puntuacion.getNivel(), puntuacion.getEstrellas()};
-			dft.addRow(array);
-	
+			dft.addRow(array);	
 		}
-		JTable tablaEstadisticas = new JTable(dft);
 		
+		JTable tablaEstadisticas = new JTable(dft);
 		panelCentro.add(tablaEstadisticas);
 		
 		JButton atras = new MiBoton(Color.WHITE, Color.WHITE.darker(), 50, 50);
 		atras.setText("Volver");
+		atras.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				VentanaOpcionesJuego vop = new VentanaOpcionesJuego(FRAMEBITS, ERROR, ALLBITS, rootPaneCheckingEnabled, ABORT, null);
+				dispose();
+				
+			}
+		});
 		panelAbajo.add(atras);
 		
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setBackground(Color.WHITE);
 		setVisible(true);
 	}
+
 	
 //	public static void main(String[] args) {
 //		Puntuacion punt = new Puntuacion(null, ALLBITS, ABORT);

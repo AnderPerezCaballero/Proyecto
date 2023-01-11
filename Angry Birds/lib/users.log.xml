@@ -3169,3 +3169,784 @@
   <message>Puntuaciones del usuario pablo actualizadas con exito</message>
 </record>
 </log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2023-01-11T21:33:29.261311300Z</date>
+  <millis>1673472809261</millis>
+  <nanos>311300</nanos>
+  <sequence>0</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>El usuario no cuenta con ningún token, pues el fichero archivos/token.dat no existe</message>
+</record>
+<record>
+  <date>2023-01-11T21:33:29.339331Z</date>
+  <millis>1673472809339</millis>
+  <nanos>331000</nanos>
+  <sequence>1</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>El dispositivo no cuenta con ningún usuario asociado</message>
+</record>
+<record>
+  <date>2023-01-11T21:33:39.630463500Z</date>
+  <millis>1673472819630</millis>
+  <nanos>463500</nanos>
+  <sequence>2</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>Libreria de la base de datos cargada con exito</message>
+</record>
+<record>
+  <date>2023-01-11T21:33:49.057061900Z</date>
+  <millis>1673472829057</millis>
+  <nanos>61900</nanos>
+  <sequence>3</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>El usuario Anderelmakina existe</message>
+</record>
+<record>
+  <date>2023-01-11T21:33:49.060061500Z</date>
+  <millis>1673472829060</millis>
+  <nanos>61500</nanos>
+  <sequence>4</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>La contraseña introducida para el usuario Anderelmakina es correcta</message>
+</record>
+<record>
+  <date>2023-01-11T21:33:49.065069100Z</date>
+  <millis>1673472829065</millis>
+  <nanos>69100</nanos>
+  <sequence>5</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>Usuario asociado al ID 2061740848 encontrado y retornado correctamente</message>
+</record>
+</log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2023-01-11T21:34:36.375209Z</date>
+  <millis>1673472876375</millis>
+  <nanos>209000</nanos>
+  <sequence>0</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>El usuario no cuenta con ningún token, pues el fichero archivos/token.dat no existe</message>
+</record>
+<record>
+  <date>2023-01-11T21:34:36.435227700Z</date>
+  <millis>1673472876435</millis>
+  <nanos>227700</nanos>
+  <sequence>1</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>El dispositivo no cuenta con ningún usuario asociado</message>
+</record>
+<record>
+  <date>2023-01-11T21:34:38.939165Z</date>
+  <millis>1673472878939</millis>
+  <nanos>165000</nanos>
+  <sequence>2</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>Libreria de la base de datos cargada con exito</message>
+</record>
+<record>
+  <date>2023-01-11T21:34:53.065226200Z</date>
+  <millis>1673472893065</millis>
+  <nanos>226200</nanos>
+  <sequence>3</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>El usuario Anderelmakina existe</message>
+</record>
+<record>
+  <date>2023-01-11T21:34:53.067234500Z</date>
+  <millis>1673472893067</millis>
+  <nanos>234500</nanos>
+  <sequence>4</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>La contraseña introducida para el usuario Anderelmakina es correcta</message>
+</record>
+<record>
+  <date>2023-01-11T21:34:53.072250900Z</date>
+  <millis>1673472893072</millis>
+  <nanos>250900</nanos>
+  <sequence>5</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>Usuario asociado al ID 2061740848 encontrado y retornado correctamente</message>
+</record>
+<record>
+  <date>2023-01-11T21:34:53.075875400Z</date>
+  <millis>1673472893075</millis>
+  <nanos>875400</nanos>
+  <sequence>6</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>Token asocidao al usuario Anderelmakina creado correctamente</message>
+</record>
+<record>
+  <date>2023-01-11T21:34:53.077527200Z</date>
+  <millis>1673472893077</millis>
+  <nanos>527200</nanos>
+  <sequence>7</sequence>
+  <logger>BD users</logger>
+  <level>SEVERE</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>No ha sido posible guardar el token en el fichero archivos/token.dat</message>
+  <exception>
+    <message>java.io.FileNotFoundException: archivos\token.dat (El sistema no puede encontrar la ruta especificada)</message>
+    <frame>
+      <class>java.io.FileOutputStream</class>
+      <method>open0</method>
+    </frame>
+    <frame>
+      <class>java.io.FileOutputStream</class>
+      <method>open</method>
+      <line>293</line>
+    </frame>
+    <frame>
+      <class>java.io.FileOutputStream</class>
+      <method>&lt;init&gt;</method>
+      <line>235</line>
+    </frame>
+    <frame>
+      <class>java.io.FileOutputStream</class>
+      <method>&lt;init&gt;</method>
+      <line>184</line>
+    </frame>
+    <frame>
+      <class>gestionUsuarios.GestionUsuarios</class>
+      <method>guardarTokenEnFichero</method>
+      <line>374</line>
+    </frame>
+    <frame>
+      <class>gestionUsuarios.GestionUsuarios</class>
+      <method>recordarUsuario</method>
+      <line>206</line>
+    </frame>
+    <frame>
+      <class>gui.sesion.VentanaInicioSesion</class>
+      <method>siguienteVentana</method>
+      <line>55</line>
+    </frame>
+    <frame>
+      <class>gui.sesion.VentanaSesion$4</class>
+      <method>keyReleased</method>
+      <line>229</line>
+    </frame>
+    <frame>
+      <class>java.awt.AWTEventMulticaster</class>
+      <method>keyReleased</method>
+      <line>268</line>
+    </frame>
+    <frame>
+      <class>java.awt.Component</class>
+      <method>processKeyEvent</method>
+      <line>6587</line>
+    </frame>
+    <frame>
+      <class>javax.swing.JComponent</class>
+      <method>processKeyEvent</method>
+      <line>2896</line>
+    </frame>
+    <frame>
+      <class>java.awt.Component</class>
+      <method>processEvent</method>
+      <line>6403</line>
+    </frame>
+    <frame>
+      <class>java.awt.Container</class>
+      <method>processEvent</method>
+      <line>2266</line>
+    </frame>
+    <frame>
+      <class>java.awt.Component</class>
+      <method>dispatchEventImpl</method>
+      <line>5001</line>
+    </frame>
+    <frame>
+      <class>java.awt.Container</class>
+      <method>dispatchEventImpl</method>
+      <line>2324</line>
+    </frame>
+    <frame>
+      <class>java.awt.Component</class>
+      <method>dispatchEvent</method>
+      <line>4833</line>
+    </frame>
+    <frame>
+      <class>java.awt.KeyboardFocusManager</class>
+      <method>redispatchEvent</method>
+      <line>1952</line>
+    </frame>
+    <frame>
+      <class>java.awt.DefaultKeyboardFocusManager</class>
+      <method>dispatchKeyEvent</method>
+      <line>883</line>
+    </frame>
+    <frame>
+      <class>java.awt.DefaultKeyboardFocusManager</class>
+      <method>preDispatchKeyEvent</method>
+      <line>1150</line>
+    </frame>
+    <frame>
+      <class>java.awt.DefaultKeyboardFocusManager</class>
+      <method>typeAheadAssertions</method>
+      <line>1020</line>
+    </frame>
+    <frame>
+      <class>java.awt.DefaultKeyboardFocusManager</class>
+      <method>dispatchEvent</method>
+      <line>848</line>
+    </frame>
+    <frame>
+      <class>java.awt.Component</class>
+      <method>dispatchEventImpl</method>
+      <line>4882</line>
+    </frame>
+    <frame>
+      <class>java.awt.Container</class>
+      <method>dispatchEventImpl</method>
+      <line>2324</line>
+    </frame>
+    <frame>
+      <class>java.awt.Window</class>
+      <method>dispatchEventImpl</method>
+      <line>2780</line>
+    </frame>
+    <frame>
+      <class>java.awt.Component</class>
+      <method>dispatchEvent</method>
+      <line>4833</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventQueue</class>
+      <method>dispatchEventImpl</method>
+      <line>773</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventQueue$4</class>
+      <method>run</method>
+      <line>722</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventQueue$4</class>
+      <method>run</method>
+      <line>716</line>
+    </frame>
+    <frame>
+      <class>java.security.AccessController</class>
+      <method>doPrivileged</method>
+      <line>399</line>
+    </frame>
+    <frame>
+      <class>java.security.ProtectionDomain$JavaSecurityAccessImpl</class>
+      <method>doIntersectionPrivilege</method>
+      <line>86</line>
+    </frame>
+    <frame>
+      <class>java.security.ProtectionDomain$JavaSecurityAccessImpl</class>
+      <method>doIntersectionPrivilege</method>
+      <line>97</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventQueue$5</class>
+      <method>run</method>
+      <line>746</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventQueue$5</class>
+      <method>run</method>
+      <line>744</line>
+    </frame>
+    <frame>
+      <class>java.security.AccessController</class>
+      <method>doPrivileged</method>
+      <line>399</line>
+    </frame>
+    <frame>
+      <class>java.security.ProtectionDomain$JavaSecurityAccessImpl</class>
+      <method>doIntersectionPrivilege</method>
+      <line>86</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventQueue</class>
+      <method>dispatchEvent</method>
+      <line>743</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventDispatchThread</class>
+      <method>pumpOneEventForFilters</method>
+      <line>203</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventDispatchThread</class>
+      <method>pumpEventsForFilter</method>
+      <line>124</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventDispatchThread</class>
+      <method>pumpEventsForHierarchy</method>
+      <line>113</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventDispatchThread</class>
+      <method>pumpEvents</method>
+      <line>109</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventDispatchThread</class>
+      <method>pumpEvents</method>
+      <line>101</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventDispatchThread</class>
+      <method>run</method>
+      <line>90</line>
+    </frame>
+  </exception>
+</record>
+<record>
+  <date>2023-01-11T21:34:53.080543900Z</date>
+  <millis>1673472893080</millis>
+  <nanos>543900</nanos>
+  <sequence>8</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>Token asocidao al usuario Anderelmakina guardado correctamente en la base de datos</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2023-01-11T22:24:20.447655Z</date>
+  <millis>1673475860447</millis>
+  <nanos>655000</nanos>
+  <sequence>0</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>El usuario no cuenta con ningún token, pues el fichero archivos/token.dat no existe</message>
+</record>
+<record>
+  <date>2023-01-11T22:24:20.502351200Z</date>
+  <millis>1673475860502</millis>
+  <nanos>351200</nanos>
+  <sequence>1</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>El dispositivo no cuenta con ningún usuario asociado</message>
+</record>
+<record>
+  <date>2023-01-11T22:24:24.841363900Z</date>
+  <millis>1673475864841</millis>
+  <nanos>363900</nanos>
+  <sequence>2</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>Libreria de la base de datos cargada con exito</message>
+</record>
+<record>
+  <date>2023-01-11T22:24:32.538426300Z</date>
+  <millis>1673475872538</millis>
+  <nanos>426300</nanos>
+  <sequence>3</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>El usuario anderPrueba existe</message>
+</record>
+<record>
+  <date>2023-01-11T22:24:32.540435700Z</date>
+  <millis>1673475872540</millis>
+  <nanos>435700</nanos>
+  <sequence>4</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>La contraseña introducida para el usuario anderPrueba es correcta</message>
+</record>
+<record>
+  <date>2023-01-11T22:24:32.546439600Z</date>
+  <millis>1673475872546</millis>
+  <nanos>439600</nanos>
+  <sequence>5</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>Usuario asociado al ID 1716496821 encontrado y retornado correctamente</message>
+</record>
+<record>
+  <date>2023-01-11T22:24:32.549289800Z</date>
+  <millis>1673475872549</millis>
+  <nanos>289800</nanos>
+  <sequence>6</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>Token asocidao al usuario anderPrueba creado correctamente</message>
+</record>
+<record>
+  <date>2023-01-11T22:24:32.551290600Z</date>
+  <millis>1673475872551</millis>
+  <nanos>290600</nanos>
+  <sequence>7</sequence>
+  <logger>BD users</logger>
+  <level>SEVERE</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>No ha sido posible guardar el token en el fichero archivos/token.dat</message>
+  <exception>
+    <message>java.io.FileNotFoundException: archivos\token.dat (El sistema no puede encontrar la ruta especificada)</message>
+    <frame>
+      <class>java.io.FileOutputStream</class>
+      <method>open0</method>
+    </frame>
+    <frame>
+      <class>java.io.FileOutputStream</class>
+      <method>open</method>
+      <line>293</line>
+    </frame>
+    <frame>
+      <class>java.io.FileOutputStream</class>
+      <method>&lt;init&gt;</method>
+      <line>235</line>
+    </frame>
+    <frame>
+      <class>java.io.FileOutputStream</class>
+      <method>&lt;init&gt;</method>
+      <line>184</line>
+    </frame>
+    <frame>
+      <class>gestionUsuarios.GestionUsuarios</class>
+      <method>guardarTokenEnFichero</method>
+      <line>374</line>
+    </frame>
+    <frame>
+      <class>gestionUsuarios.GestionUsuarios</class>
+      <method>recordarUsuario</method>
+      <line>206</line>
+    </frame>
+    <frame>
+      <class>gui.sesion.VentanaInicioSesion</class>
+      <method>siguienteVentana</method>
+      <line>55</line>
+    </frame>
+    <frame>
+      <class>gui.sesion.VentanaSesion$3</class>
+      <method>actionPerformed</method>
+      <line>220</line>
+    </frame>
+    <frame>
+      <class>javax.swing.AbstractButton</class>
+      <method>fireActionPerformed</method>
+      <line>1972</line>
+    </frame>
+    <frame>
+      <class>javax.swing.AbstractButton$Handler</class>
+      <method>actionPerformed</method>
+      <line>2313</line>
+    </frame>
+    <frame>
+      <class>javax.swing.DefaultButtonModel</class>
+      <method>fireActionPerformed</method>
+      <line>405</line>
+    </frame>
+    <frame>
+      <class>javax.swing.DefaultButtonModel</class>
+      <method>setPressed</method>
+      <line>262</line>
+    </frame>
+    <frame>
+      <class>javax.swing.plaf.basic.BasicButtonListener</class>
+      <method>mouseReleased</method>
+      <line>279</line>
+    </frame>
+    <frame>
+      <class>java.awt.AWTEventMulticaster</class>
+      <method>mouseReleased</method>
+      <line>297</line>
+    </frame>
+    <frame>
+      <class>java.awt.Component</class>
+      <method>processMouseEvent</method>
+      <line>6626</line>
+    </frame>
+    <frame>
+      <class>javax.swing.JComponent</class>
+      <method>processMouseEvent</method>
+      <line>3389</line>
+    </frame>
+    <frame>
+      <class>java.awt.Component</class>
+      <method>processEvent</method>
+      <line>6391</line>
+    </frame>
+    <frame>
+      <class>java.awt.Container</class>
+      <method>processEvent</method>
+      <line>2266</line>
+    </frame>
+    <frame>
+      <class>java.awt.Component</class>
+      <method>dispatchEventImpl</method>
+      <line>5001</line>
+    </frame>
+    <frame>
+      <class>java.awt.Container</class>
+      <method>dispatchEventImpl</method>
+      <line>2324</line>
+    </frame>
+    <frame>
+      <class>java.awt.Component</class>
+      <method>dispatchEvent</method>
+      <line>4833</line>
+    </frame>
+    <frame>
+      <class>java.awt.LightweightDispatcher</class>
+      <method>retargetMouseEvent</method>
+      <line>4948</line>
+    </frame>
+    <frame>
+      <class>java.awt.LightweightDispatcher</class>
+      <method>processMouseEvent</method>
+      <line>4575</line>
+    </frame>
+    <frame>
+      <class>java.awt.LightweightDispatcher</class>
+      <method>dispatchEvent</method>
+      <line>4516</line>
+    </frame>
+    <frame>
+      <class>java.awt.Container</class>
+      <method>dispatchEventImpl</method>
+      <line>2310</line>
+    </frame>
+    <frame>
+      <class>java.awt.Window</class>
+      <method>dispatchEventImpl</method>
+      <line>2780</line>
+    </frame>
+    <frame>
+      <class>java.awt.Component</class>
+      <method>dispatchEvent</method>
+      <line>4833</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventQueue</class>
+      <method>dispatchEventImpl</method>
+      <line>773</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventQueue$4</class>
+      <method>run</method>
+      <line>722</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventQueue$4</class>
+      <method>run</method>
+      <line>716</line>
+    </frame>
+    <frame>
+      <class>java.security.AccessController</class>
+      <method>doPrivileged</method>
+      <line>399</line>
+    </frame>
+    <frame>
+      <class>java.security.ProtectionDomain$JavaSecurityAccessImpl</class>
+      <method>doIntersectionPrivilege</method>
+      <line>86</line>
+    </frame>
+    <frame>
+      <class>java.security.ProtectionDomain$JavaSecurityAccessImpl</class>
+      <method>doIntersectionPrivilege</method>
+      <line>97</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventQueue$5</class>
+      <method>run</method>
+      <line>746</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventQueue$5</class>
+      <method>run</method>
+      <line>744</line>
+    </frame>
+    <frame>
+      <class>java.security.AccessController</class>
+      <method>doPrivileged</method>
+      <line>399</line>
+    </frame>
+    <frame>
+      <class>java.security.ProtectionDomain$JavaSecurityAccessImpl</class>
+      <method>doIntersectionPrivilege</method>
+      <line>86</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventQueue</class>
+      <method>dispatchEvent</method>
+      <line>743</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventDispatchThread</class>
+      <method>pumpOneEventForFilters</method>
+      <line>203</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventDispatchThread</class>
+      <method>pumpEventsForFilter</method>
+      <line>124</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventDispatchThread</class>
+      <method>pumpEventsForHierarchy</method>
+      <line>113</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventDispatchThread</class>
+      <method>pumpEvents</method>
+      <line>109</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventDispatchThread</class>
+      <method>pumpEvents</method>
+      <line>101</line>
+    </frame>
+    <frame>
+      <class>java.awt.EventDispatchThread</class>
+      <method>run</method>
+      <line>90</line>
+    </frame>
+  </exception>
+</record>
+<record>
+  <date>2023-01-11T22:24:32.553291200Z</date>
+  <millis>1673475872553</millis>
+  <nanos>291200</nanos>
+  <sequence>8</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>Token asocidao al usuario anderPrueba guardado correctamente en la base de datos</message>
+</record>
+<record>
+  <date>2023-01-11T22:24:51.819439500Z</date>
+  <millis>1673475891819</millis>
+  <nanos>439500</nanos>
+  <sequence>9</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>34</thread>
+  <message>Datos del usuario anderPrueba actualizado con exito</message>
+</record>
+<record>
+  <date>2023-01-11T22:24:51.831528700Z</date>
+  <millis>1673475891831</millis>
+  <nanos>528700</nanos>
+  <sequence>10</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>34</thread>
+  <message>Puntuaciones del usuario anderPrueba actualizadas con exito</message>
+</record>
+<record>
+  <date>2023-01-11T22:24:56.547312200Z</date>
+  <millis>1673475896547</millis>
+  <nanos>312200</nanos>
+  <sequence>11</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>Datos del usuario anderPrueba actualizado con exito</message>
+</record>
+<record>
+  <date>2023-01-11T22:24:56.556710200Z</date>
+  <millis>1673475896556</millis>
+  <nanos>710200</nanos>
+  <sequence>12</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>Puntuaciones del usuario anderPrueba actualizadas con exito</message>
+</record>
+</log>
