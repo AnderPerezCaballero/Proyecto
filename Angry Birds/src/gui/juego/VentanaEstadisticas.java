@@ -51,7 +51,7 @@ public class VentanaEstadisticas extends JFrame{
 		titulo.setFont(new Font(Font.SERIF, Font.BOLD, 30));
 		panelArriba.add(titulo);
 		
-		JTable tablaEstadisticas = new JTable();
+		
 		DefaultTableModel dft = new DefaultTableModel();
 		
 		dft.addColumn("FECHA");
@@ -63,10 +63,7 @@ public class VentanaEstadisticas extends JFrame{
 			dft.addRow(array);
 	
 		}
-		
-		dft.addColumn("FECHA");
-		dft.addColumn("NIVEL");
-		dft.addColumn("ESTRELLAS");
+		JTable tablaEstadisticas = new JTable(dft);
 		
 		panelCentro.add(tablaEstadisticas);
 		
