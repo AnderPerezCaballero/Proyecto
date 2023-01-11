@@ -3,6 +3,7 @@ package gui.juego;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Set;
@@ -37,7 +38,7 @@ public class VentanaEstadisticas extends JFrame{
 		this.setSize(500, 500);
 		this.setLocationRelativeTo(null);
 		this.setLayout(new BorderLayout());
-		
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaSesion.class.getResource("/imgs/Icono.png")));
 		JPanel panelArriba = new JPanel();
 		this.add(panelArriba, BorderLayout.NORTH);
 		
@@ -49,7 +50,13 @@ public class VentanaEstadisticas extends JFrame{
 		
 		JLabel titulo = new JLabel("ESTADÍSTICAS DEL USUARIO");
 		titulo.setFont(new Font(Font.SERIF, Font.BOLD, 30));
+		titulo.setForeground(Color.WHITE);
+		titulo.setBackground(Color.WHITE);
 		panelArriba.add(titulo);
+		
+		panelAbajo.setBackground(VentanaSesion.getFondooscuro());
+		panelCentro.setBackground(VentanaSesion.getFondooscuro());
+		panelArriba.setBackground(VentanaSesion.getFondooscuro());
 		
 		DefaultTableModel dft = new DefaultTableModel();
 		
