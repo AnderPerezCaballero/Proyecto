@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,6 +14,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.plaf.LayerUI;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import gestionUsuarios.Puntuacion;
@@ -29,7 +31,7 @@ public class VentanaEstadisticas extends JFrame{
 	 */
 	private static Font fuentePrincipal;
 	
-	public VentanaEstadisticas(Puntuacion punt) {
+	public VentanaEstadisticas(Set<Puntuacion> punt) {
 		
 		this.setTitle("ESTADÍSTICAS");
 		this.setSize(500, 500);
@@ -50,15 +52,21 @@ public class VentanaEstadisticas extends JFrame{
 		panelArriba.add(titulo);
 		
 		JTable tablaEstadisticas = new JTable();
-		String est = Integer.toString(punt.getEstrellas());
-		String nvl = Integer.toString(punt.getNivel());
-		JLabel fecha = new JLabel();
-		JLabel estrellas = new JLabel(est);
-		JLabel nivel = new JLabel(nvl);
+		DefaultTableModel dft = new DefaultTableModel();
 		
-		tablaEstadisticas.add(fecha);
-		tablaEstadisticas.add(nivel);
-		tablaEstadisticas.add(estrellas);
+		dft.addColumn("FECHA");
+		dft.addColumn("NIVEL");
+		dft.addColumn("ESTRELLAS");
+		
+		for (Puntuacion puntuacion : punt) {
+			Object[] array = {puntuacion.getFecha(), puntuacion.getNivel(), puntuacion.getEstrellas()};
+			dft.addRow(array);
+	
+		}
+		
+		dft.addColumn("FECHA");
+		dft.addColumn("NIVEL");
+		dft.addColumn("ESTRELLAS");
 		
 		panelCentro.add(tablaEstadisticas);
 		

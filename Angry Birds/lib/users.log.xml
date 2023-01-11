@@ -2359,3 +2359,115 @@
   <message>Usuario asociado al ID 66027848 encontrado y retornado correctamente</message>
 </record>
 </log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2023-01-11T19:41:40.507964300Z</date>
+  <millis>1673466100507</millis>
+  <nanos>964300</nanos>
+  <sequence>0</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>El usuario no cuenta con ningún token, pues el fichero archivos/token.dat no existe</message>
+</record>
+<record>
+  <date>2023-01-11T19:41:40.573633700Z</date>
+  <millis>1673466100573</millis>
+  <nanos>633700</nanos>
+  <sequence>1</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>El dispositivo no cuenta con ningún usuario asociado</message>
+</record>
+<record>
+  <date>2023-01-11T19:41:45.818223900Z</date>
+  <millis>1673466105818</millis>
+  <nanos>223900</nanos>
+  <sequence>2</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>Libreria de la base de datos cargada con exito</message>
+</record>
+<record>
+  <date>2023-01-11T19:41:58.158384500Z</date>
+  <millis>1673466118158</millis>
+  <nanos>384500</nanos>
+  <sequence>3</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>Libreria de la base de datos cargada con exito</message>
+</record>
+<record>
+  <date>2023-01-11T19:42:11.683217400Z</date>
+  <millis>1673466131683</millis>
+  <nanos>217400</nanos>
+  <sequence>4</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>El usuario Anderelmakina no existe</message>
+</record>
+<record>
+  <date>2023-01-11T19:42:14.958801200Z</date>
+  <millis>1673466134958</millis>
+  <nanos>801200</nanos>
+  <sequence>5</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>Libreria de la base de datos cargada con exito</message>
+</record>
+<record>
+  <date>2023-01-11T19:42:28.553078Z</date>
+  <millis>1673466148553</millis>
+  <nanos>78000</nanos>
+  <sequence>6</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>El usuario Anderelmakina no existe</message>
+</record>
+<record>
+  <date>2023-01-11T19:42:28.562080800Z</date>
+  <millis>1673466148562</millis>
+  <nanos>80800</nanos>
+  <sequence>7</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>Usuario Anderelmakina creado con exito</message>
+</record>
+<record>
+  <date>2023-01-11T19:42:28.564081Z</date>
+  <millis>1673466148564</millis>
+  <nanos>81000</nanos>
+  <sequence>8</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>Puntuaciones del usuario Anderelmakina añadidas con exito</message>
+</record>
+</log>

@@ -168,8 +168,7 @@ public class VentanaOpcionesJuego extends JFrame{
 		});
 
 		sacarEstadisticas.addActionListener(e -> {
-			Puntuacion puntuacion = new Puntuacion(estrellas, nivel);
-			new VentanaEstadisticas(puntuacion);
+			new VentanaEstadisticas(usuario.getPuntuaciones());
 			cerrar();
 		});
 		
