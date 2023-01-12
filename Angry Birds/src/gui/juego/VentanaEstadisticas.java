@@ -65,7 +65,9 @@ public class VentanaEstadisticas extends JFrame{
 		dft.addColumn("ESTRELLAS ");
 		
 		for (Puntuacion puntuacion : punt) {
-			Object[] array = {puntuacion.getFecha(), puntuacion.getNivel(), puntuacion.getEstrellas()};
+			String str = new String(puntuacion.getFecha());
+			
+			Object[] array = {str.substring(0, 10), puntuacion.getNivel(), puntuacion.getEstrellas()};
 			dft.addRow(array);	
 		}
 		
