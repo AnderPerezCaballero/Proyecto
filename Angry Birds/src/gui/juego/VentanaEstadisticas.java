@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.plaf.LayerUI;
 import javax.swing.table.DefaultTableModel;
@@ -42,8 +43,8 @@ public class VentanaEstadisticas extends JFrame{
 		JPanel panelArriba = new JPanel();
 		this.add(panelArriba, BorderLayout.NORTH);
 		
-		JPanel panelCentro = new JPanel();
-		this.add(panelCentro, BorderLayout.CENTER);
+//		JPanel panelCentro = new JPanel();
+//		this.add(panelCentro, BorderLayout.CENTER);
 		
 		JPanel panelAbajo = new JPanel();
 		this.add(panelAbajo, BorderLayout.SOUTH);
@@ -55,7 +56,7 @@ public class VentanaEstadisticas extends JFrame{
 		panelArriba.add(titulo);
 		
 		panelAbajo.setBackground(VentanaSesion.getFondooscuro());
-		panelCentro.setBackground(VentanaSesion.getFondooscuro());
+//		panelCentro.setBackground(VentanaSesion.getFondooscuro());
 		panelArriba.setBackground(VentanaSesion.getFondooscuro());
 		
 		DefaultTableModel dft = new DefaultTableModel();
@@ -72,7 +73,9 @@ public class VentanaEstadisticas extends JFrame{
 		}
 		
 		JTable tablaEstadisticas = new JTable(dft);
-		panelCentro.add(tablaEstadisticas);
+		JScrollPane panelScroll = new JScrollPane(tablaEstadisticas);
+		this.add(panelScroll);
+//		panelCentro.add(tablaEstadisticas);
 		
 		JButton atras = new MiBoton(Color.WHITE, Color.WHITE.darker(), 50, 50);
 		atras.setText("Volver");
@@ -86,6 +89,7 @@ public class VentanaEstadisticas extends JFrame{
 				
 			}
 		});
+		
 		panelAbajo.add(atras);
 		
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
