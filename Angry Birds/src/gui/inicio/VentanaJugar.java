@@ -77,6 +77,7 @@ public abstract class VentanaJugar extends JFrame {
 
 		itemMenu1 = new JCheckBoxMenuItem(VentanaSesion.imagenReescalada("/imgs/mute.png", 10, 10));
 		itemMenu1.setMnemonic(KeyEvent.VK_S);
+		itemMenu1.setOpaque(false);
 		sonido.add(itemMenu1);       
 		
 		//EVENTOS
@@ -91,7 +92,7 @@ public abstract class VentanaJugar extends JFrame {
 				clip.close();
 
 				if (itemMenu1.getState() == false) {
-					ReproducirMusica("res/audio/Cancion.wav");
+					reproducirMusica("res/audio/Cancion.wav");
 				}
 			}
 		};
@@ -99,7 +100,7 @@ public abstract class VentanaJugar extends JFrame {
 		actionVentana = new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
-				ReproducirMusica("res/audio/Cancion.wav");
+				reproducirMusica("res/audio/Cancion.wav");
 			}
 
 			@Override
@@ -107,7 +108,7 @@ public abstract class VentanaJugar extends JFrame {
 				clip.close();
 				if(!cerrado) {
 					VentanaSesion.cerrar(VentanaJugar.this);
-					ReproducirMusica("res/audio/Cancion.wav");
+					reproducirMusica("res/audio/Cancion.wav");
 				}
 				
 			}
@@ -136,7 +137,7 @@ public abstract class VentanaJugar extends JFrame {
 	/** Reproduce el sonido especificado
  	 * @param ruta Ruta al archivo de audio
 	 */
-	public void ReproducirMusica(String ruta) {
+	public void reproducirMusica(String ruta) {
 		try {
 			AudioInputStream is = AudioSystem.getAudioInputStream(new File(ruta));
 			clip = AudioSystem.getClip();

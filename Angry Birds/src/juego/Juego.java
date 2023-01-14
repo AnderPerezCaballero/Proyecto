@@ -72,7 +72,6 @@ public class Juego {
 
 				//Mover el pájaro si esta seleccionado a corde con la posición del ratón
 				if(ventanaJuego.isRatonPulsado() && pajaro.isSeleccionado()) {
-					ventanaJuego.dibujaCirculo(POSICIONINICIALPAJARO.x, POSICIONINICIALPAJARO.y, POSICIONINICIALPAJARO.x, 1, Color.BLACK);
 					
 					//Dentro de la distancia máxima de lanzamiento
 					if(posicionRaton.distance(POSICIONINICIALPAJARO) < DISTANCIAMAXIMALANZAMIENTO) {
@@ -134,7 +133,7 @@ public class Juego {
 				pajaro.eliminarObjetos(nivel);
 
 				//Reiniciar el lanzamiento
-				if(pajaro.isQuieto() || !ventana.contains(pajaro.getPosicionPintado(POSICIONINICIALPAJARO))){
+				if(pajaro.isQuieto() || !ventana.contains(pajaro.getPosicionPintado())){
 					pajaro.cancelarMovimiento();
 					try {
 						Thread.sleep(1000);

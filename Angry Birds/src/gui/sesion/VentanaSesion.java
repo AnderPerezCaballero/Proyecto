@@ -404,11 +404,11 @@ public abstract class VentanaSesion extends JFrame{
 	 * 
 	 */
 	public void fin() {
+		new VentanaNiveles().setVisible(true);
 		estaCerrada = true;
 		VentanaJugar.setEstaCerrada(true);
 		ventanaAnterior.dispose();
 		dispose();
-		new VentanaNiveles().setVisible(true);
 	}
 
 	/** Devuelve el color del fondo de la ventana

@@ -81,6 +81,7 @@ public class Pajaro extends Objeto implements Dibujable{
 		lanzado = true;
 		segundosEnAire = 0;
 		momentoLanzado = System.currentTimeMillis() / 1000.0;
+		posiciones.add(getLocation());
 	}
 
 
@@ -120,8 +121,7 @@ public class Pajaro extends Objeto implements Dibujable{
 				vX = -vX;
 
 			//Rebota por arriba o por abajo
-			}
-			if(viga.getX() - viga.getAnchura() / 2 > x && viga.getX() + viga.getAnchura() / 2 < x) {
+			} else if(viga.getX() - viga.getAnchura() / 2 > x && viga.getX() + viga.getAnchura() / 2 < x) {
 			
 				//Rebota por arriba
 				if(vY > 0) {
@@ -152,6 +152,7 @@ public class Pajaro extends Objeto implements Dibujable{
 	public void move(int milisEntreFrames, double gravedadX, double gravedadY, Nivel nivel) {
 		mover = true;
 		new Thread(() -> {
+			
 			// Creo una copia profunda de los elementos de la lista de objetos del nivel, para poder modificarlos sin interferir en el dibujado
 			List<ObjetoNivel> objetosNivel = nivel.getCopiaObjetos();
 				while(mover) {
@@ -165,9 +166,9 @@ public class Pajaro extends Objeto implements Dibujable{
 
 					//Choques
 					if(choqueConSuelo()) {
-						vY = -vY - 10;
+						vY = -vY - 20;
 						y = Juego.getYSuelo()- radio;
-						aplicarRozamiento(10);
+						aplicarRozamiento(20);
 					}
 					if(choqueConLimiteVertical()) {
 						vX = -vX;
@@ -242,7 +243,7 @@ public class Pajaro extends Objeto implements Dibujable{
 	 */
 	public void dibuja(VentanaJuego v) {
 		if(mover) {
-			if(posiciones.size() > 0) {
+			if(posiciones.size() > 0 && posiciones.get(0) != null) {
 				posicionPintado = posiciones.get(0);
 				posiciones.remove(0);
 			}
@@ -339,9 +340,14 @@ public class Pajaro extends Objeto implements Dibujable{
 		}
 	}
 	
-	public Point getPosicionPintado(Point posicionInicial) {
+
+
+	/** Devuelve la posición en la que se está pintando el pájaro
+	 * @return la posición en la que se está pintando el pájaro
+	 */
+	public Point getPosicionPintado() {
 		if(posicionPintado == null) {
-			return posicionInicial;
+			return getLocation();
 		}else {
 			return posicionPintado;
 		}

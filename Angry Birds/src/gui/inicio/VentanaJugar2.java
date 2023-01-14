@@ -1,6 +1,8 @@
 package gui.inicio;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
@@ -9,6 +11,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import gui.componentes.BlinkLabel;
@@ -31,8 +34,8 @@ public class VentanaJugar2 extends VentanaJugar{
 		panelAbajo.setLayout(new FlowLayout());
 		BlinkLabel bl = new BlinkLabel("PULSA CUALQUIER TECLA PARA JUGAR");
 		panelAbajo.add(bl);
-		bl.setFont(new Font("Arial", Font.CENTER_BASELINE,15));
-
+		bl.setFont(new Font("Arial", Font.CENTER_BASELINE, 50));
+		
 		panelPrincipal.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -58,8 +61,8 @@ public class VentanaJugar2 extends VentanaJugar{
 	 * 
 	 */
 	private void fin() {
+		new VentanaNiveles().setVisible(true);
 		setEstaCerrada(true);
 		dispose();
-		new VentanaNiveles().setVisible(true);
 	}
 }
