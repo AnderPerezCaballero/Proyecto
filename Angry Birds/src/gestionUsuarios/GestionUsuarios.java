@@ -331,7 +331,8 @@ public class GestionUsuarios {
 			try(PreparedStatement stmt = conn.prepareStatement(String.format("SELECT estrellas, nivel, fecha FROM puntuaciones WHERE IDusuario = %s;", token.getUsuario().getNombre().hashCode()))){
 				ResultSet rs = stmt.executeQuery();
 				while(rs.next()) {
-					//Mientras tnega filas cogemos cada columna contenida en la fila
+
+					//Mientras tenga filas cogemos cada columna contenida en la fila
 					puntuaciones.add(new Puntuacion(rs.getString("fecha"), rs.getInt("estrellas"), rs.getInt("nivel")));
 				}
 			}
@@ -387,9 +388,10 @@ public class GestionUsuarios {
 			return (Token) ois.readObject();
 		}catch(IOException e) {
 			log(Level.INFO, String.format("El usuario no cuenta con ningún token, pues el fichero %s no existe", FICHEROTOKEN), null);
+			e.printStackTrace();
 			return null;			
 		}catch(ClassNotFoundException e) {
-			log(Level.SEVERE, "Ha habído un error en la conversion de datos en el fichero token.dat", e );
+			log(Level.SEVERE, String.format("Ha habído un error en la conversion de datos en el fichero %s", FICHEROTOKEN), e );
 			return null;
 		}
 	}	

@@ -1,9 +1,12 @@
 package gestionUsuarios;
 
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
 
-public class Puntuacion implements Comparable<Puntuacion>{
+public class Puntuacion implements Comparable<Puntuacion>, Serializable{
+
+	private static final long serialVersionUID = -4122655820682058129L;
 	
 	private ZonedDateTime fecha;	//fecha en la que se hizo la puntuacion
 	private int estrellas;			//número de estrellas conseguidas
@@ -33,7 +36,7 @@ public class Puntuacion implements Comparable<Puntuacion>{
 	}
 
 	/**Devuelve la fecha en formato string
-	 * @return	fecha en formato <día/mes/año>
+	 * @return	fecha en formato  de la clase ZonedDateTime, por ejemplo 2007-12-03T10:15:30+01:00[Europe/Paris]. 
 	 */
 	public String getFecha() {
 		return fecha.toString();
