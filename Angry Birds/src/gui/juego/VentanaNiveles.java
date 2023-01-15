@@ -7,6 +7,9 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -133,6 +136,25 @@ public class VentanaNiveles extends JFrame{
 				if(!siguienteNivel) {
 					VentanaSesion.cerrar(VentanaNiveles.this);
 				}
+			}
+		});
+		
+		//Selección de niveles con el teclado
+		addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+		        int keyCode = e.getKeyCode();
+		        if (keyCode >= KeyEvent.VK_1 && keyCode <= KeyEvent.VK_9) {
+		            int nivelSeleccionado = keyCode - KeyEvent.VK_0;
+		            if(nivelSeleccionado < 4) {
+		            	siguienteNivel = true;
+		            	Juego.init(nivelSeleccionado);
+		            	dispose();
+		            }else {
+		            	JOptionPane.showMessageDialog(VentanaNiveles.this, "Nivel bloqueado", "Aviso", JOptionPane.WARNING_MESSAGE);
+		            }
+		        }
+				
 			}
 		});
 	}
