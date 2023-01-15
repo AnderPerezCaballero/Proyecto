@@ -2,6 +2,7 @@ package gui.juego;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -16,7 +17,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.plaf.LayerUI;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
 import gestionUsuarios.Puntuacion;
@@ -90,6 +93,23 @@ public class VentanaEstadisticas extends JFrame{
 			}
 		});
 		
+		tablaEstadisticas.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			
+			@Override
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+				
+				JLabel label = new JLabel(value.toString());
+				
+				if (isSelected) {
+					label.setBackground(Color.cyan);
+				}	
+				label.setHorizontalAlignment(JLabel.CENTER);
+				label.setOpaque(true);
+				return label;
+			}
+		});
+		
+				
 		panelAbajo.add(atras);
 		
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
