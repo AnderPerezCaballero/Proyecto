@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2023-01-15T13:55:11.751417900Z</date>
+  <millis>1673790911751</millis>
+  <nanos>417900</nanos>
+  <sequence>0</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Usuario asociado al ID 63405220 encontrado y retornado correctamente</message>
+</record>
+<record>
+  <date>2023-01-15T13:55:11.778407500Z</date>
+  <millis>1673790911778</millis>
+  <nanos>407500</nanos>
+  <sequence>1</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Usuario asociado al ID 66027848 encontrado y retornado correctamente</message>
+</record>
+<record>
+  <date>2023-01-15T13:55:11.779407700Z</date>
+  <millis>1673790911779</millis>
+  <nanos>407700</nanos>
+  <sequence>2</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Lista de usuarios &lt; Ander, Diego &gt; creada y retornada correctamente</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2023-01-15T13:57:06.332096900Z</date>
+  <millis>1673791026332</millis>
+  <nanos>96900</nanos>
+  <sequence>0</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>El dispositivo cuenta con el usuario Diego asociado</message>
+</record>
+</log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2023-01-15T13:57:41.048952300Z</date>
+  <millis>1673791061048</millis>
+  <nanos>952300</nanos>
+  <sequence>0</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>El usuario no cuenta con ningún token, pues el fichero archivos/token.dat no existe</message>
+</record>
+<record>
+  <date>2023-01-15T13:57:41.092685Z</date>
+  <millis>1673791061092</millis>
+  <nanos>685000</nanos>
+  <sequence>1</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>El dispositivo no cuenta con ningún usuario asociado</message>
+</record>
+<record>
+  <date>2023-01-15T13:58:01.131032100Z</date>
+  <millis>1673791081131</millis>
+  <nanos>32100</nanos>
+  <sequence>2</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>Libreria de la base de datos cargada con exito</message>
+</record>
+<record>
+  <date>2023-01-15T13:58:05.273193700Z</date>
+  <millis>1673791085273</millis>
+  <nanos>193700</nanos>
+  <sequence>3</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>El usuario Ander existe</message>
+</record>
+<record>
+  <date>2023-01-15T13:58:05.277194200Z</date>
+  <millis>1673791085277</millis>
+  <nanos>194200</nanos>
+  <sequence>4</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>La contraseña introducida para el usuario Ander es correcta</message>
+</record>
+<record>
+  <date>2023-01-15T13:58:05.286194500Z</date>
+  <millis>1673791085286</millis>
+  <nanos>194500</nanos>
+  <sequence>5</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>Usuario asociado al ID 63405220 encontrado y retornado correctamente</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2023-01-15T14:00:00.489420100Z</date>
+  <millis>1673791200489</millis>
+  <nanos>420100</nanos>
+  <sequence>0</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>El usuario no cuenta con ningún token, pues el fichero archivos/token.dat no existe</message>
+</record>
+<record>
+  <date>2023-01-15T14:00:00.533173800Z</date>
+  <millis>1673791200533</millis>
+  <nanos>173800</nanos>
+  <sequence>1</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>El dispositivo no cuenta con ningún usuario asociado</message>
+</record>
+<record>
+  <date>2023-01-15T14:00:01.796818300Z</date>
+  <millis>1673791201796</millis>
+  <nanos>818300</nanos>
+  <sequence>2</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>Libreria de la base de datos cargada con exito</message>
+</record>
+<record>
+  <date>2023-01-15T14:00:04.128433600Z</date>
+  <millis>1673791204128</millis>
+  <nanos>433600</nanos>
+  <sequence>3</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>El usuario Ander existe</message>
+</record>
+<record>
+  <date>2023-01-15T14:00:04.131472500Z</date>
+  <millis>1673791204131</millis>
+  <nanos>472500</nanos>
+  <sequence>4</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>La contraseña introducida para el usuario Ander es correcta</message>
+</record>
+<record>
+  <date>2023-01-15T14:00:04.140514600Z</date>
+  <millis>1673791204140</millis>
+  <nanos>514600</nanos>
+  <sequence>5</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>21</thread>
+  <message>Usuario asociado al ID 63405220 encontrado y retornado correctamente</message>
+</record>
+<record>
+  <date>2023-01-15T14:00:25.743950100Z</date>
+  <millis>1673791225743</millis>
+  <nanos>950100</nanos>
+  <sequence>6</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>33</thread>
+  <message>Datos del usuario Ander actualizado con exito</message>
+</record>
+<record>
+  <date>2023-01-15T14:00:25.750979300Z</date>
+  <millis>1673791225750</millis>
+  <nanos>979300</nanos>
+  <sequence>7</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>33</thread>
+  <message>Puntuaciones del usuario Ander actualizadas con exito</message>
+</record>
+<record>
+  <date>2023-01-15T14:00:42.320156700Z</date>
+  <millis>1673791242320</millis>
+  <nanos>156700</nanos>
+  <sequence>8</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>37</thread>
+  <message>Datos del usuario Ander actualizado con exito</message>
+</record>
+<record>
+  <date>2023-01-15T14:00:42.326482300Z</date>
+  <millis>1673791242326</millis>
+  <nanos>482300</nanos>
+  <sequence>9</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>37</thread>
+  <message>Puntuaciones del usuario Ander actualizadas con exito</message>
+</record>
+<record>
+  <date>2023-01-15T14:00:57.148753800Z</date>
+  <millis>1673791257148</millis>
+  <nanos>753800</nanos>
+  <sequence>10</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>41</thread>
+  <message>Datos del usuario Ander actualizado con exito</message>
+</record>
+<record>
+  <date>2023-01-15T14:00:57.154808800Z</date>
+  <millis>1673791257154</millis>
+  <nanos>808800</nanos>
+  <sequence>11</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>41</thread>
+  <message>Puntuaciones del usuario Ander actualizadas con exito</message>
+</record>
+<record>
+  <date>2023-01-15T14:01:17.061631600Z</date>
+  <millis>1673791277061</millis>
+  <nanos>631600</nanos>
+  <sequence>12</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>45</thread>
+  <message>Datos del usuario Ander actualizado con exito</message>
+</record>
+<record>
+  <date>2023-01-15T14:01:17.067668Z</date>
+  <millis>1673791277067</millis>
+  <nanos>668000</nanos>
+  <sequence>13</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>45</thread>
+  <message>Puntuaciones del usuario Ander actualizadas con exito</message>
+</record>
+<record>
+  <date>2023-01-15T14:01:38.585810900Z</date>
+  <millis>1673791298585</millis>
+  <nanos>810900</nanos>
+  <sequence>14</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>49</thread>
+  <message>Datos del usuario Ander actualizado con exito</message>
+</record>
+<record>
+  <date>2023-01-15T14:01:38.591637900Z</date>
+  <millis>1673791298591</millis>
+  <nanos>637900</nanos>
+  <sequence>15</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>49</thread>
+  <message>Puntuaciones del usuario Ander actualizadas con exito</message>
+</record>
+<record>
+  <date>2023-01-15T14:01:50.740307200Z</date>
+  <millis>1673791310740</millis>
+  <nanos>307200</nanos>
+  <sequence>16</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>53</thread>
+  <message>Datos del usuario Ander actualizado con exito</message>
+</record>
+<record>
+  <date>2023-01-15T14:01:50.746454200Z</date>
+  <millis>1673791310746</millis>
+  <nanos>454200</nanos>
+  <sequence>17</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>53</thread>
+  <message>Puntuaciones del usuario Ander actualizadas con exito</message>
+</record>
+<record>
+  <date>2023-01-15T14:02:08.564458100Z</date>
+  <millis>1673791328564</millis>
+  <nanos>458100</nanos>
+  <sequence>18</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>58</thread>
+  <message>Datos del usuario Ander actualizado con exito</message>
+</record>
+<record>
+  <date>2023-01-15T14:02:08.571884500Z</date>
+  <millis>1673791328571</millis>
+  <nanos>884500</nanos>
+  <sequence>19</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>58</thread>
+  <message>Puntuaciones del usuario Ander actualizadas con exito</message>
+</record>
+<record>
+  <date>2023-01-15T14:02:27.601829500Z</date>
+  <millis>1673791347601</millis>
+  <nanos>829500</nanos>
+  <sequence>20</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>62</thread>
+  <message>Datos del usuario Ander actualizado con exito</message>
+</record>
+<record>
+  <date>2023-01-15T14:02:27.607629800Z</date>
+  <millis>1673791347607</millis>
+  <nanos>629800</nanos>
+  <sequence>21</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>62</thread>
+  <message>Puntuaciones del usuario Ander actualizadas con exito</message>
+</record>
+<record>
+  <date>2023-01-15T14:02:45.532860600Z</date>
+  <millis>1673791365532</millis>
+  <nanos>860600</nanos>
+  <sequence>22</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>66</thread>
+  <message>Datos del usuario Ander actualizado con exito</message>
+</record>
+<record>
+  <date>2023-01-15T14:02:45.538879700Z</date>
+  <millis>1673791365538</millis>
+  <nanos>879700</nanos>
+  <sequence>23</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>66</thread>
+  <message>Puntuaciones del usuario Ander actualizadas con exito</message>
+</record>
+<record>
+  <date>2023-01-15T14:02:58.308985800Z</date>
+  <millis>1673791378308</millis>
+  <nanos>985800</nanos>
+  <sequence>24</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>70</thread>
+  <message>Datos del usuario Ander actualizado con exito</message>
+</record>
+<record>
+  <date>2023-01-15T14:02:58.313831900Z</date>
+  <millis>1673791378313</millis>
+  <nanos>831900</nanos>
+  <sequence>25</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>70</thread>
+  <message>Puntuaciones del usuario Ander actualizadas con exito</message>
+</record>
+</log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2023-01-15T14:03:13.003076300Z</date>
+  <millis>1673791393003</millis>
+  <nanos>76300</nanos>
+  <sequence>0</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Usuario asociado al ID 63405220 encontrado y retornado correctamente</message>
+</record>
+<record>
+  <date>2023-01-15T14:03:13.011009900Z</date>
+  <millis>1673791393011</millis>
+  <nanos>9900</nanos>
+  <sequence>1</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Usuario asociado al ID 66027848 encontrado y retornado correctamente</message>
+</record>
+<record>
+  <date>2023-01-15T14:03:13.013010700Z</date>
+  <millis>1673791393013</millis>
+  <nanos>10700</nanos>
+  <sequence>2</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Lista de usuarios &lt; Ander, Diego &gt; creada y retornada correctamente</message>
+</record>

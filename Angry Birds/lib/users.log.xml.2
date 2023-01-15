@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2023-01-14T17:17:43.622262700Z</date>
+  <millis>1673716663622</millis>
+  <nanos>262700</nanos>
+  <sequence>0</sequence>
+  <logger>BD users</logger>
+  <level>SEVERE</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Error en el retorno de la lista de los usuarios de la base de datos</message>
+  <exception>
+    <message>java.sql.SQLException: java.sql.SQLException: no such column: 'fecha'</message>
+    <frame>
+      <class>gestionUsuarios.GestionUsuarios</class>
+      <method>getUsuarios</method>
+      <line>294</line>
+    </frame>
+    <frame>
+      <class>gui.juego.Ranking</class>
+      <method>opciones</method>
+      <line>27</line>
+    </frame>
+    <frame>
+      <class>gui.juego.Ranking</class>
+      <method>&lt;init&gt;</method>
+      <line>20</line>
+    </frame>
+    <frame>
+      <class>gui.juego.Ranking</class>
+      <method>main</method>
+      <line>56</line>
+    </frame>
+  </exception>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2023-01-14T17:18:10.443132300Z</date>
+  <millis>1673716690443</millis>
+  <nanos>132300</nanos>
+  <sequence>0</sequence>
+  <logger>BD users</logger>
+  <level>INFO</level>
+  <class>gestionUsuarios.GestionUsuarios</class>
+  <method>log</method>
+  <thread>1</thread>
+  <message>Lista de usuarios creada y retornada correctamente</message>
+</record>

@@ -61,7 +61,7 @@ public class Puntuacion implements Comparable<Puntuacion>, Serializable{
 	 */
 	@Override
 	public int compareTo(Puntuacion puntuacion) {
-		return fecha.compareTo(puntuacion.fecha);
+		return -Integer.compare(estrellas, puntuacion.estrellas);
 	}
 	
 	@Override

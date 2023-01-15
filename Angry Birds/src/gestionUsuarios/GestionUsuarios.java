@@ -89,8 +89,10 @@ public class GestionUsuarios {
 				insertSQL.setString(2, usuario.getNombre());
 				insertSQL.setString(3, usuario.getContraseña());
 				insertSQL.setLong(4, usuario.getTiempoJugado());
-				insertSQL.setString(5, usuario.getToken().getToken());
-				insertSQL.setString(6, usuario.getToken().getCaducidad().toString());
+				if(usuario.getToken() != null) {
+					insertSQL.setString(5, usuario.getToken().getToken());
+					insertSQL.setString(6, usuario.getToken().getCaducidad().toString());
+				}
 
 				//Ejecutar sentencia
 				insertSQL.executeUpdate();
@@ -239,6 +241,7 @@ public class GestionUsuarios {
 			try(PreparedStatement stmt = conn.prepareStatement(String.format("SELECT estrellas, nivel, fecha FROM puntuaciones WHERE IDusuario = %d;", ID))){
 				ResultSet rs = stmt.executeQuery();
 				while(rs.next()) {
+					
 					//Mientras hayan filas cogemos cada columna contenida en la fila
 					puntuaciones.add(new Puntuacion(rs.getString("fecha"), rs.getInt("estrellas"), rs.getInt("nivel")));
 				}
@@ -261,49 +264,22 @@ public class GestionUsuarios {
 	 */
 	public static List<Usuario> getUsuarios() {
 		List<Usuario> usuarios = new ArrayList<>();
-		Set<Puntuacion> puntuaciones = new TreeSet<>();
-		String nombre;
-		String contraseña;
-		long tiempoJugado;
-		String sToken;
-		String caducidadToken;
 
 		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
 		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {
 
-			try(PreparedStatement stmt = conn.prepareStatement("SELECT nombre, contraseña, tiempoJugado, token, caducidadToken FROM usuarios")){
+			try(PreparedStatement stmt = conn.prepareStatement("SELECT nombre FROM usuarios")){
 				ResultSet rs = stmt.executeQuery();
 				while(rs.next()) {
-					
-					nombre = rs.getString("nombre");
-					contraseña = rs.getString("contraseña");
-					tiempoJugado = rs.getInt("tiempoJugado");
-					sToken = rs.getString("token");
-					caducidadToken = rs.getString("caducidadToken");		
-					
-					try(PreparedStatement stmt2 = conn.prepareStatement(String.format("SELECT estrellas, nivel, fecha FROM puntuaciones WHERE IDusuario = %d;", nombre.hashCode()))){
-						ResultSet rs2 = stmt.executeQuery();
-						while(rs2.next()) {
-							
-							//Mientras hayan filas cogemos cada columna contenida en la fila
-							puntuaciones.add(new Puntuacion(rs2.getString("fecha"), rs2.getInt("estrellas"), rs2.getInt("nivel")));
-						}
-					}
-					
-					Usuario usuario = new Usuario(nombre, contraseña, tiempoJugado, puntuaciones, null);
-					if(sToken != null) {
-						usuario.setToken(new Token(sToken, caducidadToken, usuario));
-					}
-					usuarios.add(usuario);
+					usuarios.add(getUsuario(rs.getString("nombre").hashCode()));
 				}
 			}
-
 		} catch (SQLException e) {
 			log(Level.SEVERE, "Error en el retorno de la lista de los usuarios de la base de datos", e);
+			e.printStackTrace();
 			return null;
 		}
-
-		log(Level.INFO, "Lista de usuarios creada y retornada correctamente", null);
+		log(Level.INFO, String.format("Lista de usuarios < %s > creada y retornada correctamente", usuarios.toString().substring(1, usuarios.toString().length() - 1)), null);
 		return usuarios;
 	}
 	
@@ -388,7 +364,6 @@ public class GestionUsuarios {
 			return (Token) ois.readObject();
 		}catch(IOException e) {
 			log(Level.INFO, String.format("El usuario no cuenta con ningún token, pues el fichero %s no existe", FICHEROTOKEN), null);
-			e.printStackTrace();
 			return null;			
 		}catch(ClassNotFoundException e) {
 			log(Level.SEVERE, String.format("Ha habído un error en la conversion de datos en el fichero %s", FICHEROTOKEN), e );

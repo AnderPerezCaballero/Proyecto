@@ -13,7 +13,6 @@ import java.awt.event.ComponentEvent;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -24,7 +23,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
 import gestionUsuarios.GestionUsuarios;
@@ -160,22 +158,17 @@ public class VentanaOpcionesJuego extends JFrame{
 		});
 
 		reiniciarNivel.addActionListener(e -> {
-			Juego.init(nivel);
+			Juego.init(nivel);		
 			cerrar();
 		});
 
 		volverMenu.addActionListener(e ->{
 			new VentanaNiveles().setVisible(true);
-			cerrar();			
+			cerrar();
 		});
 
 		sacarEstadisticas.addActionListener(e -> {
-			String[] s = {"Ver Ranking", "Ver Puntuaciones"}; //Opciones del JOptionPane
-			if (JOptionPane.showOptionDialog(VentanaOpcionesJuego.this, "¿Qué estadisticas quieres ver?", "Estadísticas", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, VentanaSesion.imagenReescalada("/imgs/Icono.png", 30, 30), s, 0) == 0) {
-				new Ranking();
-			}else {
-				new VentanaEstadisticas();
-			}
+//			new VentanaEstadisticas(usuario.getPuntuaciones());
 			cerrar();
 		});
 		
@@ -183,12 +176,12 @@ public class VentanaOpcionesJuego extends JFrame{
 			System.exit(0);
 		});
 
+		//Actualizar el usuario
 		usuario.addTiempo(milis);
 		Puntuacion puntuacion = new Puntuacion(estrellas, nivel);
 		usuario.addPuntuacion(puntuacion);
 
 		try {
-			//Actualizar el usuario
 			GestionUsuarios.actualizarUsuario(usuario);
 			GestionUsuarios.addPuntuacion(usuario, puntuacion);
 		} catch (SQLException e) {

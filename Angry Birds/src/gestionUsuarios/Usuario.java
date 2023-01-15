@@ -1,6 +1,8 @@
 package gestionUsuarios;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -68,11 +70,11 @@ public class Usuario implements Serializable{
 		this.tiempoJugado += tiempo;
 	}
 	
-	/** Devuelve el TreeSet de puntuaciones del usuario
-	 * @return TreeSet de puntuaciones del usuario
+	/** Devuelve la Lista de puntuaciones del usuario
+	 * @return Lista de puntuaciones del usuario
 	 */
-	public Set<Puntuacion> getPuntuaciones(){
-		return puntuaciones;
+	public List<Puntuacion> getPuntuaciones(){
+		return new ArrayList<Puntuacion>(puntuaciones);
 	}	
 	
 	/** Añade una nueva puntuacion al set de puntuaciones del usuario
