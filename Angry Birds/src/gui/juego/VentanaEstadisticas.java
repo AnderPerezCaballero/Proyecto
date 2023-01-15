@@ -6,21 +6,19 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Set;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.plaf.LayerUI;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
+import gestionUsuarios.GestionUsuarios;
 import gestionUsuarios.Puntuacion;
-import gui.componentes.BlurLayerUI;
+import gestionUsuarios.Usuario;
 import gui.componentes.MiBoton;
 import gui.sesion.VentanaSesion;
 
@@ -30,10 +28,8 @@ public class VentanaEstadisticas extends JFrame{
 	/** Crea una nueva ventana que contiene un JTable que muestra las estadísticas del usuario, las puntuaciones: FECHA, ESTRELLAS y NIVEL.
 	 * También mostrará el nombre del usuario que está jugando la partida
 	 * 
-	 */
-	private static Font fuentePrincipal;
-	
-	public VentanaEstadisticas(Set<Puntuacion> punt) {
+	 */	
+	public VentanaEstadisticas(Usuario usuario) {
 		
 		this.setTitle("ESTADÍSTICAS");
 		this.setSize(500, 500);
@@ -43,29 +39,26 @@ public class VentanaEstadisticas extends JFrame{
 		JPanel panelArriba = new JPanel();
 		this.add(panelArriba, BorderLayout.NORTH);
 		
-//		JPanel panelCentro = new JPanel();
-//		this.add(panelCentro, BorderLayout.CENTER);
-		
 		JPanel panelAbajo = new JPanel();
 		this.add(panelAbajo, BorderLayout.SOUTH);
 		
-		JLabel titulo = new JLabel("ESTADÍSTICAS DEL USUARIO");
+		JLabel titulo = new JLabel(String.format("ESTADÍSTICAS DE %s", usuario.toString().toUpperCase()));
 		titulo.setFont(new Font(Font.SERIF, Font.BOLD, 30));
 		titulo.setForeground(Color.WHITE);
 		titulo.setBackground(Color.WHITE);
 		panelArriba.add(titulo);
 		
 		panelAbajo.setBackground(VentanaSesion.getFondooscuro());
-//		panelCentro.setBackground(VentanaSesion.getFondooscuro());
+
 		panelArriba.setBackground(VentanaSesion.getFondooscuro());
 		
 		DefaultTableModel dft = new DefaultTableModel();
 		
-		dft.addColumn("FECHA ");
 		dft.addColumn("NIVEL ");
+		dft.addColumn("FECHA ");
 		dft.addColumn("ESTRELLAS ");
 		
-		for (Puntuacion puntuacion : punt) {
+		for (Puntuacion puntuacion : usuario.getPuntuaciones()) {
 			String str = new String(puntuacion.getFecha());
 			
 			Object[] array = {str.substring(0, 10), puntuacion.getNivel(), puntuacion.getEstrellas()};
@@ -83,8 +76,8 @@ public class VentanaEstadisticas extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				VentanaOpcionesJuego vop = new VentanaOpcionesJuego(FRAMEBITS, ERROR, ALLBITS, rootPaneCheckingEnabled, ABORT, null);
+				
+				new VentanaOpcionesJuego(FRAMEBITS, ERROR, ALLBITS, rootPaneCheckingEnabled, ABORT, null);
 				dispose();
 				
 			}
@@ -96,11 +89,8 @@ public class VentanaEstadisticas extends JFrame{
 		setBackground(Color.WHITE);
 		setVisible(true);
 	}
-
 	
-//	public static void main(String[] args) {
-//		Puntuacion punt = new Puntuacion(null, ALLBITS, ABORT);
-//		VentanaEstadisticas ve = new VentanaEstadisticas(punt);
-//		
-//	}
+	public static void main(String[] args) {
+		new VentanaEstadisticas(GestionUsuarios.getUsuario("Diego".hashCode()));
+	}
 }

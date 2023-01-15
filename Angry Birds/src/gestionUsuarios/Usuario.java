@@ -3,8 +3,6 @@ package gestionUsuarios;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 public class Usuario implements Serializable{
 	
@@ -13,7 +11,7 @@ public class Usuario implements Serializable{
 	private String nombre;						//nombre del usuario
 	private String contraseña;					//contraseña del usuario
 	private long tiempoJugado;					//tiempo total jugado por el usuario (en segundos)
-	private Set<Puntuacion> puntuaciones;		//set que guarda todas las puntuaciones conseguidas por el usuario
+	private List<Puntuacion> puntuaciones;		//set que guarda todas las puntuaciones conseguidas por el usuario
 	private Token token;						//token asociado al usuario
 	
 
@@ -23,7 +21,7 @@ public class Usuario implements Serializable{
 	 * @param token token del usuario
 	 */
 	public Usuario(String nombre, String contraseña, Token token) {
-		this(nombre, contraseña, 0, new TreeSet<>(), token);
+		this(nombre, contraseña, 0, new ArrayList<>(), token);
 	}
 	
 	
@@ -31,10 +29,10 @@ public class Usuario implements Serializable{
 	 * @param nombre nombre del usuario
 	 * @param contraseña contraseña del usuario
 	 * @param tiempoJugado tiempo jugado del usuario (en segundos)
-	 * @param puntuaciones TreeSet de puntuaciones del usuario
+	 * @param puntuaciones Lista de puntuaciones del usuario
 	 * @param token token asociado al usuario
 	 */
-	public Usuario(String nombre, String contraseña, long tiempoJugado, Set<Puntuacion> puntuaciones, Token token) {
+	public Usuario(String nombre, String contraseña, long tiempoJugado, List<Puntuacion> puntuaciones, Token token) {
 		this.nombre = nombre;
 		this.contraseña = contraseña;
 		this.tiempoJugado = tiempoJugado;
@@ -74,7 +72,7 @@ public class Usuario implements Serializable{
 	 * @return Lista de puntuaciones del usuario
 	 */
 	public List<Puntuacion> getPuntuaciones(){
-		return new ArrayList<Puntuacion>(puntuaciones);
+		return puntuaciones;
 	}	
 	
 	/** Añade una nueva puntuacion al set de puntuaciones del usuario

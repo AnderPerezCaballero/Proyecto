@@ -16,8 +16,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 public class GestionUsuarios {
 
@@ -219,7 +217,7 @@ public class GestionUsuarios {
 	 * @return Objeto usuario asociado a ese ID
 	 */
 	public static Usuario getUsuario(int ID) {
-		Set<Puntuacion> puntuaciones = new TreeSet<>();
+		List<Puntuacion> puntuaciones = new ArrayList<>();
 		String nombre;
 		String contraseña;
 		long tiempoJugado;
@@ -298,7 +296,7 @@ public class GestionUsuarios {
 		}
 
 		//Lista de puntos del usuario
-		Set<Puntuacion> puntuaciones = new TreeSet<>();
+		List<Puntuacion> puntuaciones = new ArrayList<>();
 
 		//ESTABLECER CONEXIÓN CON LA BASE DE DATOS
 		try(Connection conn = DriverManager.getConnection(LIBRERIA)) {

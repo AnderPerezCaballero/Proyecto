@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
 
-public class Puntuacion implements Comparable<Puntuacion>, Serializable{
+public class Puntuacion implements Serializable{
 
 	private static final long serialVersionUID = -4122655820682058129L;
 	
@@ -54,14 +54,6 @@ public class Puntuacion implements Comparable<Puntuacion>, Serializable{
 	 */
 	public int getNivel() {
 		return nivel;
-	}
-	
-	/** Ordena por fecha, de más antiguo a más reciente
-	 *
-	 */
-	@Override
-	public int compareTo(Puntuacion puntuacion) {
-		return -Integer.compare(estrellas, puntuacion.estrellas);
 	}
 	
 	@Override

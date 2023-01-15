@@ -36,7 +36,7 @@ public class VentanaOpcionesJuego extends JFrame{
 
 	private static Font fuentePrincipal;
 	private static Font fuenteSecundaria;
-	
+
 	private static Properties propiedades;
 
 	private JFrame anteriorVentana;
@@ -78,7 +78,7 @@ public class VentanaOpcionesJuego extends JFrame{
 		setBackground(VentanaSesion.getFondooscuro());
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setTitle("Menú");
-		
+
 		cargarFuentePrincipal("/fonts/Northash.ttf");
 		cargarFuenteSecundaria("/fonts/Semur.ttf");
 
@@ -96,6 +96,11 @@ public class VentanaOpcionesJuego extends JFrame{
 			estrellas = 0;
 		}
 
+		//Actualizar el usuario
+		usuario.addTiempo(milis);
+		Puntuacion puntuacion = new Puntuacion(estrellas, nivel);
+		usuario.addPuntuacion(puntuacion);
+		
 		propiedades = new Properties();
 
 		boolean undecorated = false;	//Por defecto undecorated
@@ -168,19 +173,15 @@ public class VentanaOpcionesJuego extends JFrame{
 		});
 
 		sacarEstadisticas.addActionListener(e -> {
-//			new VentanaEstadisticas(usuario.getPuntuaciones());
+			new VentanaEstadisticas(usuario);
 			cerrar();
 		});
-		
+
 		salir.addActionListener(e ->{
 			System.exit(0);
 		});
 
-		//Actualizar el usuario
-		usuario.addTiempo(milis);
-		Puntuacion puntuacion = new Puntuacion(estrellas, nivel);
-		usuario.addPuntuacion(puntuacion);
-
+		//Actualizar el usuario en la base de datos
 		try {
 			GestionUsuarios.actualizarUsuario(usuario);
 			GestionUsuarios.addPuntuacion(usuario, puntuacion);
@@ -197,11 +198,11 @@ public class VentanaOpcionesJuego extends JFrame{
 			add(panelCentral);
 			GestionUsuarios.log(Level.SEVERE, String.format("Los datos del usuario %s despues de jugar el nivel %d no han podido actualizarse", usuario.toString(), nivel), e);
 		}
-		
+
 		establecerAspecto();
-		
+
 		setVisible(true);
-		
+
 		configurarFuenteMensaje();
 	}
 
@@ -255,7 +256,7 @@ public class VentanaOpcionesJuego extends JFrame{
 			e.printStackTrace();
 		}
 	}
-	
+
 	/** Carga la fuente secundaria importada desde un fichero
 	 * @param rutaFichero ruta del fichero desde el que se carga la fuente
 	 */
