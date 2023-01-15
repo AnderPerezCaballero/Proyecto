@@ -1,11 +1,14 @@
 package gui.juego;
 
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,16 +26,25 @@ public class Ranking extends JFrame{
 	private static boolean tiempo;
 	
 	private JLabel titulo;
+	
 	private JPanel panelCentral;
+	private JPanel panelInferior;
+	
+	private JButton volver;
 
-	public Ranking() {
+	public Ranking(VentanaOpcionesJuego ventanaAnterior) {
 		usuarios = new ArrayList<>();
 		
-		setExtendedState(MAXIMIZED_BOTH);
+		setLocation(ventanaAnterior.getLocation());
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaSesion.class.getResource("/imgs/Icono.png")));
+		setSize(VentanaOpcionesJuego.ANCHURA, VentanaOpcionesJuego.ALTURA);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		panelCentral = new JPanel(new GridLayout(10, 1));
 		panelCentral.setBackground(VentanaSesion.getFondooscuro());
+		
+		panelInferior = new JPanel(new FlowLayout());
+		panelInferior.setBackground(VentanaSesion.getFondooscuro());
 		
 		titulo = new JLabel();
 		titulo.setHorizontalAlignment(JLabel.HORIZONTAL);
@@ -42,28 +54,86 @@ public class Ranking extends JFrame{
 		
 		opciones();
 		
-		add(titulo, "North");
-		add(panelCentral, "Center");
-		
 		añadirUsuarios(tiempo);
 		
+		volver = new JButton("Volver");
+		volver.setBackground(Color.WHITE);
+		volver.setForeground(Color.BLACK);
+		volver.addActionListener(e -> {
+			ventanaAnterior.setVisible(true);
+			dispose();
+		});
+		
+		panelInferior.add(volver);
+		
+		add(titulo, "North");
+		add(panelCentral, "Center");
+		add(panelInferior, "South");
+		
 		setVisible(true);
+		ventanaAnterior.setVisible(false);
+		
 		visibilizarUsuarios();
 	}
 
+	/** Inicia una animación para visibilizar los usuarios del ranking
+	 * 
+	 */
+	public void visibilizarUsuarios() {
+		new Thread(() -> {
+			for(int i = 0; i < usuarios.size(); i++) {
+				JLabel jl = (JLabel) panelCentral.getComponent(i);
+				while(true) {
+					Color foreground = jl.getForeground();
+					
+					if(foreground.equals(Color.WHITE)) {
+						break;
+					}
+					
+					int r = foreground.getRed();
+					int g = foreground.getGreen();
+					int b = foreground.getBlue();
+					
+					if(r < 255) {
+						r += 1;
+					}
+					if(g < 255) {
+						g += 1;
+					}
+					if(b < 255) {
+						b += 1;
+					}
+					
+					final int RED = r;
+					final int GREEN = g;
+					final int BLUE = b;
+					
+					SwingUtilities.invokeLater(() -> {
+						jl.setForeground(new Color(RED, GREEN, BLUE));
+					});
+					
+					try {
+						Thread.sleep(5);
+					} catch (InterruptedException e) {}
+				}
+			}
+		}).start();
+	}
 
 	private void opciones() {
 		String[] s = {"Usuarios con más tiempo Jugado", "Usuarios con mejores puntuaciones"}; //Opciones del JOptionPane
 		if (JOptionPane.showOptionDialog(Ranking.this, "¿Sobre qué quieres que sea el ranking?", "Ranking", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, VentanaSesion.imagenReescalada("/imgs/Icono.png", 30, 30), s, 0) == 0) {
 			top10Tiempo(GestionUsuarios.getUsuarios(), 0);
 			titulo.setText("USUARIOS CON MÁS TIEMPO JUGADO");
+			setTitle("Ranking de Tiempo");
 			tiempo = true;
-			titulo.setFont(new Font(Font.SERIF, Font.BOLD, 100));
+			titulo.setFont(new Font(Font.SERIF, Font.BOLD, 35));
 		}else {
 			top10Puntuaciones(GestionUsuarios.getUsuarios(), 0);
 			titulo.setText("USUARIOS CON MEJORES PUNTUACIONES");
+			setTitle("Ranking de Puntuaciones");
 			tiempo = false;
-			titulo.setFont(new Font(Font.SERIF, Font.BOLD, 90));
+			titulo.setFont(new Font(Font.SERIF, Font.BOLD, 30));
 		}
 	}
 
@@ -146,49 +216,9 @@ public class Ranking extends JFrame{
 			}
 			jl.setHorizontalAlignment(JLabel.CENTER);
 			jl.setForeground(VentanaSesion.getFondooscuro());
-			jl.setFont(new Font(Font.SERIF, Font.BOLD, 40));
+			jl.setFont(new Font(Font.SERIF, Font.BOLD, 20));
 			panelCentral.add(jl);
 		}
 	}
 	
-	private void visibilizarUsuarios() {
-		for(int i = 0; i < usuarios.size(); i++) {
-			JLabel jl = (JLabel) panelCentral.getComponent(i);
-			while(true) {
-				Color foreground = jl.getForeground();
-				if(foreground.equals(Color.WHITE)) {
-					break;
-				}
-				int r = foreground.getRed();
-				int g = foreground.getGreen();
-				int b = foreground.getBlue();
-				
-				if(r < 255) {
-					r += 1;
-				}
-				if(g < 255) {
-					g += 1;
-				}
-				if(b < 255) {
-					b += 1;
-				}
-				
-				final int RED = r;
-				final int GREEN = g;
-				final int BLUE = b;
-				
-				SwingUtilities.invokeLater(() -> {
-					jl.setForeground(new Color(RED, GREEN, BLUE));
-				});
-				
-				try {
-					Thread.sleep(5);
-				} catch (InterruptedException e) {}
-			}
-		}
-	}
-
-	public static void main(String[] args) {
-		new Ranking();
-	}
 }

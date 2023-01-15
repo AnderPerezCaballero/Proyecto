@@ -103,11 +103,10 @@ public class Pajaro extends Objeto implements Dibujable{
 			double distanciax = x - cerdo.getX();
 			double distanciay = y - cerdo.getY();
 			double angulo = Math.atan2(distanciay, distanciax);
-			double destinox = x + (double) ((20 + getRadio()) * Math.cos(angulo));
-			double destinoy = y + (double) ((20 + getRadio()) * Math.sin(angulo));
+			double destinox = x + (double) ((20 + radio) * Math.cos(angulo));
+			double destinoy = y + (double) ((20 + radio) * Math.sin(angulo));
 			vX = -(destinox - x) * 1.7;
 			vY = -(destinoy - y) * 1.7;
-			System.out.println("eliminado");
 		}else {
 			Viga viga = (Viga) elementoNivel;
 			

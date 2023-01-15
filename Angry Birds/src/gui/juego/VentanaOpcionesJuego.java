@@ -34,6 +34,9 @@ import juego.Juego;
 @SuppressWarnings("serial")
 public class VentanaOpcionesJuego extends JFrame{
 
+	public static final int ANCHURA = 700;
+	public static final int ALTURA = 500;
+	
 	private static Font fuentePrincipal;
 	private static Font fuenteSecundaria;
 
@@ -73,7 +76,7 @@ public class VentanaOpcionesJuego extends JFrame{
 		this.anteriorVentana = anteriorVentana;
 		pajaros = pajarosInicio - pajarosDisponibles;
 		usuario = VentanaSesion.getUsuario();
-		setSize(700, 500);
+		setSize(ANCHURA, ALTURA);
 		setLocationRelativeTo(null);
 		setBackground(VentanaSesion.getFondooscuro());
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -173,8 +176,12 @@ public class VentanaOpcionesJuego extends JFrame{
 		});
 
 		sacarEstadisticas.addActionListener(e -> {
-			new VentanaEstadisticas(usuario);
-			cerrar();
+			String[] s = {"Ver Ranking", "Ver Puntuaciones"}; //Opciones del JOptionPane
+			if (JOptionPane.showOptionDialog(VentanaOpcionesJuego.this, "¿Qué estadisticas quieres ver?", "Estadísticas", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, VentanaSesion.imagenReescalada("/imgs/Icono.png", 30, 30), s, 0) == 0) {
+				new Ranking(this);
+			}else {
+				new VentanaEstadisticas(usuario, this);
+			}
 		});
 
 		salir.addActionListener(e ->{
@@ -190,12 +197,15 @@ public class VentanaOpcionesJuego extends JFrame{
 			mensajeError.setFont(fuenteSecundaria.deriveFont(30.0f));
 			JPanel nuevoPanelCentral = new JPanel(new GridLayout(panelCentral.getComponentCount() + 1, 1));
 			nuevoPanelCentral.add(mensajeError);
+			
 			for(Component componente : panelCentral.getComponents()) {
 				nuevoPanelCentral.add(componente);
 			}
+			
 			remove(panelCentral);
 			panelCentral = nuevoPanelCentral;
 			add(panelCentral);
+			
 			GestionUsuarios.log(Level.SEVERE, String.format("Los datos del usuario %s despues de jugar el nivel %d no han podido actualizarse", usuario.toString(), nivel), e);
 		}
 

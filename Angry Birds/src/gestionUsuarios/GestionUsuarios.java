@@ -348,13 +348,17 @@ public class GestionUsuarios {
 	 * @throws IOException Excepcion lanzada en caso de no encontrar el fichero
 	 */
 	private static void guardarTokenEnFichero(Usuario usuario){
-		try {
-			Files.createDirectory(Paths.get("archivos"));
-		} catch (IOException e) {
-			log(Level.SEVERE, String.format("No ha sido posible crear el directorio para guardar el token en el fichero %s", FICHEROTOKEN), e);
-			return;
-		}
 		
+		//Creo el directorio en caso de que no exista
+		if(!Files.exists(Paths.get("archivos"))) {
+			try {
+				Files.createDirectory(Paths.get("archivos"));
+			} catch (IOException e) {
+				log(Level.SEVERE, String.format("No ha sido posible crear el directorio para guardar el token en el fichero %s", FICHEROTOKEN), e);
+				return;
+			}	
+		}
+	
 		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(FICHEROTOKEN)))){
 			oos.writeObject(usuario.getToken());
 			log(Level.INFO, String.format("Token asocidao al usuario %s guardado correctamente en el fichero %s", usuario.toString(), FICHEROTOKEN), null);

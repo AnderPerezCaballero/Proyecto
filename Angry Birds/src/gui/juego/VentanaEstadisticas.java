@@ -2,11 +2,11 @@ package gui.juego;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,7 +16,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import gestionUsuarios.GestionUsuarios;
 import gestionUsuarios.Puntuacion;
 import gestionUsuarios.Usuario;
 import gui.componentes.MiBoton;
@@ -27,12 +26,12 @@ public class VentanaEstadisticas extends JFrame{
 	
 	/** Crea una nueva ventana que contiene un JTable que muestra las estadísticas del usuario, las puntuaciones: FECHA, ESTRELLAS y NIVEL.
 	 * También mostrará el nombre del usuario que está jugando la partida
-	 * 
+	 * @param usuario usuario de la partida
 	 */	
-	public VentanaEstadisticas(Usuario usuario) {
+	public VentanaEstadisticas(Usuario usuario, VentanaOpcionesJuego ventanaAnterior) {
 		
 		this.setTitle("ESTADÍSTICAS");
-		this.setSize(500, 500);
+		this.setSize(VentanaOpcionesJuego.ANCHURA, VentanaOpcionesJuego.ALTURA);
 		this.setLocationRelativeTo(null);
 		this.setLayout(new BorderLayout());
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaSesion.class.getResource("/imgs/Icono.png")));
@@ -54,32 +53,30 @@ public class VentanaEstadisticas extends JFrame{
 		
 		DefaultTableModel dft = new DefaultTableModel();
 		
-		dft.addColumn("NIVEL ");
-		dft.addColumn("FECHA ");
-		dft.addColumn("ESTRELLAS ");
+		dft.addColumn("NIVEL");
+		dft.addColumn("ESTRELLAS");
+		dft.addColumn("FECHA");
 		
 		for (Puntuacion puntuacion : usuario.getPuntuaciones()) {
 			String str = new String(puntuacion.getFecha());
 			
-			Object[] array = {str.substring(0, 10), puntuacion.getNivel(), puntuacion.getEstrellas()};
+			Object[] array = {puntuacion.getNivel(), puntuacion.getEstrellas(), str.substring(0, 10)};
 			dft.addRow(array);	
 		}
 		
 		JTable tablaEstadisticas = new JTable(dft);
 		JScrollPane panelScroll = new JScrollPane(tablaEstadisticas);
 		this.add(panelScroll);
-//		panelCentro.add(tablaEstadisticas);
 		
-		JButton atras = new MiBoton(Color.WHITE, Color.WHITE.darker(), 50, 50);
+		JButton atras = new MiBoton(Color.WHITE, Color.WHITE.darker(), 30, 30);
 		atras.setText("Volver");
+		atras.setPreferredSize(new Dimension(getWidth() - 10, 30));
 		atras.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				new VentanaOpcionesJuego(FRAMEBITS, ERROR, ALLBITS, rootPaneCheckingEnabled, ABORT, null);
+				ventanaAnterior.setVisible(true);
 				dispose();
-				
 			}
 		});
 		
@@ -88,9 +85,6 @@ public class VentanaEstadisticas extends JFrame{
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setBackground(Color.WHITE);
 		setVisible(true);
-	}
-	
-	public static void main(String[] args) {
-		new VentanaEstadisticas(GestionUsuarios.getUsuario("Diego".hashCode()));
+		ventanaAnterior.setVisible(false);
 	}
 }
