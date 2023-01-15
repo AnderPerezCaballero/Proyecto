@@ -30,12 +30,17 @@ import gui.sesion.VentanaSesion;
 @SuppressWarnings("serial")
 public class VentanaEstadisticas extends JFrame{
 	
+	private JPanel panelAbajo;
+	private JPanel panelArriba;
+	private JLabel titulo;
+	private DefaultTableModel dft;
+	private JTable tablaEstadisticas;
+	private JScrollPane panelScroll;
+	
 	/** Crea una nueva ventana que contiene un JTable que muestra las estadísticas del usuario, las puntuaciones: FECHA, ESTRELLAS y NIVEL.
 	 * También mostrará el nombre del usuario que está jugando la partida
 	 * 
 	 */
-	private static Font fuentePrincipal;
-	
 	public VentanaEstadisticas(Set<Puntuacion> punt) {
 		
 		this.setTitle("ESTADÍSTICAS");
@@ -43,16 +48,16 @@ public class VentanaEstadisticas extends JFrame{
 		this.setLocationRelativeTo(null);
 		this.setLayout(new BorderLayout());
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaSesion.class.getResource("/imgs/Icono.png")));
-		JPanel panelArriba = new JPanel();
+		panelArriba = new JPanel();
 		this.add(panelArriba, BorderLayout.NORTH);
 		
 //		JPanel panelCentro = new JPanel();
 //		this.add(panelCentro, BorderLayout.CENTER);
 		
-		JPanel panelAbajo = new JPanel();
+		panelAbajo = new JPanel();
 		this.add(panelAbajo, BorderLayout.SOUTH);
 		
-		JLabel titulo = new JLabel("ESTADÍSTICAS DEL USUARIO");
+		titulo = new JLabel("ESTADÍSTICAS DEL USUARIO");
 		titulo.setFont(new Font(Font.SERIF, Font.BOLD, 30));
 		titulo.setForeground(Color.WHITE);
 		titulo.setBackground(Color.WHITE);
@@ -62,7 +67,7 @@ public class VentanaEstadisticas extends JFrame{
 //		panelCentro.setBackground(VentanaSesion.getFondooscuro());
 		panelArriba.setBackground(VentanaSesion.getFondooscuro());
 		
-		DefaultTableModel dft = new DefaultTableModel();
+		dft = new DefaultTableModel();
 		
 		dft.addColumn("FECHA ");
 		dft.addColumn("NIVEL ");
@@ -75,8 +80,15 @@ public class VentanaEstadisticas extends JFrame{
 			dft.addRow(array);	
 		}
 		
-		JTable tablaEstadisticas = new JTable(dft);
-		JScrollPane panelScroll = new JScrollPane(tablaEstadisticas);
+		tablaEstadisticas = new JTable(dft) {
+			private static final long serialVersionUID = 1L;
+			
+			public boolean isCellEditable(int row, int column) {                
+                return false;               
+			};
+		};
+		
+		panelScroll = new JScrollPane(tablaEstadisticas);
 		this.add(panelScroll);
 //		panelCentro.add(tablaEstadisticas);
 		
@@ -102,7 +114,11 @@ public class VentanaEstadisticas extends JFrame{
 				
 				if (isSelected) {
 					label.setBackground(Color.cyan);
-				}	
+					label.setForeground(Color.BLACK);
+				}else {
+					label.setBackground(VentanaSesion.getFondooscuro());
+					label.setForeground(Color.WHITE);
+				}
 				label.setHorizontalAlignment(JLabel.CENTER);
 				label.setOpaque(true);
 				return label;
