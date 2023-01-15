@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.logging.*;
 
 import java.sql.Connection;
@@ -137,7 +139,7 @@ public class GestionUsuarios {
 
 			//Utilizar la conexión
 			try(PreparedStatement stmt = conn.prepareStatement(String.format("SELECT contraseña FROM usuarios WHERE ID = %s;", nombre.hashCode()))){
-				boolean contraseñaCorrecta = sonIguales(stmt.executeQuery().getString("contraseña"), contraseña);
+				boolean contraseñaCorrecta = contraseña.equals(stmt.executeQuery().getString("contraseña"));
 				if(contraseñaCorrecta) {
 					log(Level.INFO, String.format("La contraseña introducida para el usuario %s es correcta", nombre), null);
 				}else {
@@ -160,7 +162,7 @@ public class GestionUsuarios {
 			//Utilizar la conexión
 			try(PreparedStatement stmt = conn.prepareStatement(String.format("SELECT nombre FROM usuarios WHERE ID = %s;", nombre.hashCode()))){
 				try {
-					boolean usuarioCorrecto = sonIguales(stmt.executeQuery().getString("nombre"), nombre);
+					boolean usuarioCorrecto = nombre.equals(stmt.executeQuery().getString("nombre"));
 					if (usuarioCorrecto) {
 						log(Level.INFO, String.format("El usuario %s existe", nombre), null);
 					}else {
@@ -346,6 +348,13 @@ public class GestionUsuarios {
 	 * @throws IOException Excepcion lanzada en caso de no encontrar el fichero
 	 */
 	private static void guardarTokenEnFichero(Usuario usuario){
+		try {
+			Files.createDirectory(Paths.get("archivos"));
+		} catch (IOException e) {
+			log(Level.SEVERE, String.format("No ha sido posible crear el directorio para guardar el token en el fichero %s", FICHEROTOKEN), e);
+			return;
+		}
+		
 		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File(FICHEROTOKEN)))){
 			oos.writeObject(usuario.getToken());
 			log(Level.INFO, String.format("Token asocidao al usuario %s guardado correctamente en el fichero %s", usuario.toString(), FICHEROTOKEN), null);
@@ -390,28 +399,6 @@ public class GestionUsuarios {
 		else {
 			logger.log(level, mensage, excepcion);
 		}
-	}
-	
-	/** Método recursivo que se encarga de berificar que dos Strings son iguales
-	 * @param s1 String uno a comparar
-	 * @param s2 String dos a comparar
-	 * @return true si son iguales, false si no
-	 */
-	private static boolean sonIguales(String s1, String s2) {
-		
-	    if (s1 == null || s2 == null) {
-	        return false;
-	    }
-	    
-	    if (s1.isEmpty() && s2.isEmpty()) {
-	        return true;
-	    }
-	    
-	    if (s1.charAt(0) == s2.charAt(0)) {
-	        return sonIguales(s1.substring(1), s2.substring(1));
-	    }
-	    
-	    return false;
 	}
 
 
