@@ -52,7 +52,23 @@ public class VentanaJugar2 extends VentanaJugar{
 
 		this.addKeyListener(kl);
 		this.addKeyListener(escCerrar);
+		
+		//Si se presiona el enter el juego se inicia sin música
+		addKeyListener(new KeyAdapter() {			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(clip.isActive()) {
+						clip.close();
+					}else {
+						reproducirMusica("res/audio/Cancion.wav");
+					}
+				}
+			}
+		});
+		
 		this.setVisible(true);
+
 	}
 	
 	/** Cierra la ventana y da inicio al juego

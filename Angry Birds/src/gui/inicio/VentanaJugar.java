@@ -39,7 +39,7 @@ public abstract class VentanaJugar extends JFrame {
 	private JMenu sonido;
 	private JMenuBar barraMenu;
 	protected JCheckBoxMenuItem itemMenu1;
-	private Clip clip;
+	protected Clip clip;
 	
 	//Estado del inicio
 	private static boolean cerrado;
@@ -113,7 +113,7 @@ public abstract class VentanaJugar extends JFrame {
 			}
 		};
 
-		this.addWindowListener(actionVentana);
+		addWindowListener(actionVentana);
 		itemMenu1.addActionListener(actionMute);
 		
 		add(panelPrincipal, "Center");
@@ -129,7 +129,6 @@ public abstract class VentanaJugar extends JFrame {
 		};
 
 		itemMenu1.addKeyListener(escCerrar);
-
 	}
 
 
