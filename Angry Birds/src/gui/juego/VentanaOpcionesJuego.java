@@ -74,7 +74,6 @@ public class VentanaOpcionesJuego extends JFrame{
 	 */
 	public VentanaOpcionesJuego(int pajarosInicio, int pajarosDisponibles, long milis, boolean nivelCompletado, int nivel, JFrame anteriorVentana) {
 		this.anteriorVentana = anteriorVentana;
-		pajaros = pajarosInicio - pajarosDisponibles;
 		usuario = VentanaSesion.getUsuario();
 		setSize(ANCHURA, ALTURA);
 		setLocationRelativeTo(null);
@@ -95,8 +94,10 @@ public class VentanaOpcionesJuego extends JFrame{
 			}else {
 				estrellas = 1;
 			}	
+			pajaros = pajarosInicio - pajarosDisponibles;
 		}else {
 			estrellas = 0;
+			pajaros = 0;
 		}
 
 		//Actualizar el usuario
