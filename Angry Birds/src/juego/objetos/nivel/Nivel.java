@@ -180,6 +180,12 @@ public class Nivel {
 		return pajarosDisponibles;
 	}
 	
+	
+	public void setCerdosDisponibles(int cerdosDisponibles) {
+		this.cerdosDisponibles = cerdosDisponibles;
+	}
+
+
 	/** Dibuja los elementos del nivel
 	 * @param v Ventana en la que se dibujan
 	 */
