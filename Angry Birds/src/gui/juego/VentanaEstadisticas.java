@@ -2,11 +2,14 @@ package gui.juego;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,15 +17,25 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import gestionUsuarios.Puntuacion;
 import gestionUsuarios.Usuario;
-import gui.componentes.MiBoton;
 import gui.sesion.VentanaSesion;
 
 @SuppressWarnings("serial")
 public class VentanaEstadisticas extends JFrame{
+	
+	private JPanel panelAbajo;
+	
+	private DefaultTableModel dft;
+	private JTable tablaEstadisticas;
+	private JScrollPane panelScroll;
+	
+	private JLabel titulo;
+	private JButton atras;
 	
 	/** Crea una nueva ventana que contiene un JTable que muestra las estadísticas del usuario, las puntuaciones: FECHA, ESTRELLAS y NIVEL.
 	 * También mostrará el nombre del usuario que está jugando la partida
@@ -30,29 +43,25 @@ public class VentanaEstadisticas extends JFrame{
 	 */	
 	public VentanaEstadisticas(Usuario usuario, VentanaOpcionesJuego ventanaAnterior) {
 		
-		this.setTitle("ESTADÍSTICAS");
-		this.setSize(VentanaOpcionesJuego.ANCHURA, VentanaOpcionesJuego.ALTURA);
-		this.setLocationRelativeTo(null);
-		this.setLayout(new BorderLayout());
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaSesion.class.getResource("/imgs/Icono.png")));
-		JPanel panelArriba = new JPanel();
-		this.add(panelArriba, BorderLayout.NORTH);
+		setTitle("ESTADÍSTICAS");
+		setSize(VentanaOpcionesJuego.ANCHURA, VentanaOpcionesJuego.ALTURA);
+		setLocationRelativeTo(null);
+		setLayout(new BorderLayout());
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaSesion.class.getResource("/imgs/Icono.png")));
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
-		JPanel panelAbajo = new JPanel();
-		this.add(panelAbajo, BorderLayout.SOUTH);
+		panelAbajo = new JPanel(new FlowLayout());
 		
-		JLabel titulo = new JLabel(String.format("ESTADÍSTICAS DE %s", usuario.toString().toUpperCase()));
+		titulo = new JLabel(String.format("ESTADÍSTICAS DE %s", usuario.toString().toUpperCase()));
 		titulo.setFont(new Font(Font.SERIF, Font.BOLD, 30));
+		titulo.setHorizontalAlignment(JLabel.CENTER);
 		titulo.setForeground(Color.WHITE);
-		titulo.setBackground(Color.WHITE);
-		panelArriba.add(titulo);
+		titulo.setBackground(VentanaSesion.getFondooscuro());
+		titulo.setOpaque(true);
 		
 		panelAbajo.setBackground(VentanaSesion.getFondooscuro());
-
-		panelArriba.setBackground(VentanaSesion.getFondooscuro());
 		
-		DefaultTableModel dft = new DefaultTableModel();
-		
+		dft = new DefaultTableModel();
 		dft.addColumn("NIVEL");
 		dft.addColumn("ESTRELLAS");
 		dft.addColumn("FECHA");
@@ -64,13 +73,17 @@ public class VentanaEstadisticas extends JFrame{
 			dft.addRow(array);	
 		}
 		
-		JTable tablaEstadisticas = new JTable(dft);
-		JScrollPane panelScroll = new JScrollPane(tablaEstadisticas);
-		this.add(panelScroll);
+		tablaEstadisticas = new JTable(dft) {
+			
+			public boolean isCellEditable(int row, int column) {                
+                return false;               
+			};
+		};
+		panelScroll = new JScrollPane(tablaEstadisticas);
 		
-		JButton atras = new MiBoton(Color.WHITE, Color.WHITE.darker(), 30, 30);
-		atras.setText("Volver");
-		atras.setPreferredSize(new Dimension(getWidth() - 10, 30));
+		atras = new JButton("Volver");
+		atras.setBackground(Color.WHITE);
+		atras.setForeground(Color.BLACK);
 		atras.addActionListener(new ActionListener() {
 			
 			@Override
@@ -79,11 +92,38 @@ public class VentanaEstadisticas extends JFrame{
 				dispose();
 			}
 		});
-		
 		panelAbajo.add(atras);
 		
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setBackground(Color.WHITE);
+		tablaEstadisticas.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			
+			@Override
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+				
+				JLabel label = new JLabel(value.toString());
+				
+				if (isSelected) {
+					label.setBackground(Color.CYAN);
+					label.setForeground(Color.BLACK);
+				}else {
+					label.setBackground(VentanaSesion.getFondooscuro());
+					label.setForeground(Color.WHITE);
+				}
+				label.setHorizontalAlignment(JLabel.CENTER);
+				label.setOpaque(true);
+				return label;
+			}
+		});
+		
+		add(titulo, BorderLayout.NORTH);
+		add(panelScroll, BorderLayout.CENTER);
+		add(panelAbajo, BorderLayout.SOUTH);
+	
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				atras.doClick();
+			}
+		});
 		setVisible(true);
 		ventanaAnterior.setVisible(false);
 	}

@@ -87,10 +87,10 @@ public class VentanaOpcionesJuego extends JFrame{
 
 		//Cálculo del número de estrellas obtenidas en el nivel
 		if(nivelCompletado) {
-			double proporcion = (double) pajarosDisponibles / pajarosInicio;
-			if(proporcion > 0.667) {
+			double proporcion = pajarosDisponibles / (double) pajarosInicio;
+			if(proporcion > 0.66) {
 				estrellas = 3;
-			}else if(proporcion > 0.334) {
+			}else if(proporcion > 0.33) {
 				estrellas = 2;
 			}else {
 				estrellas = 1;
