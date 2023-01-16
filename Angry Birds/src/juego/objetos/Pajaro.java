@@ -315,6 +315,30 @@ public class Pajaro extends Objeto implements Dibujable{
 		y = p.y;		
 	}
 
+	public boolean isMover() {
+		return mover;
+	}
+
+	public void setMover(boolean mover) {
+		this.mover = mover;
+	}
+
+	public double getvX() {
+		return vX;
+	}
+
+	public void setvX(double vX) {
+		this.vX = vX;
+	}
+
+	public double getvY() {
+		return vY;
+	}
+
+	public void setvY(double vY) {
+		this.vY = vY;
+	}
+
 	/** Establece una nueva posición en el eje x para el pájaro
 	 * @param x Nueva coordenada del eje x para el pájaro
 	 */
