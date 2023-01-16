@@ -102,16 +102,6 @@ public abstract class VentanaJugar extends JFrame {
 			public void windowOpened(WindowEvent e) {
 				reproducirMusica("res/audio/Cancion.wav");
 			}
-
-			@Override
-			public void windowClosed(WindowEvent e) {
-				clip.close();
-				if(!cerrado) {
-					VentanaSesion.cerrar(VentanaJugar.this);
-					reproducirMusica("res/audio/Cancion.wav");
-				}
-				
-			}
 		};
 
 		this.addWindowListener(actionVentana);
@@ -138,18 +128,20 @@ public abstract class VentanaJugar extends JFrame {
  	 * @param ruta Ruta al archivo de audio
 	 */
 	public void reproducirMusica(String ruta) {
-		try {
-			AudioInputStream is = AudioSystem.getAudioInputStream(new File(ruta));
-			clip = AudioSystem.getClip();
-			clip.open(is);
-			clip.loop(0);
-		} catch (UnsupportedAudioFileException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		}
+		new Thread(() ->{
+			try {
+				AudioInputStream is = AudioSystem.getAudioInputStream(new File(ruta));
+				clip = AudioSystem.getClip();
+				clip.open(is);
+				clip.loop(0);
+			} catch (UnsupportedAudioFileException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (LineUnavailableException e) {
+				e.printStackTrace();
+			}
+		}).start();
 	}
 	
 	/**Define un nuevo valor para determinar si proceso relacionado con la selección de iniciar sesion/registrar usuario ha acabado
