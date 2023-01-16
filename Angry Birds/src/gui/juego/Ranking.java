@@ -66,7 +66,7 @@ public class Ranking extends JFrame{
 
 		opciones();
 
-		añadirUsuarios(tiempo);
+		añadirUsuarios(tiempo, 0);
 
 		volver = new JButton("Volver");
 		volver.setBackground(Color.WHITE);
@@ -113,53 +113,56 @@ public class Ranking extends JFrame{
 		}
 	}
 
-	/** Configura el panel central, añadiendo los textos correspondientes a los usuarios a la ventana, sin que estos sean visibles aún
+	/** Configura el panel central, añadiendo los textos correspondientes a los usuarios a la ventana de forma recursiva, sin que estos sean visibles aún
 	 * @param puntuaciones true si el ranking se hace sobre puntuaciones, false si se hace sobre tiempo
 	 */
-	private void añadirUsuarios(boolean puntuaciones) {
-		for(int i = 0; i < usuarios.size(); i++) {
-			JLabel jl = new JLabel();
-			Usuario usuario = usuarios.get(i);
-			if(puntuaciones) {
-				jl.setText(String.format("%d. %s(%.2f minutos)", i +1, usuario.toString(), usuario.getTiempoJugado()/60000.0));
+	private void añadirUsuarios(boolean puntuaciones, int i) {
+		if(i == usuarios.size()) {
+			return;
+		}
+		JLabel jl = new JLabel();
+		Usuario usuario = usuarios.get(i);
+		if(puntuaciones) {
+			jl.setText(String.format("%d. %s(%.2f minutos)", i +1, usuario.toString(), usuario.getTiempoJugado()/60000.0));
+		}else {
+			if(usuario.getPuntuaciones().isEmpty()) {
+				jl.setText(String.format("%d. %s(sin puntuaciones)", i +1, usuario.toString()));
 			}else {
-				if(usuario.getPuntuaciones().isEmpty()) {
-					jl.setText(String.format("%d. %s(sin puntuaciones)", i +1, usuario.toString()));
-				}else {
-					jl.setText(String.format("%d. %s(max: %d estrellas)", i +1, usuario.toString(), usuario.getPuntuaciones().get(0).getEstrellas()));
+				jl.setText(String.format("%d. %s(max: %d estrellas)", i +1, usuario.toString(), usuario.getPuntuaciones().get(0).getEstrellas()));
+			}
+		}
+		jl.setHorizontalAlignment(JLabel.CENTER);
+		jl.setForeground(VentanaSesion.getFondooscuro());
+		jl.setFont(new Font(Font.SERIF, Font.BOLD, 20));
+
+		jl.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if(!animaciones.isAlive()) {
+					jl.setForeground(Color.WHITE);
 				}
 			}
-			jl.setHorizontalAlignment(JLabel.CENTER);
-			jl.setForeground(VentanaSesion.getFondooscuro());
-			jl.setFont(new Font(Font.SERIF, Font.BOLD, 20));
 
-			jl.addMouseListener(new MouseAdapter() {
-
-				@Override
-				public void mouseExited(MouseEvent e) {
-					if(!animaciones.isAlive()) {
-						jl.setForeground(Color.WHITE);
-					}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if(!animaciones.isAlive()) {
+					jl.setForeground(Color.GREEN);	
 				}
+			}
 
-				@Override
-				public void mouseEntered(MouseEvent e) {
-					if(!animaciones.isAlive()) {
-						jl.setForeground(Color.GREEN);	
-					}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(!animaciones.isAlive()) {
+					volver.doClick();
+					new VentanaEstadisticas(usuario, ventanaAnterior);
 				}
+			}
+		});
 
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if(!animaciones.isAlive()) {
-						volver.doClick();
-						new VentanaEstadisticas(usuario, ventanaAnterior);
-					}
-				}
-			});
+		panelCentral.add(jl);
+		añadirUsuarios(puntuaciones, i + 1);
 
-			panelCentral.add(jl);
-		}
 	}
 
 	/** Método que a traves de la recursividad múltiplo añade a la lista de usuarios los 10 usuarios con más tiempo jugado
