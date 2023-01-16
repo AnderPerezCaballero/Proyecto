@@ -39,8 +39,10 @@ public class Ranking extends JFrame{
 	private JPanel panelInferior;
 
 	private JButton volver;
-	
+
 	private VentanaOpcionesJuego ventanaAnterior;
+
+	private Thread animaciones;
 
 	public Ranking(VentanaOpcionesJuego ventanaAnterior) {
 		usuarios = new ArrayList<>();
@@ -131,27 +133,32 @@ public class Ranking extends JFrame{
 			jl.setHorizontalAlignment(JLabel.CENTER);
 			jl.setForeground(VentanaSesion.getFondooscuro());
 			jl.setFont(new Font(Font.SERIF, Font.BOLD, 20));
-			
+
 			jl.addMouseListener(new MouseAdapter() {
-				
+
 				@Override
 				public void mouseExited(MouseEvent e) {
-					jl.setForeground(Color.WHITE);
+					if(!animaciones.isAlive()) {
+						jl.setForeground(Color.WHITE);
+					}
 				}
-				
+
 				@Override
 				public void mouseEntered(MouseEvent e) {
-					jl.setForeground(Color.GREEN);
-					
+					if(!animaciones.isAlive()) {
+						jl.setForeground(Color.GREEN);	
+					}
 				}
-				
+
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					volver.doClick();
-					new VentanaEstadisticas(usuario, ventanaAnterior);
+					if(!animaciones.isAlive()) {
+						volver.doClick();
+						new VentanaEstadisticas(usuario, ventanaAnterior);
+					}
 				}
 			});
-			
+
 			panelCentral.add(jl);
 		}
 	}
@@ -182,7 +189,7 @@ public class Ranking extends JFrame{
 	 * 
 	 */
 	private void visibilizarUsuarios() {
-		new Thread(() -> {
+		animaciones = new Thread(() -> {
 			for(int i = 0; i < usuarios.size(); i++) {
 				JLabel jl = (JLabel) panelCentral.getComponent(i);
 				while(true) {
@@ -219,7 +226,8 @@ public class Ranking extends JFrame{
 					} catch (InterruptedException e) {}
 				}
 			}
-		}).start();
+		});
+		animaciones.start();
 	}
 
 	/** Método que añade a la lista de usuarios los 10 usuarios con mejores puntuaciones

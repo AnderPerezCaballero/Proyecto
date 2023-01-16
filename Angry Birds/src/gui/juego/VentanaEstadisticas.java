@@ -3,7 +3,6 @@ package gui.juego;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -21,8 +20,6 @@ import javax.swing.JTable;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-
-import gestionUsuarios.GestionUsuarios;
 import gestionUsuarios.Puntuacion;
 import gestionUsuarios.Usuario;
 import gui.sesion.VentanaSesion;
@@ -31,14 +28,13 @@ import gui.sesion.VentanaSesion;
 public class VentanaEstadisticas extends JFrame{
 
 	private JPanel panelFondo;
-
+	private JPanel panelAbajo;
 	private DefaultTableModel dft;
 	private JTable tablaEstadisticas;
 	private JScrollPane panelScroll;
 
 	private JLabel titulo;
-	private JButton atras;
-	private JPanel panelAbajo;
+	private JButton volver;
 
 	/** Crea una nueva ventana que contiene un JTable que muestra las estadísticas del usuario, las puntuaciones: FECHA, ESTRELLAS y NIVEL.
 	 * También mostrará el nombre del usuario que está jugando la partida
@@ -52,9 +48,11 @@ public class VentanaEstadisticas extends JFrame{
 		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaSesion.class.getResource("/imgs/Icono.png")));
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setBackground(VentanaSesion.getFondooscuro());
+	
 
 		panelAbajo = new JPanel(new FlowLayout());
 		panelAbajo.setBackground(VentanaSesion.getFondooscuro());
+		
 		panelFondo = new JPanel();
 		panelFondo.setBackground(VentanaSesion.getFondooscuro());
 		panelFondo.setLayout(new BorderLayout());
@@ -85,11 +83,8 @@ public class VentanaEstadisticas extends JFrame{
 			};
 		};
 
-
-
 		tablaEstadisticas.getTableHeader().setBackground(Color.WHITE);
 		tablaEstadisticas.getTableHeader().setForeground(Color.BLACK);
-
 		tablaEstadisticas.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 
 			@Override
@@ -117,15 +112,15 @@ public class VentanaEstadisticas extends JFrame{
 
 		panelFondo.add(panelScroll);
 
-		atras = new JButton("ATRAS");
-		atras.setBackground(Color.WHITE);
-		atras.setForeground(Color.BLACK);
-		atras.addActionListener(new ActionListener() {
+		volver = new JButton("Volver");
+		volver.setBackground(Color.WHITE);
+		volver.setForeground(Color.BLACK);
+		volver.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dispose();
 				ventanaAnterior.setVisible(true);
+				dispose();
 			}
 		});
 
@@ -133,22 +128,17 @@ public class VentanaEstadisticas extends JFrame{
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-				ventanaAnterior.setVisible(true);
+				volver.doClick();
 			}
 		});
 
-		panelAbajo.add(atras);
+		panelAbajo.add(volver);
 
 		add(panelFondo, BorderLayout.CENTER);
 		add(titulo, BorderLayout.NORTH);
 		add(panelAbajo, BorderLayout.SOUTH);
 
 		setVisible(true);
-	}
-
-
-
-	public static void main(String[] args) {
-		new VentanaEstadisticas(GestionUsuarios.getUsuario("Ander".hashCode()), null);
+		ventanaAnterior.setVisible(false);
 	}
 }
