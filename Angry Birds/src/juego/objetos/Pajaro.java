@@ -16,9 +16,8 @@ import juego.objetos.nivel.Viga;
 
 public class Pajaro extends Objeto implements Dibujable{
 
-	private static final String IMAGEN = "/imgs/PajaroRojo.png";
-
-	private static int radio = 15;
+	public static final String IMAGEN = "/imgs/PajaroRojo.png";
+	public static final int RADIO = 15;
 
 	private double vX;
 	private double vY;
@@ -28,11 +27,11 @@ public class Pajaro extends Objeto implements Dibujable{
 
 	private List<Point> posiciones;
 	private Point posicionPintado;
-	
+
 	private boolean estaSeleccionado;
 	private boolean lanzado;
 	private boolean mover;
-	
+
 	private Map<Point, List<ObjetoNivel>> mapaObjetosAEliminar;
 
 	/** Crea un nuevo pájaro
@@ -100,52 +99,59 @@ public class Pajaro extends Objeto implements Dibujable{
 	private void rebotaCon(ObjetoNivel elementoNivel) {
 		if(elementoNivel instanceof Cerdo) {
 			Cerdo cerdo = (Cerdo) elementoNivel;
-			double distanciax = x - cerdo.getX();
-			double distanciay = y - cerdo.getY();
-			double angulo = Math.atan2(distanciay, distanciax);
-			double destinox = x + (double) ((20 + radio) * Math.cos(angulo));
-			double destinoy = y + (double) ((20 + radio) * Math.sin(angulo));
-			vX = -(destinox - x) * 1.7;
-			vY = -(destinoy - y) * 1.7;
+			
+			double distancia = Math.hypot(this.x - cerdo.getX(), this.y - cerdo.getY());
+			
+			//Colocar el pájaro en el borde del cerdo
+			x = (int) Math.round(cerdo.getX() + Cerdo.RADIO * (x - cerdo.getX()) / distancia);
+			y = (int) Math.round(cerdo.getY() + Cerdo.RADIO * (y - cerdo.getY()) / distancia);
+			
+			double v = Math.hypot(this.vX, this.vY);
+			double angulo = Math.atan2(this.y - cerdo.getY(), this.x - cerdo.getX()) - Math.atan2(this.vY, this.vX);
+			double restitution = 0.5; //constante de restitución -> energía conservada en una colisión estática
+
+			this.vX = -restitution * v * Math.cos(angulo);
+			this.vY = -restitution * v * Math.sin(angulo);
+
 		}else {
 			Viga viga = (Viga) elementoNivel;
-			
+
 			//Rebota por la izquierda o por la derecha
 			if(viga.getY() - viga.getAltura() / 2 < y && viga.getY() + viga.getAltura() / 2 > y) {
-			
+
 				//Rebota por la izquierda
 				if(vX > 0) {
-					x = viga.getX() - viga.getAnchura() / 2 - radio;
-//					System.out.println("izquierda");
-				
-				//Rebota por la derecha
+					x = viga.getX() - viga.getAnchura() / 2 - RADIO;
+					//					System.out.println("izquierda");
+
+					//Rebota por la derecha
 				}else {
-					x = viga.getX() + viga.getAnchura() / 2 + radio;
-//					System.out.println("derecha");
+					x = viga.getX() + viga.getAnchura() / 2 + RADIO;
+					//					System.out.println("derecha");
 				}
 				vX = -vX;
 
-			//Rebota por arriba o por abajo
+				//Rebota por arriba o por abajo
 			} else if(viga.getX() - viga.getAnchura() / 2 > x && viga.getX() + viga.getAnchura() / 2 < x) {
-			
+
 				//Rebota por arriba
 				if(vY > 0) {
-					y =  viga.getY() - viga.getAltura() / 2 + radio;
-//					System.out.println("arriba");
-				
-				//Rebota por abajo
+					y =  viga.getY() - viga.getAltura() / 2 + RADIO;
+					//					System.out.println("arriba");
+
+					//Rebota por abajo
 				}else {
-					y = viga.getY() + viga.getAltura() / 2 - radio;
-//					System.out.println("abajo");
+					y = viga.getY() + viga.getAltura() / 2 - RADIO;
+					//					System.out.println("abajo");
 				}
 				vY = -vY;
-				
-			//Rebota con una esquina
+
+				//Rebota con una esquina
 			}
-//			else {
-//				vX = -vX;
-//				vY = -vY;
-//			}
+			//			else {
+			//				vX = -vX;
+			//				vY = -vY;
+			//			}
 		}
 	}
 
@@ -157,69 +163,69 @@ public class Pajaro extends Objeto implements Dibujable{
 	public void move(int milisEntreFrames, double gravedadX, double gravedadY, Nivel nivel) {
 		mover = true;
 		new Thread(() -> {
-			
+
 			// Creo una copia profunda de los elementos de la lista de objetos del nivel, para poder modificarlos sin interferir en el dibujado
 			List<ObjetoNivel> objetosNivel = nivel.getCopiaObjetos();
-				while(mover) {
-					segundosEnAire = System.currentTimeMillis() / 1000.0 - momentoLanzado + milisEntreFrames / 1000.0;
+			while(mover) {
+				segundosEnAire = System.currentTimeMillis() / 1000.0 - momentoLanzado + milisEntreFrames / 1000.0;
 
-					vY = vY - gravedadY * segundosEnAire;
-					vX = vX - gravedadX * segundosEnAire;
-					
-					x = x + (int) Math.round(vX * segundosEnAire - 0.5 * gravedadX * segundosEnAire * segundosEnAire);
-					y = y - (int) Math.round(vY * segundosEnAire - 0.5 * gravedadY * segundosEnAire * segundosEnAire);
+				vY = vY - gravedadY * segundosEnAire;
+				vX = vX - gravedadX * segundosEnAire;
 
-					//Choques
-					if(choqueConSuelo()) {
-						vY = -vY - 20;
-						y = Juego.getYSuelo()- radio;
-						aplicarRozamiento(20);
-					}
-					if(choqueConLimiteVertical()) {
-						vX = -vX;
-						x = radio;
-						aplicarRozamiento(10);
-					}
-					
-					List<ObjetoNivel> eliminados = new ArrayList<>();
-					for(ObjetoNivel objetoNivel : objetosNivel) {
-						if(objetoNivel.chocaConPajaro(Pajaro.this)) {
-							rebotaCon(objetoNivel);
-							Point posicion = new Point(x, y);
-							mapaObjetosAEliminar.putIfAbsent(posicion, new ArrayList<>());
-							mapaObjetosAEliminar.get(posicion).add(objetoNivel);
-							if(objetoNivel.eliminado()) {
-								eliminados.add(objetoNivel);
-							}
+				x = x + (int) Math.round(vX * segundosEnAire - 0.5 * gravedadX * segundosEnAire * segundosEnAire);
+				y = y - (int) Math.round(vY * segundosEnAire - 0.5 * gravedadY * segundosEnAire * segundosEnAire);
+
+				//Choques
+				if(choqueConSuelo()) {
+					vY = -vY - 20;
+					y = Juego.getYSuelo()- RADIO;
+					aplicarRozamiento(20);
+				}
+				if(choqueConLimiteVertical()) {
+					vX = -vX;
+					x = RADIO;
+					aplicarRozamiento(10);
+				}
+
+				List<ObjetoNivel> eliminados = new ArrayList<>();
+				for(ObjetoNivel objetoNivel : objetosNivel) {
+					if(objetoNivel.chocaConPajaro(Pajaro.this)) {
+						rebotaCon(objetoNivel);
+						Point posicion = new Point(x, y);
+						mapaObjetosAEliminar.putIfAbsent(posicion, new ArrayList<>());
+						mapaObjetosAEliminar.get(posicion).add(objetoNivel);
+						if(objetoNivel.eliminado()) {
+							eliminados.add(objetoNivel);
 						}
 					}
-					if(eliminados.size() > 0) {
-						objetosNivel.removeAll(eliminados);
-					}
-					posiciones.add(new Point(x, y));
-					
-					try {
-						Thread.sleep(1);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
 				}
+				if(eliminados.size() > 0) {
+					objetosNivel.removeAll(eliminados);
+				}
+				posiciones.add(new Point(x, y));
+
+				try {
+					Thread.sleep(1);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
 		}).start();		
-		
+
 	}
 
 	/**Metodo para comprobar si el pajaro rebota con el borde horizontal izquierdo de la pantalla
 	 * @return booleano indicando si existe o no choque
 	 */
 	public boolean choqueConLimiteVertical() {
-		return x - radio <= 0;
+		return x - RADIO <= 0;
 	}
 
 	/**Metodo para comprobar que el pájaro rebota con el suelo
 	 * @return true si choca, false si no
 	 */
 	public boolean choqueConSuelo() {
-		return y + radio >= Juego.getYSuelo();
+		return y + RADIO >= Juego.getYSuelo();
 	}
 
 	/** Aplica un rozamiento (disminución de la velocidad) al pájaro en el eje x
@@ -242,7 +248,7 @@ public class Pajaro extends Objeto implements Dibujable{
 			}
 		}
 	}
-	
+
 	/** Dibuja el pájaro en la ventana
 	 *@param v Ventana en la que se dibuja el pájaro
 	 */
@@ -261,12 +267,12 @@ public class Pajaro extends Objeto implements Dibujable{
 					posiciones.remove(i);
 				}
 			}catch (IndexOutOfBoundsException e) {}
-			v.dibujaImagen(IMAGEN, posicionPintado.x, posicionPintado.y, radio * 2, radio * 2, 1, 0, 1.0f);
+			v.dibujaImagen(IMAGEN, posicionPintado.x, posicionPintado.y, RADIO * 2, RADIO * 2, 1, 0, 1.0f);
 		}else {
-			v.dibujaImagen(IMAGEN, x, y, radio * 2, radio * 2, 1, 0, 1.0f);	
+			v.dibujaImagen(IMAGEN, x, y, RADIO * 2, RADIO * 2, 1, 0, 1.0f);	
 		}
 	}
-	
+
 	/** Manda a eliminar los objetos del nivel que requieran de ser eliminados en ese momento en función de la posición de pintado
 	 * @param nivel Nivel cuyos objetos han de ser eliminados
 	 */
@@ -278,7 +284,7 @@ public class Pajaro extends Objeto implements Dibujable{
 			}
 		}
 	}
-	
+
 	/** Detiene el hilo a través del cual se calculan las posiciones del pájaro
 	 * 
 	 */
@@ -293,14 +299,14 @@ public class Pajaro extends Objeto implements Dibujable{
 		x = p.x;
 		y = p.y;		
 	}
-	
+
 	/** Establece una nueva posición en el eje x para el pájaro
 	 * @param x Nueva coordenada del eje x para el pájaro
 	 */
 	public void setX(int x) {
 		this.x = x;
 	}
-	
+
 	/** Establece una nueva posición en el eje y para el pájaro
 	 * @param y Nueva coordenada del eje y para el pájaro
 	 */
@@ -328,7 +334,7 @@ public class Pajaro extends Objeto implements Dibujable{
 	public boolean isLanzado() {
 		return lanzado;
 	}
-	
+
 	/** Indica si el pájaro está actualmente quieto
 	 * @return true si sus siguientes 5 posiciones son iguales, falase si nos
 	 */
@@ -344,7 +350,7 @@ public class Pajaro extends Objeto implements Dibujable{
 			return false;
 		}
 	}
-	
+
 
 
 	/** Devuelve la posición en la que se está pintando el pájaro
@@ -356,20 +362,6 @@ public class Pajaro extends Objeto implements Dibujable{
 		}else {
 			return posicionPintado;
 		}
-	}
-	
-	/** Devuelve la ruta de la imagen común para todos los pájaros
-	 * @return Cadena que representa la ruta de la imagen
-	 */
-	public static String getRutaImagen() {
-		return IMAGEN;
-	}
-	
-	/** Devuelve el radio común para todos los pájaros
-	 * @return Int que representa el radio de los pájaros en píxeles
-	 */
-	public static int getRadio() { 
-		return radio;
 	}
 	
 	@Override
