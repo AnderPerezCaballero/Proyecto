@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.time.ZonedDateTime;
 import java.util.Arrays;
-import java.util.TreeSet;
 import java.util.UUID;
 
 import org.junit.Before;
@@ -18,7 +17,7 @@ public class TokenTest {
 	
 	private static String sToken = "token";
 	private static ZonedDateTime caducidad = ZonedDateTime.now().minusDays(4);
-	private static Usuario usuario = new Usuario("nombre", "contraseña", 10000000000000000l, new TreeSet<>(Arrays.asList(new Puntuacion(2, 1), new Puntuacion(1, 2), new Puntuacion(3, 5))), null);
+	private static Usuario usuario = new Usuario("nombre", "contraseña", 10000000000000000l, Arrays.asList(new Puntuacion(2, 1), new Puntuacion(1, 2), new Puntuacion(3, 5)), null);
 	private static Token token = new Token(sToken, caducidad.toString(), usuario);
 	
 	@Before
@@ -50,7 +49,7 @@ public class TokenTest {
 	@Test
 	public void testGetUsuario() {
 		assertEquals(usuario, token.getUsuario());
-		assertNotEquals(new Usuario("Diego", "Merino"), token.getUsuario());
+		assertNotEquals(new Usuario("Diego", "Merino", null), token.getUsuario());
 	}
 	
 	@Test

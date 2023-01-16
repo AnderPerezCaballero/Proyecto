@@ -15,7 +15,7 @@ public class PuntuacionTest {
 	
 	@Test
 	public void testGetFecha() {
-		assertEquals("02/12/2022", puntuacion.getFecha());
+		assertEquals(fecha, puntuacion.getFecha());
 	}
 	
 	@Test
@@ -29,14 +29,7 @@ public class PuntuacionTest {
 	}
 	
 	@Test
-	public void testCompareTo() {
-		assertTrue(puntuacion.compareTo(puntuacion) == 0);
-		assertTrue(puntuacion.compareTo(new Puntuacion(estrellas, nivel)) < 0);
-		assertTrue(puntuacion.compareTo(new Puntuacion("2021-12-02T18:17:50.123252900+01:00[Europe/Madrid]", estrellas, nivel)) > 0);
-	}
-	
-	@Test
 	public void testToString() {
-		assertEquals(String.format("%d conseguidas el %s", estrellas, "02/12/2022"), puntuacion.toString());
+		assertEquals(String.format("%d conseguidas el %s", estrellas, "2022-12-02"), puntuacion.toString());
 	}
 }

@@ -1,13 +1,9 @@
 package objetosTests;
 import static org.junit.Assert.*;
-
 import java.awt.Point;
 
 import org.junit.Test;
 
-import objetos.Enemigo;
-import objetos.Estructura;
-import objetos.pajaros.Pajaro;
 
 public class EnemigoTest {
 	@Test

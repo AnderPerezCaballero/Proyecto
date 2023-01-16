@@ -58,6 +58,6 @@ public class Puntuacion implements Serializable{
 	
 	@Override
 	public String toString() {
-		return String.format("%d conseguidas el %s", estrellas, getFecha());
+		return String.format("%d conseguidas el %s", estrellas, getFecha().substring(0, 10));
 	}	
 }

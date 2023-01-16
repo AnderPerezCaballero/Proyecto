@@ -3,7 +3,7 @@ package gestionUsuariosTests;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
-import java.util.TreeSet;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -16,7 +16,7 @@ public class UsuarioTest {
 	private static String nombre = "nombre";					
 	private static String contraseña = "contraseña";		
 	private static int tiempoJugado = 0;				
-	private static TreeSet<Puntuacion> puntuaciones = new TreeSet<>(Arrays.asList(new Puntuacion(2, 1), new Puntuacion(1, 2), new Puntuacion(3, 5)));
+	private static List<Puntuacion> puntuaciones = Arrays.asList(new Puntuacion(2, 1), new Puntuacion(1, 2), new Puntuacion(3, 5));
 	private static Usuario usuario = new Usuario(nombre, contraseña, tiempoJugado, puntuaciones, null);
 	
 	
@@ -62,6 +62,6 @@ public class UsuarioTest {
 	
 	@Test
 	public void testToString() {
-		assertEquals(String.format("Nombre: %s \t Contraseña: %s", nombre, contraseña), usuario.toString());
+		assertEquals(usuario.getNombre(), usuario.toString());
 	}
 }
