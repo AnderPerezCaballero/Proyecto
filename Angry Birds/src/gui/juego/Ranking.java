@@ -5,6 +5,9 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -36,9 +39,12 @@ public class Ranking extends JFrame{
 	private JPanel panelInferior;
 
 	private JButton volver;
+	
+	private VentanaOpcionesJuego ventanaAnterior;
 
 	public Ranking(VentanaOpcionesJuego ventanaAnterior) {
 		usuarios = new ArrayList<>();
+		this.ventanaAnterior = ventanaAnterior;
 
 		setLocation(ventanaAnterior.getLocation());
 		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaSesion.class.getResource("/imgs/Icono.png")));
@@ -116,11 +122,36 @@ public class Ranking extends JFrame{
 			if(puntuaciones) {
 				jl.setText(String.format("%d. %s(%.2f minutos)", i +1, usuario.toString(), usuario.getTiempoJugado()/60000.0));
 			}else {
-				jl.setText(String.format("%d. %s", i +1, usuario.toString()));
+				if(usuario.getPuntuaciones().isEmpty()) {
+					jl.setText(String.format("%d. %s(sin puntuaciones)", i +1, usuario.toString()));
+				}else {
+					jl.setText(String.format("%d. %s(max: %d estrellas)", i +1, usuario.toString(), usuario.getPuntuaciones().get(0).getEstrellas()));
+				}
 			}
 			jl.setHorizontalAlignment(JLabel.CENTER);
 			jl.setForeground(VentanaSesion.getFondooscuro());
 			jl.setFont(new Font(Font.SERIF, Font.BOLD, 20));
+			
+			jl.addMouseListener(new MouseAdapter() {
+				
+				@Override
+				public void mouseExited(MouseEvent e) {
+					jl.setForeground(Color.WHITE);
+				}
+				
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					jl.setForeground(Color.GREEN);
+					
+				}
+				
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					volver.doClick();
+					new VentanaEstadisticas(usuario, ventanaAnterior);
+				}
+			});
+			
 			panelCentral.add(jl);
 		}
 	}
