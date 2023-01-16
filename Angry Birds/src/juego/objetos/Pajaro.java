@@ -129,34 +129,42 @@ public class Pajaro extends Objeto implements Dibujable{
 				//Rebota por la izquierda
 				if(vX > 0) {
 					x = viga.getX() - viga.getAnchura() / 2 - RADIO;
-					System.out.println("izquierda");
 
-				//Rebota por la derecha
+					//Rebota por la derecha
 				}else {
 					x = viga.getX() + viga.getAnchura() / 2 + RADIO;
-					System.out.println("derecha");
 				}
+
 				vX = -vX;
 				aplicarRozamiento(10);
 
-			//Rebota por arriba o por abajo
+				//Rebota por arriba o por abajo
 			} else if(viga.getX() - viga.getAnchura() / 2 < x && viga.getX() + viga.getAnchura() / 2 > x) {
 				//Rebota por arriba
 				if(vY < 0) {
 					y =  viga.getY() - viga.getAltura() / 2 - RADIO;
-					
-				//Rebota por abajo
+
+					//Rebota por abajo
 				}else {
 					y = viga.getY() + viga.getAltura() / 2 + RADIO;
 				}
-				
+
 				vY = -vY - 20;
 
 			//Rebota con una esquina
 			}else {
-				vX = -vX;
+				
+				if(vX > 0) {
+					if(viga.getX() - viga.getAnchura() / 2 > x) {
+						vX = -vX;
+					}
+				}else {
+					if(viga.getX() - viga.getAnchura() / 2 < x) {
+						vX = -vX;
+					}					
+				}
 				vY = -vY - 20;
-				aplicarRozamiento(10);
+				aplicarRozamiento(10);	
 			}
 
 		}
@@ -197,11 +205,13 @@ public class Pajaro extends Objeto implements Dibujable{
 					if(objetoNivel.chocaConPajaro(Pajaro.this)) {
 						rebotaCon(objetoNivel);
 						Point posicion = new Point(x, y);
+
 						mapaObjetosAEliminar.putIfAbsent(posicion, new ArrayList<>());
 						mapaObjetosAEliminar.get(posicion).add(objetoNivel);
 						if(objetoNivel.eliminado()) {
 							eliminados.add(objetoNivel);
 						}
+
 					}
 				}
 				if(eliminados.size() > 0) {

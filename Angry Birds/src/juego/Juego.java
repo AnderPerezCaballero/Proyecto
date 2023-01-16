@@ -143,7 +143,7 @@ public class Juego {
 					}
 					if(!nivel.reducirPajarosDisponibles() || !nivel.hayCerdos()) {
 						milisAbierta = System.currentTimeMillis() - milisAbierta;
-						new VentanaOpcionesJuego(nivel.getPajarosDeInicio(),  nivel.getPajarosDisponibles() - 1, milisAbierta, !nivel.hayCerdos(), lvl, ventana);
+						new VentanaOpcionesJuego(nivel.getPajarosDeInicio(),  nivel.getPajarosDisponibles(), milisAbierta, !nivel.hayCerdos(), lvl, ventana);
 						ventana.setEnabled(false);
 						break;
 					}
@@ -171,15 +171,4 @@ public class Juego {
 		pajaro.dibuja(ventanaJuego);
 		ventanaJuego.dibujaImagen("/imgs/TiraPajarosDelante.png", XPOSICIONTIRAPAJAROS, YPOSICIONTIRAPAJAROS, 0.74, 0, 1);
 	}
-
-
-	public static void main(String[] args) {
-		init(4);
-	}
-
-
-
-
-
-
 }
