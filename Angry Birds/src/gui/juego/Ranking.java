@@ -12,6 +12,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -175,6 +176,9 @@ public class Ranking extends JFrame{
 		}
 
 		Usuario max = usuariosBD.get(n);
+		if(max.getTiempoJugado() == 0) {
+			return;
+		}
 		for (int i = n + 1; i < usuariosBD.size(); i++) {
 			if(max.getTiempoJugado() < usuariosBD.get(i).getTiempoJugado()) {
 				max = usuariosBD.get(i);
@@ -235,15 +239,21 @@ public class Ranking extends JFrame{
 	/** Método que añade a la lista de usuarios los 10 usuarios con mejores puntuaciones
 	 * @param usuariosBD lista total de usuarios de la base de datos
 	 */
-	private List<Usuario> top10Puntuaciones(List<Usuario> usuariosBD) {
+	private void top10Puntuaciones(List<Usuario> usuariosBD) {
 
-		for(Usuario usuario : usuariosBD) {
-			Collections.sort(usuario.getPuntuaciones(), new Comparator<Puntuacion>() {
-				@Override
-				public int compare(Puntuacion o1, Puntuacion o2) {
-					return -Integer.compare(o1.getEstrellas(), o2.getEstrellas());
-				}
-			});
+		Iterator<Usuario> iterator = usuariosBD.iterator();
+		while(iterator.hasNext()) {
+			Usuario usuario = iterator.next();
+			if(usuario.getPuntuaciones().isEmpty()) {
+				iterator.remove();
+			}else {
+				Collections.sort(usuario.getPuntuaciones(), new Comparator<Puntuacion>() {
+					@Override
+					public int compare(Puntuacion o1, Puntuacion o2) {
+						return -Integer.compare(o1.getEstrellas(), o2.getEstrellas());
+					}
+				});
+			}
 		}
 
 		Collections.sort(usuariosBD, new Comparator<Usuario>() {
@@ -269,7 +279,6 @@ public class Ranking extends JFrame{
 				usuarios.add(usuario);
 			}
 		}
-		return usuarios;
 	}
 
 }
