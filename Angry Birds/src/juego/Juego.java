@@ -21,7 +21,7 @@ public class Juego {
 	private static final int YPOSICIONSUELO = 909;
 	private static final int XPOSICIONTIRAPAJAROS = 221;
 	private static final int YPOSICIONTIRAPAJAROS = 840;
-	private static final int DISTANCIAMAXIMALANZAMIENTO = 225;
+	private static final int DISTANCIAMAXIMALANZAMIENTO = 175;
 
 	private static VentanaJuego ventanaJuego;
 	private static JFrame ventana;
