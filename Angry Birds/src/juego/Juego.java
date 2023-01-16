@@ -12,14 +12,15 @@ import juego.objetos.nivel.Nivel;
 
 
 public class Juego {
-	private static final int MILISEGUNDOSENTREFRAMES = 10; // Msgs. de duración de cada fotograma (aprox. = espera entre fotograma y siguiente)
-	private static final double GRAVEDADY = 9.81;
-	private static final double GRAVEDADX = 0;
-
-	private static final Point POSICIONINICIALPAJARO = new Point(225, 785);
+	
+	public static final int YPOSICIONSUELO = 909;
+	public static final int XPOSICIONTIRAPAJAROS = 221;
+	public static final double GRAVEDADY = 9.81;
+	public static final double GRAVEDADX = 0;	
+	public static final int MILISEGUNDOSENTREFRAMES = 10; // Msgs. de duración de cada fotograma (aprox. = espera entre fotograma y siguiente)
+	public static final Point POSICIONINICIALPAJARO = new Point(225, 785);
+	
 	private static final Color COLORTIRAPAJAROS = new Color(48, 22, 8);
-	private static final int YPOSICIONSUELO = 909;
-	private static final int XPOSICIONTIRAPAJAROS = 221;
 	private static final int YPOSICIONTIRAPAJAROS = 840;
 	private static final int DISTANCIAMAXIMALANZAMIENTO = 175;
 
@@ -41,9 +42,9 @@ public class Juego {
 	public static void init(int lvl) {
 		ventanaJuego = new VentanaJuego(String.format("Nivel %d", lvl));
 		nivel = new Nivel(lvl);
-		pajaro = new Pajaro(POSICIONINICIALPAJARO);
+		pajaro = new Pajaro();
 		milisAbierta = System.currentTimeMillis();
-		
+
 		// Hago que el bucle se inicie desde un hilo para no bloquear el main
 		new Thread(() -> {
 			buclePrincipal(lvl);
@@ -66,24 +67,24 @@ public class Juego {
 			if(!pajaro.isLanzado()) {
 
 				//Identificar si el pájaro está siendo seleccionado o no
-				if(ventanaJuego.isRatonPulsado() && posicionRaton.distance(pajaro.getLocation()) < Pajaro.getRadio()){
+				if(ventanaJuego.isRatonPulsado() && posicionRaton.distance(pajaro.getLocation()) < Pajaro.RADIO){
 					pajaro.setSeleccionado(true);				
 				}
 
 				//Mover el pájaro si esta seleccionado a corde con la posición del ratón
 				if(ventanaJuego.isRatonPulsado() && pajaro.isSeleccionado()) {
-					
+
 					//Dentro de la distancia máxima de lanzamiento
 					if(posicionRaton.distance(POSICIONINICIALPAJARO) < DISTANCIAMAXIMALANZAMIENTO) {
 						pajaro.setLocation(posicionRaton);
-						
-					//Fuera de la distancia máxima
+
+						//Fuera de la distancia máxima
 					}else {
-						
+
 						Point centroCirculo = new Point(POSICIONINICIALPAJARO.x, POSICIONINICIALPAJARO.y);
 						ventanaJuego.dibujaCirculo(centroCirculo.x, centroCirculo.y, DISTANCIAMAXIMALANZAMIENTO, 1, Color.RED);
 						double distancia = POSICIONINICIALPAJARO.distance(posicionRaton);
-						
+
 						/**EXPLICACIÓN DEL CALCULO:
 						 * Partimos de la base de que se tiene un círculo, con un radio y coordenadas sabidas, y un punto (la posicion del ratón), 
 						 * que se encuentra fuera de este. Entonces, se necesita encontrar un punto, que este en el borde del círculo, y que este contenido
@@ -92,24 +93,24 @@ public class Juego {
 						 * y el centro del círculo debe ser igual al radio del círculo, después de simplificar calculos llegamos a la formula que se ve en
 						 * la declaración de puntoEnBorde
 						 */
-						
+
 						Point puntoEnBorde = new Point(
-								  (int) Math.round(centroCirculo.x + DISTANCIAMAXIMALANZAMIENTO * (posicionRaton.x - centroCirculo.x) / distancia),
-								  (int) Math.round(centroCirculo.y + DISTANCIAMAXIMALANZAMIENTO * (posicionRaton.y - centroCirculo.y) / distancia)
+								(int) Math.round(centroCirculo.x + DISTANCIAMAXIMALANZAMIENTO * (posicionRaton.x - centroCirculo.x) / distancia),
+								(int) Math.round(centroCirculo.y + DISTANCIAMAXIMALANZAMIENTO * (posicionRaton.y - centroCirculo.y) / distancia)
 								);
-						
+
 						pajaro.setLocation(puntoEnBorde);
 					}
-					
+
 					if(pajaro.choqueConSuelo()) {
-						pajaro.setY(YPOSICIONSUELO - Pajaro.getRadio());
+						pajaro.setY(YPOSICIONSUELO - Pajaro.RADIO);
 					}
 
 					//Animación de catapulta
 					ventanaJuego.dibujaLinea(215, 795, pajaro.getX(), pajaro.getY(), 4, COLORTIRAPAJAROS);
 					pajaro.dibuja(ventanaJuego);
 					ventanaJuego.dibujaLinea(240, 790, pajaro.getX(), pajaro.getY(), 4, COLORTIRAPAJAROS);
-					
+
 				}else {
 
 					//Lanzamiento del pájaro
@@ -118,7 +119,7 @@ public class Juego {
 							pajaro.lanzar(pajaro.getLocation(), POSICIONINICIALPAJARO);
 
 							//Movimiento del pájaro
-							pajaro.move(MILISEGUNDOSENTREFRAMES, GRAVEDADX, GRAVEDADY, nivel);
+							pajaro.move(nivel);
 						}else {
 							//Volver a dejar el pájaro en su sitio
 							pajaro.setLocation(POSICIONINICIALPAJARO);
@@ -147,7 +148,7 @@ public class Juego {
 						break;
 					}
 
-					pajaro = new Pajaro(POSICIONINICIALPAJARO);	
+					pajaro = new Pajaro();	
 
 				}
 			}
@@ -171,22 +172,10 @@ public class Juego {
 		ventanaJuego.dibujaImagen("/imgs/TiraPajarosDelante.png", XPOSICIONTIRAPAJAROS, YPOSICIONTIRAPAJAROS, 0.74, 0, 1);
 	}
 
-	/** Devuelve la coordenada Y del suelo del juego (En pantalla completa)
-	 * @return Int que representa el pixel de la coordenada Y del suelo del juego
-	 */
-	public static int getYSuelo() {
-		return YPOSICIONSUELO;
+
+	public static void main(String[] args) {
+		init(4);
 	}
-
-	/** Devuelve la coordenada X del centro del tirapajaros/catapulta
-	 * @return Int que representa el pixel de la coordenada X del tirapajaros
-	 */
-	public static int getXTiraPajaros() {
-		return XPOSICIONTIRAPAJAROS;
-	}
-
-
-
 
 
 

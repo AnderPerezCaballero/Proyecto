@@ -16,6 +16,7 @@ import gui.juego.VentanaNiveles;
 
 @SuppressWarnings("serial")
 public class VentanaJugar2 extends VentanaJugar{
+	
 	private KeyListener kl;
 
 	/** Crea una nueva ventana de juego, a través de la cual se lanza el juego al presionar cualquier tecla o botón del ratón

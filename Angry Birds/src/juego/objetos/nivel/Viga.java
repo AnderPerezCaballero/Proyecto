@@ -50,7 +50,7 @@ public class Viga extends Objeto implements ObjetoNivel{
 	 * @return true si el pájaro está dentro del perímetro de la viga, false si no
 	 */
 	public boolean chocaConPajaro(Pajaro pajaro) {
-		int radio = Pajaro.getRadio();
+		int radio = Pajaro.RADIO;
 		int xPajaro = pajaro.getX();
 		int yPajaro = pajaro.getY();
 		return (x - anchura / 2) < (xPajaro + radio) && (x + anchura / 2) > (xPajaro - radio) &&

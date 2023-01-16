@@ -55,6 +55,13 @@ public class Pajaro extends Objeto implements Dibujable{
 	public Pajaro(Point p) {
 		this(p.x, p.y);
 	}
+	
+	/**Crea un nuevo pájaro en la posición inicial que le corresponde en el juego
+	 * 
+	 */
+	public Pajaro() {
+		this(Juego.POSICIONINICIALPAJARO.x, Juego.POSICIONINICIALPAJARO.y);
+	}
 
 	/** Lanza el pájaro desde el tirapájaros
 	 * @param posicionLanzado Posición desde la que se lanza el pájaro
@@ -156,29 +163,27 @@ public class Pajaro extends Objeto implements Dibujable{
 	}
 
 	/** Mueve el pájaro en función de una espera entre fotogramas y una gravedad
-	 * @param milisEntreFrames espera entre fotogramas
-	 * @param gravedadX vector de gravedad en el eje X
-	 * @param gravedadY vector de gravedad en el eje Y
+	 * 
 	 */
-	public void move(int milisEntreFrames, double gravedadX, double gravedadY, Nivel nivel) {
+	public void move(Nivel nivel) {
 		mover = true;
 		new Thread(() -> {
 
 			// Creo una copia profunda de los elementos de la lista de objetos del nivel, para poder modificarlos sin interferir en el dibujado
 			List<ObjetoNivel> objetosNivel = nivel.getCopiaObjetos();
 			while(mover) {
-				segundosEnAire = System.currentTimeMillis() / 1000.0 - momentoLanzado + milisEntreFrames / 1000.0;
+				segundosEnAire = System.currentTimeMillis() / 1000.0 - momentoLanzado + Juego.MILISEGUNDOSENTREFRAMES / 1000.0;
 
-				vY = vY - gravedadY * segundosEnAire;
-				vX = vX - gravedadX * segundosEnAire;
+				vY = vY - Juego.GRAVEDADY * segundosEnAire;
+				vX = vX - Juego.GRAVEDADX * segundosEnAire;
 
-				x = x + (int) Math.round(vX * segundosEnAire - 0.5 * gravedadX * segundosEnAire * segundosEnAire);
-				y = y - (int) Math.round(vY * segundosEnAire - 0.5 * gravedadY * segundosEnAire * segundosEnAire);
+				x = x + (int) Math.round(vX * segundosEnAire - 0.5 * Juego.GRAVEDADX * segundosEnAire * segundosEnAire);
+				y = y - (int) Math.round(vY * segundosEnAire - 0.5 * Juego.GRAVEDADY * segundosEnAire * segundosEnAire);
 
 				//Choques
 				if(choqueConSuelo()) {
 					vY = -vY - 20;
-					y = Juego.getYSuelo()- RADIO;
+					y = Juego.YPOSICIONSUELO- RADIO;
 					aplicarRozamiento(20);
 				}
 				if(choqueConLimiteVertical()) {
@@ -225,7 +230,7 @@ public class Pajaro extends Objeto implements Dibujable{
 	 * @return true si choca, false si no
 	 */
 	public boolean choqueConSuelo() {
-		return y + RADIO >= Juego.getYSuelo();
+		return y + RADIO >= Juego.YPOSICIONSUELO;
 	}
 
 	/** Aplica un rozamiento (disminución de la velocidad) al pájaro en el eje x

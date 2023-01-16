@@ -102,6 +102,15 @@ public abstract class VentanaJugar extends JFrame {
 			public void windowOpened(WindowEvent e) {
 				reproducirMusica("res/audio/Cancion.wav");
 			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+				if(!cerrado) {
+					VentanaSesion.cerrar(VentanaJugar.this);
+					reproducirMusica("res/audio/Cancion.wav");
+				}
+				
+			}
 		};
 
 		this.addWindowListener(actionVentana);

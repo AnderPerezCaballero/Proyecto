@@ -195,11 +195,11 @@ public class Nivel {
 	 * @param v Ventana en la que los pájaros disponibles se dibujan
 	 */
 	public void dibujaPajarosDisponibles(VentanaJuego v) {
-		int radio = Pajaro.getRadio();
-		int ySuelo = Juego.getYSuelo();
-		int xTiraPajaros = Juego.getXTiraPajaros() - 30;
+		int radio = Pajaro.RADIO;
+		int ySuelo = Juego.YPOSICIONSUELO;
+		int xTiraPajaros = Juego.XPOSICIONTIRAPAJAROS - 30;
 		for(int i = 0; i < pajarosDisponibles - 1; i++) {
-			v.dibujaImagen(Pajaro.getRutaImagen(), xTiraPajaros - i*radio*3, ySuelo - radio, radio * 2, radio * 2, 1, 0, 1.0f);
+			v.dibujaImagen(Pajaro.IMAGEN, xTiraPajaros - i*radio*3, ySuelo - radio, radio * 2, radio * 2, 1, 0, 1.0f);
 		}
 	}
 }

@@ -6,8 +6,8 @@ import juego.objetos.Pajaro;
 
 public class Cerdo extends Objeto implements ObjetoNivel{
 	
-	private static final String IMAGEN = "/imgs/Cerdo.png"; 
-	private static final int radio = 20;
+	public static final String IMAGEN = "/imgs/Cerdo.png"; 
+	public static final int RADIO = 20;
 	
 	/** Crea un nuevo cerdo con 100 puntos de vida
 	 * @param x Coordenada x del centro del cerdo
@@ -21,7 +21,7 @@ public class Cerdo extends Objeto implements ObjetoNivel{
 	 * @return true si choca, false si no
 	 */
 	public boolean chocaConPajaro(Pajaro pajaro) {
-		return pajaro.getLocation().distance(getLocation()) < radio + Pajaro.getRadio();
+		return pajaro.getLocation().distance(getLocation()) < RADIO + Pajaro.RADIO;
 	}
 	
 	/** Indica si el cerdo es eliminado después de colisionar. Devuelve true por defecto, pues el cerdo está diseñado para ser eliminado siempre
@@ -35,7 +35,7 @@ public class Cerdo extends Objeto implements ObjetoNivel{
 	 * @param v ventana en la que dibujar el cerdo
 	 */
 	public void dibuja(VentanaJuego v) {
-		v.dibujaImagen(IMAGEN, (double) x, (double) y, radio * 2, radio * 2, v.getEscalaDibujo(),0,1.0f);
+		v.dibujaImagen(IMAGEN, (double) x, (double) y, RADIO * 2, RADIO * 2, v.getEscalaDibujo(),0,1.0f);
 	}
 	
 	@Override
