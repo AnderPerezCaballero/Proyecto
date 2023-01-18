@@ -61,7 +61,7 @@ public class VentanaJugar2 extends VentanaJugar{
 					if(clip.isActive()) {
 						clip.close();
 					}else {
-						reproducirMusica("res/audio/Cancion.wav");
+						reproducirMusica();
 					}
 				}
 			}

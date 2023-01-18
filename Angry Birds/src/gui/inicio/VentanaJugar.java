@@ -51,6 +51,7 @@ public abstract class VentanaJugar extends JFrame {
 
 	// Siempre igual
 	private static final String NOMBREVENTANA = "Angry Birds";
+	private static final String RUTAMUSICA = "/audio/Cancion.wav";
 
 	/** Crea una nueva ventana de juego
 	 * 
@@ -75,7 +76,7 @@ public abstract class VentanaJugar extends JFrame {
 		barraMenu.add(sonido);
 	
 
-		itemMenu1 = new JCheckBoxMenuItem(VentanaSesion.imagenReescalada("/imgs/mute.png", 10, 10));
+		itemMenu1 = new JCheckBoxMenuItem(VentanaSesion.imagenReescalada("/imgs/Mute.png", 10, 10));
 		itemMenu1.setMnemonic(KeyEvent.VK_S);
 		itemMenu1.setOpaque(false);
 		sonido.add(itemMenu1);       
@@ -92,7 +93,7 @@ public abstract class VentanaJugar extends JFrame {
 				clip.close();
 
 				if (itemMenu1.getState() == false) {
-					reproducirMusica("res/audio/Cancion.wav");
+					reproducirMusica();
 				}
 			}
 		};
@@ -100,14 +101,14 @@ public abstract class VentanaJugar extends JFrame {
 		actionVentana = new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
-				reproducirMusica("res/audio/Cancion.wav");
+				reproducirMusica();
 			}
 
 			@Override
 			public void windowClosed(WindowEvent e) {
 				if(!cerrado) {
 					VentanaSesion.cerrar(VentanaJugar.this);
-					reproducirMusica("res/audio/Cancion.wav");
+					reproducirMusica();
 				}
 				
 			}
@@ -135,10 +136,10 @@ public abstract class VentanaJugar extends JFrame {
 	/** Reproduce el sonido especificado
  	 * @param ruta Ruta al archivo de audio
 	 */
-	public void reproducirMusica(String ruta) {
+	public void reproducirMusica() {
 		new Thread(() ->{
 			try {
-				AudioInputStream is = AudioSystem.getAudioInputStream(new File(ruta));
+				AudioInputStream is = AudioSystem.getAudioInputStream(getClass().getResource(RUTAMUSICA));
 				clip = AudioSystem.getClip();
 				clip.open(is);
 				clip.loop(0);

@@ -1,7 +1,6 @@
-import java.sql.SQLException;
+
 
 import gestionUsuarios.GestionUsuarios;
-import gestionUsuarios.Usuario;
 import gui.inicio.VentanaJugar1;
 import gui.inicio.VentanaJugar2;
 import gui.sesion.VentanaSesion;
